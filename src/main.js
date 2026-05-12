@@ -13,6 +13,9 @@ const map = document.querySelector(".map");
 // ─── Map tilt ─────────────────────────────────────────────────────────────────
 
 const THRESHOLD = 3;
+const mapHeader = document.querySelector('.map-header');
+
+let mapEntering = false;
 
 function handleHover(e) {
   const {clientX, clientY, currentTarget} = e;
@@ -20,12 +23,22 @@ function handleHover(e) {
   const offsetLeft = currentTarget.getBoundingClientRect().left;
   const offsetTop = currentTarget.getBoundingClientRect().top;
   const horizontal = (clientX - offsetLeft) / clientWidth;
-  const vertical = (clientY - offsetTop) / clientHeight;
+  const vertical   = (clientY - offsetTop)  / clientHeight;
   const rotateX = (THRESHOLD / 2 - horizontal * THRESHOLD).toFixed(2);
   const rotateY = (vertical * THRESHOLD - THRESHOLD / 2).toFixed(2);
+
   if (map) {
-    map.style.transition = 'transform 0.18s ease-out';
+    // First move after entry uses the slow entry transition; subsequent moves are fast
+    if (!mapEntering) map.style.transition = 'transform 0.08s ease';
+    mapEntering = false;
     map.style.transform = `perspective(${clientWidth}px) rotateX(${rotateY}deg) rotateY(${rotateX}deg) scale3d(1, 1, 1)`;
+  }
+
+  // Inner parallax: header drifts opposite to tilt, amplifying the depth illusion
+  if (mapHeader) {
+    const dx = ((horizontal - 0.5) * -10).toFixed(1);
+    const dy = ((vertical   - 0.5) * -7 ).toFixed(1);
+    mapHeader.style.translate = `${dx}px ${dy}px`;
   }
 }
 
@@ -34,9 +47,18 @@ function resetStyles(e) {
     map.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
     map.style.transform = `perspective(${e.currentTarget.clientWidth}px) rotateX(0deg) rotateY(0deg)`;
   }
+  if (mapHeader) {
+    mapHeader.style.transition = 'translate 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
+    mapHeader.style.translate = '0px 0px';
+  }
 }
 
 if (map && !motionMatchMedia.matches) {
+  map.addEventListener('mouseenter', () => {
+    mapEntering = true;
+    map.style.transition = 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
+    if (mapHeader) mapHeader.style.transition = 'translate 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
+  });
   map.addEventListener("mousemove", handleHover);
   map.addEventListener("mouseleave", resetStyles);
 }
