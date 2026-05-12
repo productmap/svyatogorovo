@@ -7,7 +7,7 @@
   <meta name="keywords" content="Святогорово, Поклонный крест, Часовенка, Купель, паломничество, Дмитров, Подмосковье, история, православие, природа, отдых, гостевой дом, лагерь для детей"/>
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://святогорово.рф/">
-  <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
   <link rel="preload" href="/fonts/vezitsacyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/bg-1.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="preload" href="/map-1.webp" as="image" type="image/webp">
@@ -30,8 +30,8 @@
 
   <meta name="geo.region" content="RU-MOS">
   <meta name="geo.placename" content="Святогорово, Дмитровский район, Московская область">
-  <meta name="geo.position" content="56.403537;47.823134">
-  <meta name="ICBM" content="56.403537, 47.823134">
+  <meta name="geo.position" content="56.404361;37.821090">
+  <meta name="ICBM" content="56.404361, 37.821090">
   <link rel="alternate" type="application/rss+xml" title="Святогорово — Яндекс Турбо" href="https://святогорово.рф/turbo.rss">
   <link rel="manifest" href="/manifest.json">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -52,8 +52,8 @@
         "image": "https://святогорово.рф/images/krest-0.jpg",
         "geo": {
           "@type": "GeoCoordinates",
-          "latitude": "56.403537",
-          "longitude": "47.823134"
+          "latitude": "56.404361",
+          "longitude": "37.821090"
         },
         "address": {
           "@type": "PostalAddress",
@@ -61,8 +61,8 @@
           "addressRegion": "Московская область",
           "addressCountry": "RU"
         },
-        "hasMap": "https://yandex.ru/maps/-/CHuXa40Q",
-        "sameAs": ["https://yandex.ru/maps/-/CHuXa40Q"]
+        "hasMap": "https://yandex.ru/maps/-/CPgaZMLY",
+        "sameAs": ["https://yandex.ru/maps/-/CPgaZMLY"]
       },
       {
         "@type": "LodgingBusiness",
@@ -169,6 +169,8 @@
   </script>
 </head>
 <body>
+  <canvas id="topo-canvas" aria-hidden="true"></canvas>
+
   <div id="dotted-line"></div>
 
   <nav class="site-nav" aria-label="Разделы страницы">
@@ -192,7 +194,7 @@
     <div class="content">
       <h1 class="map-header">Святогорово</h1>
       <p class="map-description">Деревня в Дмитровском районе Московской области</p>
-      <button type="button" class="button" id="places-button">Места и события</button>
+      <button type="button" class="button" id="places-button">Места и события <span class="button__arrow" aria-hidden="true">↓</span></button>
       <p class="map-author">Автор карты: Блажевич В.С.</p>
     </div>
   </article>
@@ -475,13 +477,14 @@
         воздухом и почувствовать гармонию с окружающим миром.
       </p>
     </div>
-    <div class="masonry-item masonry-item_type_image masonry-item_wide">
+    <div class="masonry-item masonry-item_type_image masonry-item_type_image--banner masonry-item_wide">
       <img src="/images/nature-3.jpg"
            alt="Природа Святогорово"
            class="masonry-item__image"
            width="1024" height="683"
            sizes="(max-width:600px) 100vw, (max-width:900px) 100vw, 66vw"
              loading="lazy" decoding="async"/>
+      <div class="masonry-item__banner-caption">Леса, поля и река Веля — живая природа Подмосковья</div>
     </div>
 
     <!-- Тропа по следам преподобного Сергия Радонежского-->
@@ -510,10 +513,10 @@
         о жизни святого, его чудесах и наставлениях.
       </p>
     </div>
-    <div class="masonry-item masonry-item_type_text">
-      <p class="masonry-item__text">Тропа Сергия Радонежского — это возможность не только физически пройти путем
-        святого, но и духовно приблизиться к нему, почувствовать его покровительство и укрепить свою веру.
-      </p>
+    <div class="masonry-item masonry-item_type_pullquote">
+      <blockquote>
+        <p class="pull-quote__text">Паломничество по тропе Сергия Радонежского — это не просто пеший поход, это духовное путешествие, наполненное молитвой и покаянием</p>
+      </blockquote>
     </div>
     <div class="masonry-item masonry-item_type_image masonry-item_wide">
       <picture>
@@ -711,6 +714,12 @@
   </div>
 </section>
 
+<div class="section-divider" aria-hidden="true">
+  <div class="section-divider__line"></div>
+  <div class="section-divider__gem"></div>
+  <div class="section-divider__line"></div>
+</div>
+
 <section class="faq" id="faq" aria-labelledby="faq-title">
   <h2 class="faq__title" id="faq-title">Часто задаваемые вопросы</h2>
   <div class="faq__list">
@@ -746,18 +755,29 @@
 </section>
 
 <footer class="footer">
+  <div class="footer-map">
+    <iframe
+      src="https://yandex.ru/map-widget/v1/?ll=37.821090%2C56.404361&z=15&pt=37.821090%2C56.404361%2Cpm2rdm&l=map"
+      title="Расположение Святогорово на карте"
+      loading="lazy"
+      allowfullscreen
+    ></iframe>
+  </div>
   <ul class="footer-container line-item path-point">
     <li class="footer-item">"Святогоровский заповедник"</li>
     <li class="footer-item footer-item_s">По вопросам размещения:</li>
     <li class="footer-item"><a href="tel:+79265551920" class="footer-phone">+7 (926) 555-19-20</a></li>
     <li class="footer-item footer-item_s">По всем остальным вопросам в том числе содействие семьям ветеранов СВО</li>
     <li class="footer-item"><a href="mailto:igrastoria@mail.ru?subject=Святогорово">igrastoria@mail.ru</a></li>
-    <li class="footer-item"><a href="https://yandex.ru/maps/-/CHuXa40Q" target="_blank" rel="noopener">Россия, Дмитровский район Московской области, деревня Святогорово</a></li>
+    <li class="footer-item"><a href="https://yandex.ru/maps/-/CPgaZMLY" target="_blank" rel="noopener">Россия, Дмитровский район Московской области, деревня Святогорово</a></li>
   </ul>
 </footer>
 
 <svg id="animation-svg" width="100%" height="100%" style="position: absolute; top: 0; left: 0; pointer-events: none;" aria-hidden="true">
 </svg>
+<button id="back-to-top" class="back-to-top" aria-label="Наверх" title="Наверх">
+  <img src="/arrow-up.svg" alt="" width="18" height="18" aria-hidden="true">
+</button>
 <script type="module" src="/src/main.js"></script>
 </body>
 </html>
