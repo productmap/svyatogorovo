@@ -100,3 +100,60 @@ if (navLinks.length && sections.length) {
   window.addEventListener('scroll', updateActiveNav, { passive: true });
   updateActiveNav();
 }
+
+// ─── Parallax system ──────────────────────────────────────────────────────────
+// Uses CSS `translate` (separate from `transform`) so it never conflicts
+// with animate-in transitions or the map 3D-tilt effect.
+
+if (!motionMatchMedia.matches) {
+  const mapContainer = document.querySelector('.map-container');
+  const scrollHint   = document.querySelector('.scroll-hint');
+
+  // Collect parallax targets: [element, depthPx]
+  // depthPx = max vertical travel at the edge of the viewport
+  const parallaxTargets = [
+    ...[...document.querySelectorAll('.masonry-item_type_header')].map(el => [el, 20]),
+    ...[...document.querySelectorAll('.masonry-item_type_pullquote')].map(el => [el, 14]),
+    ...[...document.querySelectorAll('.masonry-item_wide')].map(el => [el, 10]),
+  ];
+
+  parallaxTargets.forEach(([el]) => { el.style.willChange = 'translate'; });
+
+  let rafPending = false;
+
+  function tickParallax() {
+    rafPending = false;
+    const vh = window.innerHeight;
+    const sy = window.scrollY;
+
+    // Hero background: shift bg-1.webp slower than scroll (classic parallax)
+    if (mapContainer) {
+      const rect = mapContainer.getBoundingClientRect();
+      if (rect.bottom > 0) {
+        const progress = Math.max(0, -rect.top) / rect.height;
+        mapContainer.style.backgroundPositionY = `calc(50% + ${(progress * 80).toFixed(1)}px)`;
+      }
+    }
+
+    // Scroll hint fade-out
+    if (scrollHint) {
+      scrollHint.style.opacity = sy > 60 ? '0' : '';
+    }
+
+    // Element parallax via separate CSS translate property
+    for (const [el, depth] of parallaxTargets) {
+      const rect = el.getBoundingClientRect();
+      if (rect.bottom < -300 || rect.top > vh + 300) continue;
+      const cy = rect.top + rect.height / 2;
+      const offset = ((cy / vh - 0.5) * depth).toFixed(1);
+      el.style.translate = `0 ${offset}px`;
+    }
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!rafPending) { rafPending = true; requestAnimationFrame(tickParallax); }
+  }, { passive: true });
+
+  window.addEventListener('resize', tickParallax, { passive: true });
+  tickParallax();
+}
