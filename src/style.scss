@@ -396,11 +396,13 @@ button:active {
 
 #topo-canvas {
     position: fixed;
-    inset: 0;
+    top: -220px;
+    left: 0;
+    right: 0;
+    width: 100vw;
     pointer-events: none;
     z-index: 0;
-    width: 100vw;
-    height: 100vh;
+    will-change: transform;
 }
 
 // ─── Section divider ──────────────────────────────────────────────────────────

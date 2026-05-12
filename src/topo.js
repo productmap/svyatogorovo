@@ -3,6 +3,8 @@ import { TOPO_ROWS, TOPO_COLS, TOPO_GRID } from './topo-data.js';
 const N = 60;
 const LEVELS = 16;
 const THRESHOLDS = Array.from({ length: LEVELS }, (_, i) => 0.04 + i * (0.92 / (LEVELS - 1)));
+const EXTRA = 220;       // extra canvas height (px) above and below viewport
+const PARALLAX = 0.042;  // scroll factor: 4.2% of scrollY
 
 // Bilinear upsample from 10×10 grid to N×N
 const grid = new Float32Array(N * N);
@@ -59,17 +61,25 @@ export function initTopo(canvas, noMotion) {
 
   function setSize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
-    canvas.width  = window.innerWidth  * dpr;
-    canvas.height = window.innerHeight * dpr;
+    const h = window.innerHeight + EXTRA * 2;
+    canvas.width  = window.innerWidth * dpr;
+    canvas.height = h * dpr;
+    canvas.style.height = h + 'px';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
+  function applyParallax() {
+    const shift = -(window.scrollY * PARALLAX).toFixed(2);
+    canvas.style.transform = `translateY(${shift}px)`;
+  }
+
   function render(ts) {
-    const W = window.innerWidth, H = window.innerHeight;
+    const W = window.innerWidth;
+    const H = window.innerHeight + EXTRA * 2;
     ctx.clearRect(0, 0, W, H);
     const sx = W / (N - 1), sy = H / (N - 1);
     const t = ts / 1000;
-    const wf = (2 * Math.PI) / 24;  // one wave cycle = 24 s
+    const wf = (2 * Math.PI) / 24;
 
     for (let li = 0; li < LEVELS; li++) {
       const phase = (li / LEVELS) * Math.PI * 2;
@@ -91,10 +101,16 @@ export function initTopo(canvas, noMotion) {
   }
 
   setSize();
+  applyParallax();
+
   window.addEventListener('resize', () => {
     setSize();
     if (noMotion) render(0);
   }, { passive: true });
+
+  if (!noMotion) {
+    window.addEventListener('scroll', applyParallax, { passive: true });
+  }
 
   raf = requestAnimationFrame(render);
 }
