@@ -55,7 +55,7 @@ function handleHover(e) {
 
 function resetStyles() {
   tiltTracking = false;
-  const spring = `0.55s ${SPRING}`;
+  const spring = `1.1s ${SPRING}`;
   if (map) {
     map.style.transition = `transform ${spring}`;
     map.style.transform  = `perspective(${map.clientWidth}px) rotateX(0deg) rotateY(0deg)`;
@@ -69,7 +69,7 @@ function resetStyles() {
 if (map && !motionMatchMedia.matches) {
   map.addEventListener('mouseenter', () => {
     // Slow entry transition set once; handleHover won't override until tiltTracking flips
-    const entry = `0.45s ${SPRING}`;
+    const entry = `1.35s ${SPRING}`;
     map.style.transition = `transform ${entry}`;
     if (mapHeader) mapHeader.style.transition = `translate ${entry}`;
   });
