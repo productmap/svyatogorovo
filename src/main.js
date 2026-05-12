@@ -14,53 +14,67 @@ const map = document.querySelector(".map");
 
 const THRESHOLD = 3;
 const mapHeader = document.querySelector('.map-header');
+const SPRING    = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
-let mapEntering = false;
+// State written by mousemove, consumed by RAF
+let tiltPending  = false;
+let tiltTracking = false; // true once we've switched to fast tracking
+let tiltState    = { rx: 0, ry: 0, w: 0, dx: 0, dy: 0 };
 
-function handleHover(e) {
-  const {clientX, clientY, currentTarget} = e;
-  const {clientWidth, clientHeight} = currentTarget;
-  const offsetLeft = currentTarget.getBoundingClientRect().left;
-  const offsetTop = currentTarget.getBoundingClientRect().top;
-  const horizontal = (clientX - offsetLeft) / clientWidth;
-  const vertical   = (clientY - offsetTop)  / clientHeight;
-  const rotateX = (THRESHOLD / 2 - horizontal * THRESHOLD).toFixed(2);
-  const rotateY = (vertical * THRESHOLD - THRESHOLD / 2).toFixed(2);
-
-  if (map) {
-    // First move after entry uses the slow entry transition; subsequent moves are fast
-    if (!mapEntering) map.style.transition = 'transform 0.08s ease';
-    mapEntering = false;
-    map.style.transform = `perspective(${clientWidth}px) rotateX(${rotateY}deg) rotateY(${rotateX}deg) scale3d(1, 1, 1)`;
-  }
-
-  // Inner parallax: header drifts opposite to tilt, amplifying the depth illusion
-  if (mapHeader) {
-    const dx = ((horizontal - 0.5) * -10).toFixed(1);
-    const dy = ((vertical   - 0.5) * -7 ).toFixed(1);
-    mapHeader.style.translate = `${dx}px ${dy}px`;
-  }
+function flushTilt() {
+  tiltPending = false;
+  const { rx, ry, w, dx, dy } = tiltState;
+  if (map)       map.style.transform     = `perspective(${w}px) rotateX(${ry}deg) rotateY(${rx}deg) scale3d(1,1,1)`;
+  if (mapHeader) mapHeader.style.translate = `${dx}px ${dy}px`;
 }
 
-function resetStyles(e) {
+function handleHover(e) {
+  const { clientX, clientY, currentTarget } = e;
+  const { clientWidth, clientHeight } = currentTarget;
+  const rect = currentTarget.getBoundingClientRect(); // single layout read
+  const h = (clientX - rect.left)  / clientWidth;
+  const v = (clientY - rect.top)   / clientHeight;
+
+  tiltState = {
+    rx: +(THRESHOLD / 2 - h * THRESHOLD).toFixed(2),
+    ry: +(v * THRESHOLD - THRESHOLD / 2).toFixed(2),
+    w:  clientWidth,
+    dx: +((h - 0.5) * -10).toFixed(1),
+    dy: +((v - 0.5) * -7 ).toFixed(1),
+  };
+
+  // Switch to fast tracking transition once — not on every event
+  if (!tiltTracking) {
+    tiltTracking = true;
+    map.style.transition       = `transform 0.08s ease`;
+    if (mapHeader) mapHeader.style.transition = `translate 0.08s ease`;
+  }
+
+  if (!tiltPending) { tiltPending = true; requestAnimationFrame(flushTilt); }
+}
+
+function resetStyles() {
+  tiltTracking = false;
+  const spring = `0.55s ${SPRING}`;
   if (map) {
-    map.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
-    map.style.transform = `perspective(${e.currentTarget.clientWidth}px) rotateX(0deg) rotateY(0deg)`;
+    map.style.transition = `transform ${spring}`;
+    map.style.transform  = `perspective(${map.clientWidth}px) rotateX(0deg) rotateY(0deg)`;
   }
   if (mapHeader) {
-    mapHeader.style.transition = 'translate 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
-    mapHeader.style.translate = '0px 0px';
+    mapHeader.style.transition = `translate ${spring}`;
+    mapHeader.style.translate  = '0px 0px';
   }
 }
 
 if (map && !motionMatchMedia.matches) {
   map.addEventListener('mouseenter', () => {
-    mapEntering = true;
-    map.style.transition = 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
-    if (mapHeader) mapHeader.style.transition = 'translate 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
+    // Slow entry transition set once; handleHover won't override until tiltTracking flips
+    const entry = `0.45s ${SPRING}`;
+    map.style.transition = `transform ${entry}`;
+    if (mapHeader) mapHeader.style.transition = `translate ${entry}`;
   });
-  map.addEventListener("mousemove", handleHover);
-  map.addEventListener("mouseleave", resetStyles);
+  map.addEventListener('mousemove', handleHover);
+  map.addEventListener('mouseleave', resetStyles);
 }
 
 // ─── Scroll to places ─────────────────────────────────────────────────────────
