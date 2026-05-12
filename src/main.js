@@ -67,6 +67,25 @@ if (!motionMatchMedia.matches) {
   });
 }
 
+// ─── Section divider draw-on ─────────────────────────────────────────────────
+
+const dividerObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+      dividerObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.section-divider').forEach(el => {
+  if (motionMatchMedia.matches) {
+    el.classList.add('is-visible');
+  } else {
+    dividerObserver.observe(el);
+  }
+});
+
 // ─── Back to top ─────────────────────────────────────────────────────────────
 
 const backToTop = document.getElementById('back-to-top');
