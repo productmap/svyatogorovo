@@ -1,0 +1,4 @@
+Host: святогорово.рф
+User-agent: *
+Allow: /
+Sitemap: https://святогорово.рф/sitemap.xml

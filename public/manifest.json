@@ -1,0 +1,23 @@
+{
+  "name": "Святогорово",
+  "short_name": "Святогорово",
+  "description": "Духовный центр Подмосковья — Поклонный крест, Купель, Часовенка, тропа Сергия Радонежского",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#efead6",
+  "theme_color": "#efead6",
+  "lang": "ru",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    }
+  ]
+}
