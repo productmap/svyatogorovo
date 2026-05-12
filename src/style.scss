@@ -609,13 +609,18 @@ details[open] > .faq__question::after {
     cursor: zoom-in;
 }
 
-// Override PhotoSwipe UI colours to match site palette
-.pswp__button--arrow {
-    color: rgba(255, 255, 255, 0.8);
+// ─── PhotoSwipe overrides ─────────────────────────────────────────────────────
+
+// Root: holds the topo snapshot as background-image (set via JS on open).
+// pswp__bg sits on top at 91% opacity so the topo lines bleed through subtly.
+.pswp {
+    --pswp-bg: rgba(8, 10, 7, 0.91);
+    background-size: cover;
+    background-position: center top;
 }
 
 .pswp__top-bar {
-    background: linear-gradient(to bottom, rgba(0,0,0,0.45), transparent);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
 }
 
 .pswp__counter {

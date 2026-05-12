@@ -24,7 +24,7 @@ function handleHover(e) {
   const rotateX = (THRESHOLD / 2 - horizontal * THRESHOLD).toFixed(2);
   const rotateY = (vertical * THRESHOLD - THRESHOLD / 2).toFixed(2);
   if (map) {
-    map.style.transition = 'transform 0.08s ease';
+    map.style.transition = 'transform 0.18s ease-out';
     map.style.transform = `perspective(${clientWidth}px) rotateX(${rotateY}deg) rotateY(${rotateX}deg) scale3d(1, 1, 1)`;
   }
 }
@@ -142,6 +142,19 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
 
   function openAt(index) {
     const pswp = new PhotoSwipe({ dataSource, index, zoom: true });
+
+    // Snapshot topo canvas into PhotoSwipe background
+    pswp.on('beforeOpen', () => {
+      const topoEl = document.getElementById('topo-canvas');
+      if (topoEl) {
+        try {
+          pswp.element.style.backgroundImage = `url(${topoEl.toDataURL()})`;
+          pswp.element.style.backgroundSize  = 'cover';
+          pswp.element.style.backgroundPosition = 'center top';
+        } catch (e) { /* tainted canvas — skip */ }
+      }
+    });
+
     pswp.init();
   }
 
