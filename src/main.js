@@ -1,6 +1,7 @@
 import './style.scss'
 import './fonts.css'
 import './flexmasonry.css'
+import 'photoswipe/style.css'
 import { initTopo } from './topo.js'
 
 const topoCanvas = document.getElementById('topo-canvas');
@@ -23,12 +24,14 @@ function handleHover(e) {
   const rotateX = (THRESHOLD / 2 - horizontal * THRESHOLD).toFixed(2);
   const rotateY = (vertical * THRESHOLD - THRESHOLD / 2).toFixed(2);
   if (map) {
+    map.style.transition = 'transform 0.08s ease';
     map.style.transform = `perspective(${clientWidth}px) rotateX(${rotateY}deg) rotateY(${rotateX}deg) scale3d(1, 1, 1)`;
   }
 }
 
 function resetStyles(e) {
   if (map) {
+    map.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1)';
     map.style.transform = `perspective(${e.currentTarget.clientWidth}px) rotateX(0deg) rotateY(0deg)`;
   }
 }
@@ -120,71 +123,32 @@ if (navLinks.length && sections.length) {
   updateActiveNav();
 }
 
-// ─── Lightbox ─────────────────────────────────────────────────────────────────
+// ─── Lightbox (PhotoSwipe v5) ─────────────────────────────────────────────────
 
-(function () {
-  const images = [...document.querySelectorAll('.masonry-item_type_image img.masonry-item__image')];
-  if (!images.length) return;
+import('photoswipe').then(({ default: PhotoSwipe }) => {
+  const imgEls = [...document.querySelectorAll('.masonry-item_type_image img.masonry-item__image')];
+  if (!imgEls.length) return;
 
-  const lb     = document.createElement('div');
-  lb.className = 'lightbox';
-  lb.setAttribute('role', 'dialog');
-  lb.setAttribute('aria-modal', 'true');
-  lb.setAttribute('aria-label', 'Просмотр фото');
-
-  lb.innerHTML = `
-    <button class="lightbox__close" aria-label="Закрыть">&#x2715;</button>
-    <button class="lightbox__nav lightbox__nav--prev" aria-label="Предыдущее фото">&#8249;</button>
-    <img class="lightbox__img" alt="" />
-    <button class="lightbox__nav lightbox__nav--next" aria-label="Следующее фото">&#8250;</button>
-    <span class="lightbox__counter"></span>
-  `;
-  document.body.appendChild(lb);
-
-  const img     = lb.querySelector('.lightbox__img');
-  const counter = lb.querySelector('.lightbox__counter');
-  let current = 0;
-
-  function show(index) {
-    current = (index + images.length) % images.length;
-    const src = images[current].src;
-    const alt = images[current].alt;
-    img.classList.add('is-loading');
-    img.src = src;
-    img.alt = alt;
-    img.onload = () => img.classList.remove('is-loading');
-    counter.textContent = `${current + 1} / ${images.length}`;
-  }
-
-  function open(index) {
-    show(index);
-    lb.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
-    lb.querySelector('.lightbox__close').focus();
-  }
-
-  function close() {
-    lb.classList.remove('is-open');
-    document.body.style.overflow = '';
-  }
-
-  images.forEach((el, i) => {
-    el.closest('.masonry-item_type_image').addEventListener('click', () => open(i));
+  const dataSource = imgEls.map(img => {
+    // Prefer webp source if the browser resolved it
+    const src = img.currentSrc || img.src;
+    return {
+      src,
+      width:  parseInt(img.getAttribute('width'),  10) || img.naturalWidth  || 1200,
+      height: parseInt(img.getAttribute('height'), 10) || img.naturalHeight || 900,
+      alt: img.alt,
+    };
   });
 
-  lb.querySelector('.lightbox__close').addEventListener('click', close);
-  lb.querySelector('.lightbox__nav--prev').addEventListener('click', () => show(current - 1));
-  lb.querySelector('.lightbox__nav--next').addEventListener('click', () => show(current + 1));
+  function openAt(index) {
+    const pswp = new PhotoSwipe({ dataSource, index, zoom: true });
+    pswp.init();
+  }
 
-  lb.addEventListener('click', e => { if (e.target === lb) close(); });
-
-  document.addEventListener('keydown', e => {
-    if (!lb.classList.contains('is-open')) return;
-    if (e.key === 'Escape')     close();
-    if (e.key === 'ArrowLeft')  show(current - 1);
-    if (e.key === 'ArrowRight') show(current + 1);
+  imgEls.forEach((img, i) => {
+    img.closest('.masonry-item_type_image').addEventListener('click', () => openAt(i));
   });
-})();
+});
 
 // ─── Parallax system ──────────────────────────────────────────────────────────
 // Uses CSS `translate` (separate from `transform`) so it never conflicts

@@ -68,7 +68,6 @@ button {
     border-radius: 32px;
     color: #fff;
     transform-style: preserve-3d;
-    transition: transform 0.1s ease;
     overflow: hidden;
     filter: drop-shadow(0 0 38px rgba(0, 0, 0, 0.5));
     will-change: transform;
@@ -604,121 +603,23 @@ details[open] > .faq__question::after {
     }
 }
 
-// ─── Lightbox ─────────────────────────────────────────────────────────────────
-
-.lightbox {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    background: rgba(8, 10, 7, 0.94);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
-
-    &.is-open {
-        opacity: 1;
-        pointer-events: auto;
-    }
-}
-
-.lightbox__img {
-    max-width: min(94vw, 1200px);
-    max-height: 90svh;
-    object-fit: contain;
-    border-radius: 6px;
-    user-select: none;
-    transition: opacity 0.18s ease;
-
-    &.is-loading {
-        opacity: 0;
-    }
-}
-
-.lightbox__close {
-    position: absolute;
-    top: 16px;
-    right: 20px;
-    width: 44px;
-    height: 44px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 32px;
-    line-height: 1;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: color 0.15s;
-    border-radius: 50%;
-
-    &:hover {
-        color: #fff;
-        background: rgba(255, 255, 255, 0.08);
-        transform: none;
-        box-shadow: none;
-        opacity: 1;
-    }
-
-    &:active {
-        transform: none;
-        box-shadow: none;
-    }
-}
-
-.lightbox__nav {
-    position: absolute;
-    top: 50%;
-    translate: 0 -50%;
-    width: 48px;
-    height: 80px;
-    background: rgba(255, 255, 255, 0.08);
-    border: none;
-    cursor: pointer;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    transition: background 0.15s, color 0.15s;
-    padding: 0;
-
-    &:hover {
-        background: rgba(255, 255, 255, 0.16);
-        color: #fff;
-        transform: none;
-        box-shadow: none;
-        opacity: 1;
-    }
-
-    &:active {
-        transform: none;
-        box-shadow: none;
-    }
-
-    &--prev { left: 12px; }
-    &--next { right: 12px; }
-}
-
-.lightbox__counter {
-    position: absolute;
-    bottom: 16px;
-    left: 50%;
-    translate: -50% 0;
-    color: rgba(255, 255, 255, 0.45);
-    font-family: $font-family;
-    font-size: 13px;
-    letter-spacing: 0.06em;
-    pointer-events: none;
-}
+// ─── Lightbox (PhotoSwipe) ────────────────────────────────────────────────────
 
 .masonry-item_type_image {
     cursor: zoom-in;
+}
+
+// Override PhotoSwipe UI colours to match site palette
+.pswp__button--arrow {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.pswp__top-bar {
+    background: linear-gradient(to bottom, rgba(0,0,0,0.45), transparent);
+}
+
+.pswp__counter {
+    font-family: $font-family;
+    font-size: 13px;
+    letter-spacing: 0.06em;
 }
