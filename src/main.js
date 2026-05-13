@@ -143,7 +143,10 @@ if (backToTop) {
 // ─── Active nav ───────────────────────────────────────────────────────────────
 
 const navLinks = document.querySelectorAll('.site-nav__link');
-const sections = document.querySelectorAll('.path-point[id]');
+// Derive sections from the nav itself — single source of truth, no marker class.
+const sections = [...navLinks]
+  .map(l => document.getElementById(l.getAttribute('href').slice(1)))
+  .filter(Boolean);
 
 if (navLinks.length && sections.length) {
   function updateActiveNav() {
