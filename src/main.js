@@ -209,7 +209,6 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
 
 if (!motionMatchMedia.matches) {
   const mapContainer = document.querySelector('.map-container');
-  const scrollHint   = document.querySelector('.scroll-hint');
 
   // Collect parallax targets: [element, depthPx]
   // depthPx = max vertical travel at the edge of the viewport
@@ -235,11 +234,6 @@ if (!motionMatchMedia.matches) {
         const progress = Math.max(0, -rect.top) / rect.height;
         mapContainer.style.backgroundPositionY = `calc(50% + ${(progress * 80).toFixed(1)}px)`;
       }
-    }
-
-    // Scroll hint fade-out
-    if (scrollHint) {
-      scrollHint.style.opacity = sy > 60 ? '0' : '';
     }
 
     // Element parallax via separate CSS translate property

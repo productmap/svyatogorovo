@@ -71,6 +71,19 @@ button {
     box-shadow: 0 0 48px rgba(0, 0, 0, 0.55);
 }
 
+// Mobile: sticky so the card pins just below the nav while the hero bg scrolls behind
+@media (max-width: 599px) {
+    .map-container {
+        align-items: flex-start;
+        padding-top: 64px;
+    }
+
+    .map {
+        position: sticky;
+        top: 58px;
+    }
+}
+
 @media (min-width: 600px) {
     .map {
         height: 100%;
@@ -494,30 +507,6 @@ button:active {
 @keyframes arrow-bounce {
     0%, 100% { transform: translateY(0); }
     50%       { transform: translateY(4px); }
-}
-
-// ─── Scroll hint ──────────────────────────────────────────────────────────────
-
-.scroll-hint {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    translate: -50% 0;
-    color: rgba(255, 255, 255, 0.45);
-    font-size: 22px;
-    line-height: 1;
-    pointer-events: none;
-    transition: opacity 0.4s ease;
-    animation: scroll-hint-bounce 2.2s ease-in-out infinite;
-}
-
-@keyframes scroll-hint-bounce {
-    0%, 100% { translate: -50% 0;   opacity: 0.45; }
-    50%       { translate: -50% 7px; opacity: 0.75; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .scroll-hint { animation: none; }
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
