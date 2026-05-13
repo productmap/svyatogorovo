@@ -1,0 +1,36 @@
+// Design tokens.
+
+// ─── Colors ───────────────────────────────────────────────────────────────────
+$color-bg:           #efead6; // primary parchment background
+$color-bg-dark:      #2a2620; // footer / dark surfaces
+$color-text:         #343434; // body text on light
+$color-text-muted:   #555;    // secondary text
+$color-text-light:   #e8e4d0; // text on dark
+$color-text-faint:   rgba(232, 228, 208, 0.7);
+$color-text-hero:    #eee;    // hero text on photo
+$color-accent:       #be5034; // brand red (display accents, links, gem)
+$color-cta:          #e85757; // CTA button background
+$color-overlay:      rgba(0, 0, 0, 0.4);
+$color-divider:      rgba(52, 52, 52, 0.12);
+$color-shadow-soft:  rgba(0, 0, 0, 0.2);
+
+// Nav surface (parchment with translucency for blur)
+$color-nav-bg:       rgba(239, 234, 214, 0.95);
+$color-nav-active:   rgba(150, 58, 47, 0.1);
+$color-nav-hover:    rgba(0, 0, 0, 0.08);
+
+// Back-to-top
+$color-fab-bg:       rgba(42, 38, 32, 0.82);
+$color-fab-bg-hover: rgba(42, 38, 32, 0.96);
+
+// ─── Fonts ────────────────────────────────────────────────────────────────────
+$font-body:    Arial, Helvetica, sans-serif;
+$font-display: "VezitsaCyrillic", sans-serif;
+
+// ─── Breakpoints ──────────────────────────────────────────────────────────────
+$bp-sm: 600px; // tablet and up
+$bp-md: 900px; // desktop
+
+// ─── Motion ───────────────────────────────────────────────────────────────────
+$ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+$ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);

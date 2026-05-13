@@ -1,0 +1,81 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+.footer {
+    background: $color-bg-dark;
+    padding: 60px 24px 100px; // mobile reserves room for floating nav pill
+    margin-top: 40px;
+
+    @include up($bp-sm) {
+        padding-bottom: 80px;
+    }
+}
+
+.footer-container {
+    list-style: none;
+    margin: 0 auto;
+    padding: 0;
+    max-width: 640px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+}
+
+.footer-item {
+    color: $color-text-light;
+    font-size: 18px;
+    line-height: 1.6;
+
+    > a {
+        color: $color-text-light;
+        font-size: 1em;
+        line-height: 1.5;
+        transition: color 0.15s;
+
+        &:hover {
+            color: $color-cta;
+        }
+    }
+}
+
+.footer-item_s {
+    font-size: 12px;
+    color: $color-text-faint;
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.footer-phone {
+    font-size: 26px;
+    display: inline-flex;
+    color: $color-text-light;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+
+    &:hover {
+        color: $color-cta;
+    }
+}
+
+.footer-map {
+    max-width: 640px;
+    margin: 0 auto 40px;
+    border-radius: 16px;
+    overflow: hidden;
+    opacity: 0.88;
+    transition: opacity 0.2s;
+
+    &:hover {
+        opacity: 1;
+    }
+
+    iframe {
+        display: block;
+        width: 100%;
+        height: 260px;
+        border: none;
+    }
+}

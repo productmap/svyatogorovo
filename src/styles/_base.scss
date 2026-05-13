@@ -1,0 +1,63 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+html {
+    scroll-behavior: smooth;
+}
+
+* {
+    box-sizing: border-box;
+    user-select: none;
+    text-size-adjust: 100%;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    height: 100vh;
+    background-color: $color-bg;
+    font-family: $font-body;
+    color: $color-text;
+}
+
+p {
+    font-size: 20px;
+}
+
+a {
+    text-decoration: none;
+}
+
+// Headings render in the display face; h2 is also given a fluid size jump.
+h1, h2, h3, h4, h5, h6 {
+    font-family: $font-display;
+}
+
+h2 {
+    font-size: 40px;
+
+    @include up($bp-sm) {
+        font-size: 86px;
+    }
+}
+
+button {
+    display: block;
+    width: 120px;
+    padding: 16px;
+    background: $color-cta;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    color: #fff;
+    font-family: $font-display;
+    font-size: 18px;
+    font-weight: 700;
+
+    &:hover  { opacity: .95; }
+    &:active {
+        transform: scale(.98);
+        box-shadow: 0 2px 4px $color-shadow-soft;
+    }
+}

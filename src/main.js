@@ -1,6 +1,4 @@
 import './style.scss'
-import './fonts.css'
-import './flexmasonry.css'
 import 'photoswipe/style.css'
 import { initTopo } from './topo.js'
 

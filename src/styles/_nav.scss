@@ -1,0 +1,155 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// Mobile-first: nav lives as a floating pill at the bottom, hidden until
+// `.is-visible` is added by the scroll-spy. On ≥ $bp-sm it becomes a sticky
+// top bar.
+.site-nav {
+    position: fixed;
+    top: auto;
+    bottom: 14px;
+    left: 12px;
+    right: 70px;
+    z-index: 100;
+    background: $color-nav-bg;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 100px;
+    overflow: hidden;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.14);
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: opacity 0.3s, transform 0.3s;
+
+    &.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    @include up($bp-sm) {
+        position: sticky;
+        top: 0;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        border-radius: 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: none;
+        overflow-x: auto;
+        scrollbar-width: none;
+        opacity: 1;
+        transform: none;
+        pointer-events: auto;
+        transition: none;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+}
+
+.site-nav__list {
+    display: flex;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    white-space: nowrap;
+
+    // Mobile: horizontal scroll inside the pill.
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+    padding: 6px 12px;
+    justify-content: flex-start;
+
+    &::-webkit-scrollbar { display: none; }
+
+    @include up($bp-sm) {
+        padding: 8px 16px;
+        overflow-x: visible;
+    }
+
+    @include up($bp-md) {
+        justify-content: center;
+        flex-wrap: wrap;
+        white-space: normal;
+        padding: 6px 24px;
+    }
+}
+
+.site-nav__link {
+    display: block;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    color: $color-text;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background 0.15s, color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+
+    @media (hover: hover) {
+        &:hover {
+            background: $color-nav-hover;
+        }
+    }
+
+    &--active {
+        background: $color-nav-active;
+        color: $color-accent;
+    }
+}
+
+// ─── Back to top ──────────────────────────────────────────────────────────────
+
+.back-to-top {
+    position: fixed;
+    bottom: 14px;
+    right: 12px;
+    z-index: 50;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: $color-fab-bg;
+    border: none;
+    cursor: pointer;
+    touch-action: manipulation;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.15s;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    pointer-events: none; // prevent global `button:hover { opacity: .95 }` from reviving hidden button
+
+    img {
+        filter: invert(1);
+        width: 18px;
+        height: auto;
+    }
+
+    &.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    // Override global `button:hover { opacity: .95 }` — opacity controlled solely by .is-visible
+    &:hover {
+        opacity: 0;
+        background: $color-fab-bg-hover;
+    }
+
+    &.is-visible:hover {
+        opacity: 1;
+    }
+
+    @include up($bp-sm) {
+        bottom: 28px;
+        right: 20px;
+    }
+}

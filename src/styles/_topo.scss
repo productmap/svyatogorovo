@@ -1,0 +1,10 @@
+#topo-canvas {
+    position: fixed;
+    top: -220px;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    pointer-events: none;
+    z-index: 0;
+    will-change: transform;
+}

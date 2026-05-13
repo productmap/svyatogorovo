@@ -1,0 +1,18 @@
+@use 'variables' as *;
+
+// Min-width media query. Use for mobile-first desktop overrides:
+// @include up($bp-sm) { ... }
+@mixin up($bp) {
+    @media (min-width: $bp) {
+        @content;
+    }
+}
+
+// Wraps a block in @media (prefers-reduced-motion: reduce). Place next to
+// the component whose motion it disables — easier to audit than a single
+// far-away block.
+@mixin reduced-motion {
+    @media (prefers-reduced-motion: reduce) {
+        @content;
+    }
+}

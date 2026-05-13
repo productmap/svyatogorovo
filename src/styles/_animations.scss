@@ -1,0 +1,72 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+// ─── Scroll-driven fade/slide (IntersectionObserver toggles .is-visible) ──────
+
+.animate-in {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+
+    &.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    @include reduced-motion {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+// ─── Section divider (line — gem — line) ──────────────────────────────────────
+
+.section-divider {
+    display: flex;
+    align-items: center;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 8px 40px;
+    pointer-events: none;
+}
+
+.section-divider__line {
+    flex: 1;
+    height: 1px;
+    transform: scaleX(0);
+    transition: transform 0.9s $ease-out-expo;
+
+    &:first-child {
+        transform-origin: left center;
+        background: linear-gradient(to right, transparent, rgba(150, 58, 47, 0.35));
+    }
+
+    &:last-child {
+        transform-origin: right center;
+        background: linear-gradient(to left, transparent, rgba(150, 58, 47, 0.35));
+    }
+}
+
+.section-divider__gem {
+    position: relative;
+    width: 10px;
+    height: 10px;
+    background: $color-accent;
+    transform: rotate(45deg);
+    opacity: 0;
+    scale: 0;
+    margin: 0 18px;
+    flex-shrink: 0;
+    transition: opacity 0.3s ease 0.72s, scale 0.45s $ease-out-back 0.72s;
+}
+
+.section-divider.is-visible {
+    .section-divider__line { transform: scaleX(1); }
+    .section-divider__gem  { opacity: 0.55; scale: 1; }
+}
+
+@include reduced-motion {
+    .section-divider__line { transform: scaleX(1); transition: none; }
+    .section-divider__gem  { opacity: 0.55; scale: 1; transition: none; }
+}

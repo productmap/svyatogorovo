@@ -1,0 +1,11 @@
+@use 'variables' as *;
+
+.story-section {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    padding: 60px 8px;
+    margin: auto;
+    color: $color-text;
+}
