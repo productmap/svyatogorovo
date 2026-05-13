@@ -128,6 +128,7 @@ button:active {
     justify-content: center;
     align-items: center;
     position: relative;
+    isolation: isolate;
     height: 100%;
     min-height: 100svh;
     padding: 40px;

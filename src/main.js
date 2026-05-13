@@ -18,22 +18,23 @@ const SPRING    = 'cubic-bezier(0.16, 1, 0.3, 1)';
 
 // State written by mousemove, consumed by RAF
 let tiltPending  = false;
-let tiltTracking = false; // true once we've switched to fast tracking
+let tiltTracking = false;
+let tiltApplied  = false; // true only after at least one mousemove with actual tilt
 let tiltState    = { rx: 0, ry: 0, w: 0, dx: 0, dy: 0 };
 
 function flushTilt() {
   tiltPending = false;
   const { rx, ry, w, dx, dy } = tiltState;
-  if (map)       map.style.transform     = `perspective(${w}px) rotateX(${ry}deg) rotateY(${rx}deg) scale3d(1,1,1)`;
+  if (map)       map.style.transform      = `perspective(${w}px) rotateX(${ry}deg) rotateY(${rx}deg) scale3d(1,1,1)`;
   if (mapHeader) mapHeader.style.translate = `${dx}px ${dy}px`;
 }
 
 function handleHover(e) {
   const { clientX, clientY, currentTarget } = e;
   const { clientWidth, clientHeight } = currentTarget;
-  const rect = currentTarget.getBoundingClientRect(); // single layout read
-  const h = (clientX - rect.left)  / clientWidth;
-  const v = (clientY - rect.top)   / clientHeight;
+  const rect = currentTarget.getBoundingClientRect();
+  const h = (clientX - rect.left) / clientWidth;
+  const v = (clientY - rect.top)  / clientHeight;
 
   tiltState = {
     rx: +(THRESHOLD / 2 - h * THRESHOLD).toFixed(2),
@@ -43,18 +44,19 @@ function handleHover(e) {
     dy: +((v - 0.5) * -7 ).toFixed(1),
   };
 
-  // Switch to fast tracking transition once — not on every event
   if (!tiltTracking) {
     tiltTracking = true;
-    map.style.transition       = `transform 0.08s ease`;
+    map.style.transition = `transform 0.08s ease`;
     if (mapHeader) mapHeader.style.transition = `translate 0.08s ease`;
   }
-
+  tiltApplied = true;
   if (!tiltPending) { tiltPending = true; requestAnimationFrame(flushTilt); }
 }
 
 function resetStyles() {
   tiltTracking = false;
+  if (!tiltApplied) return; // touch tap fired enter+leave without mousemove — don't touch transform
+  tiltApplied = false;
   const spring = `1.1s ${SPRING}`;
   if (map) {
     map.style.transition = `transform ${spring}`;
@@ -66,9 +68,11 @@ function resetStyles() {
   }
 }
 
-if (map && !motionMatchMedia.matches) {
+// Only on pointer devices that can truly hover — excludes touch screens
+const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+if (map && !motionMatchMedia.matches && canHover) {
   map.addEventListener('mouseenter', () => {
-    // Slow entry transition set once; handleHover won't override until tiltTracking flips
     const entry = `1.35s ${SPRING}`;
     map.style.transition = `transform ${entry}`;
     if (mapHeader) mapHeader.style.transition = `translate ${entry}`;
