@@ -67,10 +67,8 @@ button {
     background: #959485 url("/map-1.webp") no-repeat center center;
     border-radius: 32px;
     color: #fff;
-    transform-style: preserve-3d;
     overflow: hidden;
     filter: drop-shadow(0 0 38px rgba(0, 0, 0, 0.5));
-    will-change: transform;
 }
 
 @media (min-width: 600px) {
@@ -93,15 +91,10 @@ button {
     content: "";
 }
 
-.map:hover .content {
-    transform: translateZ(6px);
-}
-
 .content {
     position: relative;
     display: flex;
     z-index: 1;
-    transition: transform 0.6s ease;
     flex-flow: column;
     gap: 62px;
     height: 100%;
