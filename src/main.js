@@ -130,13 +130,39 @@ document.querySelectorAll('.section-divider').forEach(el => {
 // ─── Back to top ─────────────────────────────────────────────────────────────
 
 const backToTop = document.getElementById('back-to-top');
+const siteNav   = document.querySelector('.site-nav');
 if (backToTop) {
-  window.addEventListener('scroll', () => {
-    backToTop.classList.toggle('is-visible', window.scrollY > 500);
-  }, { passive: true });
+  let scrollingToTop = false;
+
+  function updateScrollUI() {
+    if (scrollingToTop) return;
+    const show = window.scrollY > 500;
+    backToTop.classList.toggle('is-visible', show);
+    if (siteNav) siteNav.classList.toggle('is-visible', show);
+  }
+
+  window.addEventListener('scroll', updateScrollUI, { passive: true });
 
   backToTop.addEventListener('click', () => {
+    history.replaceState(null, '', location.pathname + location.search);
+    if (siteNav) siteNav.classList.remove('is-visible');
+    backToTop.classList.remove('is-visible');
+
+    scrollingToTop = true;
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Release the guard once we reach the top (or after a 3s safety deadline)
+    const deadline = Date.now() + 3000;
+    (function poll() {
+      if (window.scrollY < 1) {
+        scrollingToTop = false;
+      } else if (Date.now() < deadline) {
+        requestAnimationFrame(poll);
+      } else {
+        scrollingToTop = false;
+        updateScrollUI();
+      }
+    }());
   });
 }
 
@@ -149,16 +175,52 @@ const sections = [...navLinks]
   .filter(Boolean);
 
 if (navLinks.length && sections.length) {
-  function updateActiveNav() {
-    const scrollY = window.scrollY + 120;
-    let current = '';
-    sections.forEach(section => {
-      if (section.offsetTop <= scrollY) current = section.id;
-    });
-    navLinks.forEach(link => {
-      link.classList.toggle('site-nav__link--active', link.getAttribute('href') === `#${current}`);
-    });
+  const navList = document.querySelector('.site-nav__list');
+
+  function scrollNavToActive(activeLink) {
+    if (!navList || !activeLink) return;
+    const listRect = navList.getBoundingClientRect();
+    const linkRect = activeLink.getBoundingClientRect();
+    const target = navList.scrollLeft + linkRect.left - listRect.left
+                   - (listRect.width - linkRect.width) / 2;
+    navList.scrollTo({ left: target, behavior: 'smooth' });
   }
+
+  function updateActiveNav() {
+    let current = '';
+    // Last section sits near the end of the document, so scrollIntoView can't
+    // bring it to the top of the viewport — we land at doc-bottom instead.
+    // Detect that case and force the last section as active.
+    const atBottom = window.innerHeight + window.scrollY
+                     >= document.documentElement.scrollHeight - 4;
+    if (atBottom) {
+      current = sections[sections.length - 1].id;
+    } else {
+      const scrollY = window.scrollY + 80;
+      sections.forEach(section => {
+        const docTop = section.getBoundingClientRect().top + window.scrollY;
+        if (docTop <= scrollY) current = section.id;
+      });
+    }
+    let activeLink = null;
+    navLinks.forEach(link => {
+      const isActive = link.getAttribute('href') === `#${current}`;
+      link.classList.toggle('site-nav__link--active', isActive);
+      if (isActive) activeLink = link;
+    });
+    scrollNavToActive(activeLink);
+  }
+
+  // Intercept nav clicks — use replaceState so each click doesn't push a new history entry
+  navLinks.forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const id = link.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      history.replaceState(null, '', `#${id}`);
+    });
+  });
 
   window.addEventListener('scroll', updateActiveNav, { passive: true });
   updateActiveNav();
