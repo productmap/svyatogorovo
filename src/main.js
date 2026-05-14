@@ -164,6 +164,74 @@ if (navLinks.length && sections.length) {
   updateActiveNav();
 }
 
+// ─── Dynamic theme-color ─────────────────────────────────────────────────────
+// Tint the browser chrome / status bar to match whatever section sits at the
+// top of the viewport. Three dark surfaces: hero (.map-container), footer,
+// and the open PhotoSwipe lightbox. Everything else falls back to parchment.
+
+const themeMeta = document.querySelector('meta[name="theme-color"]');
+const THEME = {
+  light:  '#efead6',  // $color-bg — parchment
+  hero:   '#080a07',  // .map-container background under the bg-1 photo
+  footer: '#2a2620',  // $color-bg-dark
+  pswp:   '#080a07',  // .pswp --pswp-bg (.91 opacity over topo snapshot)
+};
+
+const themeHero   = document.querySelector('.map-container');
+const themeFooter = document.querySelector('.footer');
+
+let themePswpLock = false;
+let themeCurrent  = null;
+let themeRafPending = false;
+
+function setTheme(c) {
+  if (!themeMeta || c === themeCurrent) return;
+  themeCurrent = c;
+  themeMeta.content = c;
+}
+
+// Fraction of the viewport vertically covered by `el` (0..1).
+function visibilityRatio(el) {
+  if (!el) return 0;
+  const r = el.getBoundingClientRect();
+  const visible = Math.min(window.innerHeight, r.bottom) - Math.max(0, r.top);
+  return Math.max(0, visible) / window.innerHeight;
+}
+
+function probeTheme() {
+  themeRafPending = false;
+  if (themePswpLock) return;
+  let next = THEME.light;
+
+  // Footer wins when it dominates the viewport (typical at page bottom,
+  // where it occupies most of the screen but never touches the top edge).
+  if (visibilityRatio(themeFooter) >= 0.5) {
+    next = THEME.footer;
+  } else {
+    // Otherwise tint by whatever section sits at the top of the viewport —
+    // that's what's actually adjacent to the browser address bar / chrome.
+    // Probe at y=80 to stay clear of the sticky nav band (~47px desktop).
+    const el = document.elementFromPoint(window.innerWidth / 2, 80);
+    if (el) {
+      if      (el.closest('.map-container')) next = THEME.hero;
+      else if (el.closest('.footer'))        next = THEME.footer;
+    }
+  }
+  setTheme(next);
+}
+
+function scheduleThemeProbe() {
+  if (themeRafPending) return;
+  themeRafPending = true;
+  requestAnimationFrame(probeTheme);
+}
+
+if (themeMeta) {
+  window.addEventListener('scroll', scheduleThemeProbe, { passive: true });
+  window.addEventListener('resize', scheduleThemeProbe);
+  probeTheme();
+}
+
 // ─── Lightbox (PhotoSwipe v5) ─────────────────────────────────────────────────
 
 import('photoswipe').then(({ default: PhotoSwipe }) => {
@@ -184,8 +252,10 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
   function openAt(index) {
     const pswp = new PhotoSwipe({ dataSource, index, zoom: true });
 
-    // Snapshot topo canvas into PhotoSwipe background
+    // Snapshot topo canvas into PhotoSwipe background + lock theme-color dark
     pswp.on('beforeOpen', () => {
+      themePswpLock = true;
+      setTheme(THEME.pswp);
       const topoEl = document.getElementById('topo-canvas');
       if (topoEl) {
         try {
@@ -194,6 +264,13 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
           pswp.element.style.backgroundPosition = 'center top';
         } catch (e) { /* tainted canvas — skip */ }
       }
+    });
+
+    // `close` fires when the close animation begins — release the theme
+    // lock so the underlying section re-takes over while the dialog fades.
+    pswp.on('close', () => {
+      themePswpLock = false;
+      probeTheme();
     });
 
     pswp.init();
