@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Agent / assistant tooling state (local to each contributor)
+.claude/
+.cursor/
