@@ -1,13 +1,13 @@
 {
   "name": "svyatogorovo",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.2.0",
   "type": "module",
   "description": "Святогорово",
   "license": "none",
   "homepage": "https://svyatogorovo.github.io/page/",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host=0.0.0.0 --port=3078",
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "vite build",
@@ -15,12 +15,14 @@
   },
   "devDependencies": {
     "gh-pages": "^6.3.0",
+    "opentype.js": "^2.0.0",
     "puppeteer": "^24.43.1",
     "sass": "^1.89.0",
     "sharp": "^0.34.5",
     "svgo": "^4.0.1",
     "vite": "^8.0.12",
-    "vite-plugin-image-optimizer": "^2.0.3"
+    "vite-plugin-image-optimizer": "^2.0.3",
+    "wawoff2": "^2.0.1"
   },
   "dependencies": {
     "photoswipe": "^5.4.4"
