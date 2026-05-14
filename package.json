@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.2.0",
   "type": "module",
-  "description": "Святогорово",
+  "description": "Святогорово — лендинг паломнического и семейного туристического центра в Дмитровском районе Московской области",
   "license": "none",
   "homepage": "https://svyatogorovo.github.io/page/",
   "scripts": {

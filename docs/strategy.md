@@ -33,7 +33,7 @@
 - [ ] Подать sitemap вручную в Яндекс.Вебмастер и GSC
 - [ ] Подключить Турбо-страницы в Яндекс.Вебмастер
 - [x] Добавить llms.txt и llms-full.txt для AI-агентов (ChatGPT, Claude, Perplexity)
-- [ ] Создать фавикон сайта (заменить vite.svg) → обновить apple-touch-icon.png
+- [x] Создать брендовый фавикон (буква С из VezitsaCyrillic, выгружается как path) + PWA-набор иконок (`public/icons/`) + `favicon.ico` для легаси-краулеров
 
 ---
 
