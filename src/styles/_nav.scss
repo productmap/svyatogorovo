@@ -1,18 +1,15 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
-// Scroll targets clear the sticky top nav on desktop so a clicked section
-// header isn't hidden behind it. Mobile nav is at the bottom — no offset.
+// Floating pill nav overlays content at both breakpoints, so anchors need a
+// scroll offset to clear it.
 .masonry-item_type_header,
 #contacts {
-    @include up($bp-sm) {
-        scroll-margin-top: 64px;
-    }
+    scroll-margin-top: 70px;
 }
 
-// Mobile-first: nav lives as a floating pill at the bottom, hidden until
-// `.is-visible` is added by the scroll-spy. On ≥ $bp-sm it becomes a sticky
-// top bar.
+// Floating pill: bottom-anchored on mobile (hidden until scroll), top-anchored
+// and immediately visible on desktop. Same shape, just repositioned.
 .site-nav {
     position: fixed;
     top: auto;
@@ -38,20 +35,26 @@
     }
 
     @include up($bp-sm) {
-        position: sticky;
-        top: 0;
+        top: 14px;
         bottom: auto;
-        left: auto;
+        left: 50%;
         right: auto;
-        border-radius: 0;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        box-shadow: none;
-        overflow-x: auto;
-        scrollbar-width: none;
+        // translateX centers the pill; keep it on the transform property so
+        // it doesn't collide with the .is-visible slide-in handled above.
+        transform: translateX(-50%);
+        max-width: calc(100% - 40px);
+        width: max-content;
         opacity: 1;
-        transform: none;
         pointer-events: auto;
         transition: none;
+        overflow-x: auto;
+        scrollbar-width: none;
+
+        &.is-visible {
+            // Override the mobile .is-visible transform — desktop pill is
+            // always centered, never slid up from bottom.
+            transform: translateX(-50%);
+        }
 
         &::-webkit-scrollbar {
             display: none;
@@ -81,10 +84,7 @@
     }
 
     @include up($bp-md) {
-        justify-content: center;
-        flex-wrap: wrap;
-        white-space: normal;
-        padding: 6px 24px;
+        padding: 6px 18px;
     }
 }
 

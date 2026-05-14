@@ -28,11 +28,9 @@
     }
 
     @include up($bp-sm) {
-        // Drop the mobile-base `height: 100svh` — on desktop the container
-        // should hug the .map card (no extra dead space). 96px of headroom
-        // leaves space for the sticky nav band + the parchment-fade ::after.
-        height: auto;
-        min-height: calc(100svh - 96px);
+        // Hero fills the viewport on desktop too — the floating pill nav
+        // overlays it instead of taking its own band of height.
+        height: 100svh;
         padding: 40px;
     }
 }
@@ -65,12 +63,8 @@
     }
 
     @include up($bp-sm) {
-        // Match the available area inside .map-container (its min-height
-        // minus 80px of vertical padding). Was `height: 100%`, but that
-        // only resolved correctly when body had an explicit height — now
-        // body uses min-height (so the sticky nav can stick), and a viewport
-        // expression is the only reliable way to fill the hero.
-        height: calc(100svh - 176px);
+        // Fill the hero (100svh container minus its 40px top/bottom padding).
+        height: calc(100svh - 80px);
         min-height: 460px;
         padding: 62px;
         will-change: transform;
