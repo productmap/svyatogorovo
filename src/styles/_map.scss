@@ -28,8 +28,9 @@
     }
 
     @include up($bp-sm) {
-        height: 100%;
-        min-height: 100svh;
+        // 96px of headroom leaves space for the sticky nav band + a visual
+        // buffer at the bottom (the parchment-fade ::after gradient).
+        min-height: calc(100svh - 96px);
         padding: 40px;
     }
 }
@@ -62,17 +63,15 @@
     }
 
     @include up($bp-sm) {
-        height: 100%;
+        // Match the available area inside .map-container (its min-height
+        // minus 80px of vertical padding). Was `height: 100%`, but that
+        // only resolved correctly when body had an explicit height — now
+        // body uses min-height (so the sticky nav can stick), and a viewport
+        // expression is the only reliable way to fill the hero.
+        height: calc(100svh - 176px);
         min-height: 460px;
         padding: 62px;
         will-change: transform;
-    }
-}
-
-@include up($bp-sm) {
-    .map-container {
-        height: auto;
-        min-height: calc(100svh - 96px);
     }
 }
 
