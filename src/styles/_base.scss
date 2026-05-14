@@ -15,7 +15,9 @@ html {
 }
 
 body {
-    height: 100vh;
+    // min-height (not height) so the document can extend past one viewport
+    // without trapping position:sticky descendants inside a 100vh box.
+    min-height: 100vh;
     background-color: $color-bg;
     font-family: $font-body;
     color: $color-text;
