@@ -9,7 +9,7 @@
     align-items: center;
     position: relative;
     isolation: isolate;
-    background: #080a07 url("/bg-1.webp") no-repeat center center / cover;
+    background: #080a07 url("/images/bg-1.webp") no-repeat center center / cover;
 
     // Mobile defaults: viewport-height layout with tighter padding.
     height: 100svh;
@@ -43,7 +43,7 @@
     max-height: 860px;
     padding: 32px;
     margin: auto;
-    background: #959485 url("/map-1.webp") no-repeat center center;
+    background: #959485 url("/images/map-1.webp") no-repeat center center;
     border-radius: 32px;
     color: #fff;
     overflow: hidden;
