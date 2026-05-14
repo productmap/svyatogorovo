@@ -3,7 +3,7 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://святогорово.рф/</loc>
-    <lastmod>2026-05-12</lastmod>
+    <lastmod>2026-05-14</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -23,7 +23,7 @@
       <image:title>Часовенка Николая Чудотворца</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://святогорово.рф/images/chudotvor-2.jpg</image:loc>
+      <image:loc>https://святогорово.рф/images/chudotvor-2.webp</image:loc>
       <image:title>Часовенка Николая Чудотворца</image:title>
     </image:image>
     <image:image>
@@ -39,7 +39,7 @@
       <image:title>Природа Святогорово</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://святогорово.рф/images/sergiy-1.jpg</image:loc>
+      <image:loc>https://святогорово.рф/images/sergiy-1.webp</image:loc>
       <image:title>Тропа преподобного Сергия Радонежского</image:title>
     </image:image>
     <image:image>
