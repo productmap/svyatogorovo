@@ -28,8 +28,10 @@
     }
 
     @include up($bp-sm) {
-        // 96px of headroom leaves space for the sticky nav band + a visual
-        // buffer at the bottom (the parchment-fade ::after gradient).
+        // Drop the mobile-base `height: 100svh` — on desktop the container
+        // should hug the .map card (no extra dead space). 96px of headroom
+        // leaves space for the sticky nav band + the parchment-fade ::after.
+        height: auto;
         min-height: calc(100svh - 96px);
         padding: 40px;
     }
