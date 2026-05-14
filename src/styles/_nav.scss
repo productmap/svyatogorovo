@@ -1,6 +1,15 @@
 @use 'variables' as *;
 @use 'mixins' as *;
 
+// Scroll targets clear the sticky top nav on desktop so a clicked section
+// header isn't hidden behind it. Mobile nav is at the bottom — no offset.
+.masonry-item_type_header,
+#contacts {
+    @include up($bp-sm) {
+        scroll-margin-top: 64px;
+    }
+}
+
 // Mobile-first: nav lives as a floating pill at the bottom, hidden until
 // `.is-visible` is added by the scroll-spy. On ≥ $bp-sm it becomes a sticky
 // top bar.
