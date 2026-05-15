@@ -83,10 +83,29 @@ if (map && !motionMatchMedia.matches && canHover) {
 
 const placesButton = document.getElementById('places-button');
 if (placesButton) {
+  // Guard against re-entry: a second click while the smooth scroll is still
+  // running restarts scrollIntoView from the current (barely-moved) position,
+  // re-triggering the slow ease-in — so impatient double-clicks make the page
+  // look frozen. Ignore clicks until we've arrived (or a 2s safety deadline).
+  let scrollingToPlaces = false;
+
   placesButton.addEventListener('click', function (event) {
     event.preventDefault();
+    if (scrollingToPlaces) return;
     const target = document.getElementById('places');
-    if (target) target.scrollIntoView({behavior: 'smooth'});
+    if (!target) return;
+
+    scrollingToPlaces = true;
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    const deadline = Date.now() + 2000;
+    (function poll() {
+      if (Math.abs(target.getBoundingClientRect().top) < 4 || Date.now() > deadline) {
+        scrollingToPlaces = false;
+      } else {
+        requestAnimationFrame(poll);
+      }
+    }());
   });
 }
 
