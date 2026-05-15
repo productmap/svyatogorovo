@@ -388,24 +388,9 @@ if (themeMeta) {
 // ─── Lightbox (PhotoSwipe v5) ─────────────────────────────────────────────────
 
 import('photoswipe').then(({ default: PhotoSwipe }) => {
-  const imgEls = [...document.querySelectorAll('.masonry-item_type_image img.masonry-item__image')];
-  if (!imgEls.length) return;
-
-  const dataSource = imgEls.map(img => {
-    // Prefer webp source if the browser resolved it
-    const src = img.currentSrc || img.src;
-    return {
-      src,
-      width:  parseInt(img.getAttribute('width'),  10) || img.naturalWidth  || 1200,
-      height: parseInt(img.getAttribute('height'), 10) || img.naturalHeight || 900,
-      alt: img.alt,
-    };
-  });
-
-  function openAt(index) {
-    const pswp = new PhotoSwipe({ dataSource, index, zoom: true });
-
-    // Snapshot topo canvas into PhotoSwipe background + lock theme-color dark
+  // Theme hooks shared by every lightbox instance: snapshot the topo canvas
+  // into the PhotoSwipe backdrop and lock theme-color dark while open.
+  function attachPswpTheme(pswp) {
     pswp.on('beforeOpen', () => {
       themePswpLock = true;
       setTheme(THEME.pswp);
@@ -425,13 +410,53 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
       themePswpLock = false;
       probeTheme();
     });
-
-    pswp.init();
   }
 
-  imgEls.forEach((img, i) => {
-    img.closest('.masonry-item_type_image').addEventListener('click', () => openAt(i));
-  });
+  // Masonry photo gallery — swipeable set of all `.masonry-item_type_image`.
+  const imgEls = [...document.querySelectorAll('.masonry-item_type_image img.masonry-item__image')];
+  if (imgEls.length) {
+    const dataSource = imgEls.map(img => {
+      // Prefer webp source if the browser resolved it
+      const src = img.currentSrc || img.src;
+      return {
+        src,
+        width:  parseInt(img.getAttribute('width'),  10) || img.naturalWidth  || 1200,
+        height: parseInt(img.getAttribute('height'), 10) || img.naturalHeight || 900,
+        alt: img.alt,
+      };
+    });
+
+    const openAt = (index) => {
+      const pswp = new PhotoSwipe({ dataSource, index, zoom: true });
+      attachPswpTheme(pswp);
+      pswp.init();
+    };
+
+    imgEls.forEach((img, i) => {
+      img.closest('.masonry-item_type_image').addEventListener('click', () => openAt(i));
+    });
+  }
+
+  // Hero map — its own single-image lightbox, opened from the author credit.
+  // The map is a CSS background (no <img>), so dimensions are fixed to the
+  // source file (map-1.webp, 1701×1319).
+  const mapZoom = document.getElementById('map-zoom');
+  if (mapZoom) {
+    mapZoom.addEventListener('click', () => {
+      const pswp = new PhotoSwipe({
+        dataSource: [{
+          src: '/images/map-1.webp',
+          width: 1701,
+          height: 1319,
+          alt: 'Карта деревни Святогорово. Автор: В.С. Блажевич',
+        }],
+        index: 0,
+        zoom: true,
+      });
+      attachPswpTheme(pswp);
+      pswp.init();
+    });
+  }
 });
 
 // ─── Parallax system ──────────────────────────────────────────────────────────
