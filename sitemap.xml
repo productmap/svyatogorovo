@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>https://святогорово.рф/</loc>
+    <lastmod>2026-05-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/krest-0.webp</image:loc>
+      <image:title>Поклонный крест в Святогорово</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/krest-3.webp</image:loc>
+      <image:title>Поклонный крест в Святогорово</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/krest-32.webp</image:loc>
+      <image:title>Поклонный крест в Святогорово</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/chudotvor-1.webp</image:loc>
+      <image:title>Часовенка Николая Чудотворца</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/chudotvor-2.webp</image:loc>
+      <image:title>Часовенка Николая Чудотворца</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/kupel-2.webp</image:loc>
+      <image:title>Купель Святогорово</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/nature-1.webp</image:loc>
+      <image:title>Природа Святогорово</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/nature-2.webp</image:loc>
+      <image:title>Природа Святогорово</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/sergiy-1.webp</image:loc>
+      <image:title>Тропа преподобного Сергия Радонежского</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/sergiy-3.webp</image:loc>
+      <image:title>Тропа преподобного Сергия Радонежского</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/arch-3.webp</image:loc>
+      <image:title>Архитектура Святогорово</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/lager-3.webp</image:loc>
+      <image:title>Выездные лагеря для детей в Святогорово</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/podvor-1.webp</image:loc>
+      <image:title>Подворье Борисоглебского мужского монастыря</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/guest-house-3.webp</image:loc>
+      <image:title>Гостевой дом Святогорово</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://святогорово.рф/images/svyatogorovo-3.webp</image:loc>
+      <image:title>История Святогорово</image:title>
+    </image:image>
+  </url>
+</urlset>

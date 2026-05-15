@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Sitemap: https://святогорово.рф/sitemap.xml
+
+# LLM-friendly content index
+# See https://llmstxt.org/
+# llms.txt: https://святогорово.рф/llms.txt
+# llms-full.txt: https://святогорово.рф/llms-full.txt
