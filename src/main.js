@@ -168,9 +168,17 @@ document.querySelectorAll('.faq__item').forEach(item => {
       item.classList.remove('is-open');
       anim = answer.animate(
         [{ height: from + 'px', opacity: 1 }, { height: '0px', opacity: 0 }],
-        { duration: 240, easing: 'ease' }
+        { duration: 240, easing: 'ease', fill: 'forwards' }
       );
-      anim.onfinish = () => { item.open = false; anim = null; };
+      anim.onfinish = () => {
+        // fill:forwards pins the answer at height 0 past the active phase —
+        // drop `open` while it's still pinned, *then* clear the animation.
+        // With fill:none the element would snap back to full height for one
+        // frame between finish and this callback (the visible end-jump).
+        item.open = false;
+        anim.cancel();
+        anim = null;
+      };
     }
   });
 });
