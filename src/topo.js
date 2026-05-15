@@ -149,7 +149,6 @@ function drawSmooth(ctx, chain, sx, sy) {
 
 export function initTopo(canvas, noMotion) {
   const ctx = canvas.getContext('2d');
-  let raf = null;
 
   function setSize() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -164,35 +163,29 @@ export function initTopo(canvas, noMotion) {
     canvas.style.transform = `translateY(${-(window.scrollY * PARALLAX).toFixed(2)}px)`;
   }
 
-  function render(ts) {
+  // Contours are static — draw once on load and on resize. No animation loop,
+  // so the topo background costs zero per-frame main-thread work.
+  function render() {
     const W = window.innerWidth;
     const H = window.innerHeight + EXTRA * 2;
     ctx.clearRect(0, 0, W, H);
     const sx = W / (N - 1), sy = H / (N - 1);
-    const t = ts / 1000;
-    const wf = (2 * Math.PI) / 24;
 
+    ctx.strokeStyle = 'rgba(75,48,30,0.075)';
+    ctx.lineWidth = 0.85;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
     for (let li = 0; li < LEVELS; li++) {
-      const phase = (li / LEVELS) * Math.PI * 2;
-      const amp = noMotion ? 0 : 0.042;
-      const opacity = 0.075 + amp * Math.sin(t * wf + phase);
-      ctx.strokeStyle = `rgba(75,48,30,${opacity.toFixed(3)})`;
-      ctx.lineWidth = 0.85;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
       ctx.beginPath();
       for (const chain of contours[li]) drawSmooth(ctx, chain, sx, sy);
       ctx.stroke();
     }
-
-    if (!noMotion) raf = requestAnimationFrame(render);
   }
 
   setSize();
+  render();
   applyParallax();
 
-  window.addEventListener('resize', () => { setSize(); if (noMotion) render(0); }, { passive: true });
+  window.addEventListener('resize', () => { setSize(); render(); }, { passive: true });
   if (!noMotion) window.addEventListener('scroll', applyParallax, { passive: true });
-
-  raf = requestAnimationFrame(render);
 }
