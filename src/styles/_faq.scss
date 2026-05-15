@@ -77,14 +77,23 @@
 }
 
 .faq__answer {
-    padding: 0 0 18px;
     font-size: 16px;
     line-height: 1.65;
     color: $color-text-muted;
     margin: 0;
-    // Grid item of the collapsing track — must clip and allow 0 height.
+    // Grid item of the collapsing track. Padding/border on the grid item
+    // itself do NOT shrink with the track — they would floor the collapse
+    // and leave a jump at the end. Keep it padding-free; clip and allow 0.
+    padding: 0;
     min-height: 0;
     overflow: hidden;
+
+    // Bottom spacing as an in-flow box, so it collapses with the track.
+    &::after {
+        content: "";
+        display: block;
+        height: 18px;
+    }
 
     a {
         color: $color-accent;
