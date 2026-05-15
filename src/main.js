@@ -128,60 +128,48 @@ if (!motionMatchMedia.matches) {
 }
 
 // ─── FAQ accordion ───────────────────────────────────────────────────────────
-// Native <details> snaps open. Intercept the toggle and animate the answer's
-// height with the Web Animations API. `.is-open` is the source of truth for
-// intent (and drives the +/× icon); the `open` attribute is kept so the answer
-// stays in the accessibility tree and crawlable. Falls back to an instant
-// toggle under prefers-reduced-motion.
+// Native <details> snaps open. Intercept the toggle and let CSS transition the
+// answer's grid track (0fr ⇄ 1fr) — no pixel measurement, so nothing snaps at
+// the end. `.is-open` drives the track and the +/× icon; the `open` attribute
+// is kept so the answer stays in the accessibility tree and crawlable, and is
+// only dropped once the collapse transition has finished. `.is-enhanced` lets
+// the CSS know JS is on — without it the answers stay plain native <details>.
 
-document.querySelectorAll('.faq__item').forEach(item => {
-  const summary = item.querySelector('.faq__question');
-  const answer  = item.querySelector('.faq__answer');
-  if (!summary || !answer) return;
+const faqList = document.querySelector('.faq__list');
+if (faqList) {
+  faqList.classList.add('is-enhanced');
 
-  let anim = null;
+  faqList.querySelectorAll('.faq__item').forEach(item => {
+    const summary = item.querySelector('.faq__question');
+    const wrap    = item.querySelector('.faq__answer-wrap');
+    if (!summary || !wrap) return;
 
-  summary.addEventListener('click', (e) => {
-    e.preventDefault();
-    const opening = !item.classList.contains('is-open');
+    summary.addEventListener('click', (e) => {
+      e.preventDefault();
+      const opening = !item.classList.contains('is-open');
 
-    if (motionMatchMedia.matches) {
-      item.open = opening;
-      item.classList.toggle('is-open', opening);
-      return;
-    }
+      if (motionMatchMedia.matches) {
+        item.open = opening;
+        item.classList.toggle('is-open', opening);
+        return;
+      }
 
-    // Current rendered height — lets a mid-flight toggle resume smoothly.
-    const from = item.open ? answer.getBoundingClientRect().height : 0;
-    if (anim) anim.cancel();
-
-    if (opening) {
-      item.open = true;
-      item.classList.add('is-open');
-      const to = answer.offsetHeight;
-      anim = answer.animate(
-        [{ height: from + 'px', opacity: from ? 1 : 0 }, { height: to + 'px', opacity: 1 }],
-        { duration: 280, easing: 'ease' }
-      );
-      anim.onfinish = () => { anim = null; };
-    } else {
-      item.classList.remove('is-open');
-      anim = answer.animate(
-        [{ height: from + 'px', opacity: 1 }, { height: '0px', opacity: 0 }],
-        { duration: 240, easing: 'ease', fill: 'forwards' }
-      );
-      anim.onfinish = () => {
-        // fill:forwards pins the answer at height 0 past the active phase —
-        // drop `open` while it's still pinned, *then* clear the animation.
-        // With fill:none the element would snap back to full height for one
-        // frame between finish and this callback (the visible end-jump).
-        item.open = false;
-        anim.cancel();
-        anim = null;
-      };
-    }
+      if (opening) {
+        item.open = true;               // render the answer — track starts at 0fr
+        void wrap.offsetHeight;          // flush layout so 0fr is the committed start
+        item.classList.add('is-open');   // → 1fr, transition runs
+      } else {
+        item.classList.remove('is-open'); // → 0fr, transition runs
+        wrap.addEventListener('transitionend', function done(ev) {
+          if (ev.propertyName !== 'grid-template-rows' || ev.target !== wrap) return;
+          wrap.removeEventListener('transitionend', done);
+          // Skip if the user re-opened the item mid-collapse.
+          if (!item.classList.contains('is-open')) item.open = false;
+        });
+      }
+    });
   });
-});
+}
 
 // ─── Section divider draw-on ─────────────────────────────────────────────────
 

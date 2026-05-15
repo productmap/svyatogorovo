@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'mixins' as *;
 
 .faq {
     max-width: 800px;
@@ -55,14 +56,34 @@
     transform: rotate(45deg);
 }
 
+// Accordion open/close — animate the grid track between 0fr and 1fr.
+// .is-enhanced is added by JS; without it the answer stays plain so the
+// native <details> still works when JS is unavailable.
+.faq__answer-wrap {
+    display: grid;
+}
+
+.faq__list.is-enhanced .faq__answer-wrap {
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+}
+
+.faq__list.is-enhanced .faq__item.is-open .faq__answer-wrap {
+    grid-template-rows: 1fr;
+}
+
+@include reduced-motion {
+    .faq__list.is-enhanced .faq__answer-wrap { transition: none; }
+}
+
 .faq__answer {
     padding: 0 0 18px;
     font-size: 16px;
     line-height: 1.65;
     color: $color-text-muted;
     margin: 0;
-    // The JS accordion animates this element's height — clip the overflow
-    // so the text doesn't spill while it expands/collapses.
+    // Grid item of the collapsing track — must clip and allow 0 height.
+    min-height: 0;
     overflow: hidden;
 
     a {
