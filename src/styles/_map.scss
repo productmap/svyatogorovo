@@ -147,6 +147,9 @@
     // plain author credit it visually is.
     position: relative;
     z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
     margin: 0;
     padding: 0;
     border: 0;
@@ -158,15 +161,17 @@
     cursor: pointer;
     touch-action: manipulation;
 
-    // Small expand glyph hints the credit is clickable; it brightens on
-    // hover instead of underlining the text.
-    &::after {
-        content: " ⤢";
+    // Thin-stroked magnifying glass hints the credit is clickable; it
+    // inherits the text colour via currentColor and brightens on hover.
+    &__icon {
+        flex: none;
+        width: 14px;
+        height: 14px;
         opacity: 0.7;
         transition: opacity 0.15s ease;
     }
 
-    &:hover::after {
+    &:hover &__icon {
         opacity: 1;
     }
 
