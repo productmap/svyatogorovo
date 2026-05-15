@@ -245,6 +245,34 @@ if (navLinks.length && sections.length) {
   updateActiveNav();
 }
 
+// ─── Lazy Yandex map ─────────────────────────────────────────────────────────
+// The map widget is heavy. Native loading="lazy" only fires near the viewport,
+// so it appears with a visible delay. Inject the src well ahead of time via an
+// observer with a generous rootMargin, then fade the iframe in on `load`.
+
+const footerMap = document.getElementById('footer-map');
+if (footerMap) {
+  const mapFrame = footerMap.querySelector('iframe');
+
+  function loadMap() {
+    if (!mapFrame || mapFrame.src) return;
+    mapFrame.addEventListener('load', () => footerMap.classList.add('is-loaded'), { once: true });
+    mapFrame.src = mapFrame.dataset.src;
+  }
+
+  if ('IntersectionObserver' in window) {
+    const mapObserver = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        mapObserver.disconnect();
+        loadMap();
+      }
+    }, { rootMargin: '800px 0px' });
+    mapObserver.observe(footerMap);
+  } else {
+    loadMap();
+  }
+}
+
 // ─── Dynamic theme-color ─────────────────────────────────────────────────────
 // Tint the browser chrome / status bar to match whatever section sits at the
 // top of the viewport. Three dark surfaces: hero (.map-container), footer,

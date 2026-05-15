@@ -8,6 +8,8 @@
   <meta name="google-site-verification" content="vi14G6Krsaxp043r8xNl5W49jgTCTVZ3-MpJi8u9pvo"/>
   <link rel="canonical" href="https://святогорово.рф/">
   <link rel="preconnect" href="https://yandex.ru" crossorigin="anonymous">
+  <link rel="dns-prefetch" href="https://yastatic.net">
+  <link rel="dns-prefetch" href="https://core-renderer-tiles.maps.yandex.net">
   <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg"/>
   <link rel="preload" href="/fonts/vezitsacyrillic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="/images/bg-1.webp" as="image" type="image/webp" fetchpriority="high">
@@ -809,9 +811,9 @@
 </main>
 
 <footer class="footer">
-  <div class="footer-map">
+  <div class="footer-map" id="footer-map">
     <iframe
-      src="https://yandex.ru/map-widget/v1/?ll=37.821090%2C56.404361&z=15&pt=37.821090%2C56.404361%2Cpm2rdm&l=map"
+      data-src="https://yandex.ru/map-widget/v1/?ll=37.821090%2C56.404361&z=15&pt=37.821090%2C56.404361%2Cpm2rdm&l=map"
       title="Расположение Святогорово на карте"
       loading="lazy"
       allowfullscreen
