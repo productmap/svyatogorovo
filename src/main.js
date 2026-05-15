@@ -127,6 +127,54 @@ if (!motionMatchMedia.matches) {
   });
 }
 
+// ─── FAQ accordion ───────────────────────────────────────────────────────────
+// Native <details> snaps open. Intercept the toggle and animate the answer's
+// height with the Web Animations API. `.is-open` is the source of truth for
+// intent (and drives the +/× icon); the `open` attribute is kept so the answer
+// stays in the accessibility tree and crawlable. Falls back to an instant
+// toggle under prefers-reduced-motion.
+
+document.querySelectorAll('.faq__item').forEach(item => {
+  const summary = item.querySelector('.faq__question');
+  const answer  = item.querySelector('.faq__answer');
+  if (!summary || !answer) return;
+
+  let anim = null;
+
+  summary.addEventListener('click', (e) => {
+    e.preventDefault();
+    const opening = !item.classList.contains('is-open');
+
+    if (motionMatchMedia.matches) {
+      item.open = opening;
+      item.classList.toggle('is-open', opening);
+      return;
+    }
+
+    // Current rendered height — lets a mid-flight toggle resume smoothly.
+    const from = item.open ? answer.getBoundingClientRect().height : 0;
+    if (anim) anim.cancel();
+
+    if (opening) {
+      item.open = true;
+      item.classList.add('is-open');
+      const to = answer.offsetHeight;
+      anim = answer.animate(
+        [{ height: from + 'px', opacity: from ? 1 : 0 }, { height: to + 'px', opacity: 1 }],
+        { duration: 280, easing: 'ease' }
+      );
+      anim.onfinish = () => { anim = null; };
+    } else {
+      item.classList.remove('is-open');
+      anim = answer.animate(
+        [{ height: from + 'px', opacity: 1 }, { height: '0px', opacity: 0 }],
+        { duration: 240, easing: 'ease' }
+      );
+      anim.onfinish = () => { item.open = false; anim = null; };
+    }
+  });
+});
+
 // ─── Section divider draw-on ─────────────────────────────────────────────────
 
 const dividerObserver = new IntersectionObserver((entries) => {
