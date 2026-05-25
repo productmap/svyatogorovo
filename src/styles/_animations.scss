@@ -20,53 +20,40 @@
     }
 }
 
-// ─── Section divider (line — gem — line) ──────────────────────────────────────
+// ─── Section divider (SVG image) ───────────────────────────────────────────────
 
 .section-divider {
     display: flex;
-    align-items: center;
+    justify-content: center;
     max-width: 960px;
     margin: 0 auto;
     padding: 8px 40px;
     pointer-events: none;
 }
 
-.section-divider__line {
-    flex: 1;
-    height: 1px;
-    transform: scaleX(0);
-    transition: transform 0.9s $ease-out-expo;
-
-    &:first-child {
-        transform-origin: left center;
-        background: linear-gradient(to right, transparent, rgba(150, 58, 47, 0.35));
-    }
-
-    &:last-child {
-        transform-origin: right center;
-        background: linear-gradient(to left, transparent, rgba(150, 58, 47, 0.35));
-    }
-}
-
-.section-divider__gem {
-    position: relative;
-    width: 10px;
-    height: 10px;
-    background: $color-accent;
-    transform: rotate(45deg);
+.section-divider__image {
+    width: 100%;
+    height: auto;
+    max-width: 506px;
     opacity: 0;
-    scale: 0;
-    margin: 0 18px;
-    flex-shrink: 0;
-    transition: opacity 0.3s ease 0.72s, scale 0.45s $ease-out-back 0.72s;
+    transform: translateY(10px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
 }
 
-.section-divider.is-visible {
-    .section-divider__line { transform: scaleX(1); }
-    .section-divider__gem  { opacity: 0.55; scale: 1; }
+// После инлайна SVG через плагин, path будет доступен для стилизации
+.section-divider__image path {
+    fill: $color-accent;
+}
+
+.section-divider.is-visible .section-divider__image {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 @include reduced-motion {
-    .section-divider__line { transform: scaleX(1); transition: none; }
-    .section-divider__gem  { opacity: 0.55; scale: 1; transition: none; }
+    .section-divider__image {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
 }
