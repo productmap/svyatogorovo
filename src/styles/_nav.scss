@@ -20,6 +20,10 @@
     background: $color-nav-bg;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    // Hairline edge so the pill reads against light sections, where the
+    // translucent parchment otherwise leans on the shadow alone. Low-alpha
+    // divider tone — present, not contrasty.
+    border: 1px solid $color-divider;
     border-radius: 100px;
     overflow: hidden;
     box-shadow: 0 2px 20px rgba(0, 0, 0, 0.14);
