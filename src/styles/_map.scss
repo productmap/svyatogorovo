@@ -56,10 +56,20 @@
         inset: 0;
         background: $color-overlay;
         content: "";
+        transition: opacity 0.32s ease;
     }
 
     &:hover .content {
         transform: translateZ(6px);
+    }
+
+    // While the map morphs into the PhotoSwipe lightbox, fade the dark
+    // overlay and hero text out (and back in on close) so only the map
+    // itself appears to travel/zoom — see the `is-zooming` toggle in main.js.
+    &.is-zooming {
+        &::before { opacity: 0; }
+
+        .content { opacity: 0; }
     }
 
     @include up($bp-sm) {
@@ -78,7 +88,7 @@
     flex-flow: column;
     gap: 62px;
     height: 100%;
-    transition: transform 0.6s ease;
+    transition: transform 0.6s ease, opacity 0.32s ease;
 }
 
 .button {

@@ -438,22 +438,57 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
   }
 
   // Hero map — its own single-image lightbox, opened from the author credit.
-  // The map is a CSS background (no <img>), so dimensions are fixed to the
-  // source file (map-1.webp, 1701×1319).
+  // The map is a CSS background (no <img>) painted at natural size and
+  // centered, so the hero shows a 1:1 center crop of the source file
+  // (map-1.webp, 1701×1319). We morph the lightbox out of that crop.
   const mapZoom = document.getElementById('map-zoom');
-  if (mapZoom) {
+  if (mapZoom && map) {
+    const MAP_W = 1701;
+    const MAP_H = 1319;
+
     mapZoom.addEventListener('click', () => {
+      const reduce = motionMatchMedia.matches;
       const pswp = new PhotoSwipe({
         dataSource: [{
           src: '/images/map-1.webp',
-          width: 1701,
-          height: 1319,
-          alt: 'Карта деревни Святогорово. Автор: В.С. Блажевич',
+          msrc: '/images/map-1.webp', // preloaded → placeholder paints from frame 1 of the morph
+          width: MAP_W,
+          height: MAP_H,
+          alt: 'Карта деревни Святогорово. Автор: Блажевич В.С.',
         }],
         index: 0,
         zoom: true,
+        showHideAnimationType: reduce ? 'none' : 'zoom',
       });
+
+      // Morph open/close out of the hero card's center crop so it reads as
+      // one continuous image. The card paints the map at natural scale
+      // (background-size:auto, centered), so we build the cropped bounds by
+      // hand with fillZoomLevel pinned to 1 — PhotoSwipe's own
+      // getCroppedBoundsByElement assumes object-fit:cover and would start
+      // the morph at the wrong zoom. bounds.w = MAP_W ⇒ start zoom level 1,
+      // pixel-matching the background; innerRect carries the visible crop.
+      pswp.addFilter('thumbBounds', () => {
+        const r = map.getBoundingClientRect();
+        const offsetX = (r.width  - MAP_W) / 2;
+        const offsetY = (r.height - MAP_H) / 2;
+        return {
+          x: r.left + offsetX,
+          y: r.top  + offsetY,
+          w: MAP_W,
+          innerRect: { w: r.width, h: r.height, x: offsetX, y: offsetY },
+        };
+      });
+
       attachPswpTheme(pswp);
+
+      // Fade the hero's dark overlay + text away as the morph grows and back
+      // in as it collapses, so only the map itself appears to travel.
+      if (!reduce) {
+        pswp.on('beforeOpen', () => map.classList.add('is-zooming'));
+        pswp.on('close',      () => map.classList.remove('is-zooming'));
+      }
+
       pswp.init();
     });
   }
