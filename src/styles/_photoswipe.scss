@@ -1,4 +1,5 @@
 @use 'variables' as *;
+@use 'mixins' as *;
 
 // The backdrop image and the --pswp-bg veil alpha are set inline per-instance
 // in main.js (attachPswpTheme): the library ships its own `.pswp{--pswp-bg:#000}`
@@ -22,4 +23,27 @@
 .pswp__counter {
     font-size: 13px;
     letter-spacing: 0.06em;
+}
+
+// Lightbox caption (gallery): mirrors the on-image banner captions. Bottom
+// overlay readable over both the photo and the dark backdrop; pointer-events
+// off so a tap still passes through to close. JS hides it on captionless slides.
+.pswp__custom-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    padding: 56px 24px 22px;
+    background: linear-gradient(to top, rgba(8, 10, 7, 0.7), transparent);
+    color: $color-text-light;
+    font-family: $font-display;
+    font-size: 18px;
+    line-height: 1.3;
+    text-align: center;
+    pointer-events: none;
+
+    @include up($bp-sm) {
+        font-size: 24px;
+    }
 }

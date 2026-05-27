@@ -445,11 +445,14 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
     const dataSource = imgEls.map(img => {
       // Prefer webp source if the browser resolved it
       const src = img.currentSrc || img.src;
+      // Carry the on-image banner caption (only the few banner photos have one).
+      const captionEl = img.closest('.masonry-item_type_image')?.querySelector('.masonry-item__banner-caption');
       return {
         src,
         width:  parseInt(img.getAttribute('width'),  10) || img.naturalWidth  || 1200,
         height: parseInt(img.getAttribute('height'), 10) || img.naturalHeight || 900,
         alt: img.alt,
+        caption: captionEl ? captionEl.textContent.trim() : '',
       };
     });
 
@@ -458,6 +461,26 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
       // (scoped to the gallery — see _photoswipe.scss).
       const pswp = new PhotoSwipe({ dataSource, index, zoom: true, tapAction, mainClass: 'pswp--rounded' });
       attachPswpTheme(pswp);
+
+      // Mirror the on-image banner captions into the lightbox: a bottom overlay
+      // showing the current slide's caption, hidden on slides without one.
+      pswp.on('uiRegister', () => {
+        pswp.ui.registerElement({
+          name: 'custom-caption',
+          appendTo: 'root',
+          onInit: (el) => {
+            el.setAttribute('aria-hidden', 'true');
+            const update = () => {
+              const caption = pswp.currSlide?.data.caption || '';
+              el.textContent = caption;
+              el.style.display = caption ? 'block' : 'none';
+            };
+            pswp.on('change', update);
+            update();
+          },
+        });
+      });
+
       pswp.init();
     };
 
