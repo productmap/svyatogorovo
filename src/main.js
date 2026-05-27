@@ -388,20 +388,37 @@ if (themeMeta) {
 // ─── Lightbox (PhotoSwipe v5) ─────────────────────────────────────────────────
 
 import('photoswipe').then(({ default: PhotoSwipe }) => {
-  // Theme hooks shared by every lightbox instance: snapshot the topo canvas
-  // into the PhotoSwipe backdrop and lock theme-color dark while open.
-  function attachPswpTheme(pswp) {
+  // Theme hooks shared by every lightbox instance: paint a backdrop and lock
+  // theme-color dark while open. By default the backdrop is a snapshot of the
+  // topo canvas; `opts.backdrop` overrides it with a static image (the hero
+  // background for the map lightbox, so the zoom lands on the same scene as
+  // the cropped card), and `opts.dim` overrides the --pswp-bg veil.
+  function attachPswpTheme(pswp, opts = {}) {
     pswp.on('beforeOpen', () => {
       themePswpLock = true;
       setTheme(THEME.pswp);
-      const topoEl = document.getElementById('topo-canvas');
-      if (topoEl) {
-        try {
-          pswp.element.style.backgroundImage = `url(${topoEl.toDataURL()})`;
-          pswp.element.style.backgroundSize  = 'cover';
-          pswp.element.style.backgroundPosition = 'center top';
-        } catch (e) { /* tainted canvas — skip */ }
+    });
+
+    // Paint the backdrop on `firstUpdate`: it is the first hook after
+    // `pswp.element` exists (`beforeOpen` fires before _createMainStructure),
+    // yet still runs before the opening animation, so the backdrop is in
+    // place from the first frame.
+    pswp.on('firstUpdate', () => {
+      let url = opts.backdrop;
+      let position = 'center center';
+      if (!url) {
+        const topoEl = document.getElementById('topo-canvas');
+        if (topoEl) {
+          try { url = topoEl.toDataURL(); position = 'center top'; }
+          catch (e) { /* tainted canvas — skip */ }
+        }
       }
+      if (url) {
+        pswp.element.style.backgroundImage = `url(${url})`;
+        pswp.element.style.backgroundSize  = 'cover';
+        pswp.element.style.backgroundPosition = position;
+      }
+      if (opts.dim) pswp.element.style.setProperty('--pswp-bg', opts.dim);
     });
 
     // `close` fires when the close animation begins — release the theme
@@ -480,7 +497,9 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
         };
       });
 
-      attachPswpTheme(pswp);
+      // Backdrop = the hero's own background, so the zoomed map sits on the
+      // same scene as the cropped card (not the topo snapshot used elsewhere).
+      attachPswpTheme(pswp, { backdrop: '/images/bg-1.webp', dim: 'rgba(8, 10, 7, 0.2)' });
 
       // Fade the hero's dark overlay + text away as the morph grows and back
       // in as it collapses, so only the map itself appears to travel.
