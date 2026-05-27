@@ -418,7 +418,11 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
         pswp.element.style.backgroundSize  = 'cover';
         pswp.element.style.backgroundPosition = position;
       }
-      if (opts.dim) pswp.element.style.setProperty('--pswp-bg', opts.dim);
+      // Set the veil alpha inline (default for the topo gallery, lighter for
+      // the map). The library ships its own `.pswp { --pswp-bg: #000 }` which
+      // is bundled after our stylesheet and wins the cascade, so a static
+      // override would lose — an inline style is the only reliable winner.
+      pswp.element.style.setProperty('--pswp-bg', opts.dim || 'rgba(8, 10, 7, 0.4)');
     });
 
     // `close` fires when the close animation begins — release the theme

@@ -1,9 +1,9 @@
 @use 'variables' as *;
 
-// Root: holds the topo snapshot as background-image (set via JS on open).
-// pswp__bg sits on top at 91% opacity so the topo lines bleed through subtly.
+// The backdrop image and the --pswp-bg veil alpha are set inline per-instance
+// in main.js (attachPswpTheme): the library ships its own `.pswp{--pswp-bg:#000}`
+// bundled after this file, so a static override here would lose the cascade.
 .pswp {
-    --pswp-bg: rgba(8, 10, 7, 0.4);
     background-size: cover;
     background-position: center top;
 }
