@@ -433,6 +433,19 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
     });
   }
 
+  // On touch every tap routes through `tapAction` (default 'toggle-controls'),
+  // so a tap outside the photo hid the chrome instead of closing — unlike the
+  // mouse path, where `bgClickAction` closes. Restore the expected behaviour:
+  // a tap on the photo still toggles the controls, a tap on the backdrop closes.
+  // Invoked as fn.call(pswp, …), so `this` is the PhotoSwipe instance.
+  function tapAction(point, originalEvent) {
+    if (originalEvent.target.classList.contains('pswp__img')) {
+      this.element?.classList.toggle('pswp--ui-visible');
+    } else {
+      this.close();
+    }
+  }
+
   // Masonry photo gallery — swipeable set of all `.masonry-item_type_image`.
   const imgEls = [...document.querySelectorAll('.masonry-item_type_image img.masonry-item__image')];
   if (imgEls.length) {
@@ -448,7 +461,7 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
     });
 
     const openAt = (index) => {
-      const pswp = new PhotoSwipe({ dataSource, index, zoom: true });
+      const pswp = new PhotoSwipe({ dataSource, index, zoom: true, tapAction });
       attachPswpTheme(pswp);
       pswp.init();
     };
@@ -480,6 +493,7 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
         index: 0,
         zoom: true,
         showHideAnimationType: reduce ? 'none' : 'zoom',
+        tapAction,
       });
 
       // Morph open/close out of the hero card's center crop so it reads as
