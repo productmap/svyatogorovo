@@ -8,6 +8,13 @@
     background-position: center top;
 }
 
+// Gallery only (mainClass on its instance): round the photo to echo the page's
+// card corners. Visible at fit zoom; the corners leave the viewport once zoomed
+// in. Scoped so it never touches the map lightbox or its morph from the card.
+.pswp--rounded .pswp__img {
+    border-radius: 12px;
+}
+
 .pswp__top-bar {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
 }

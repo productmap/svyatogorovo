@@ -454,7 +454,9 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
     });
 
     const openAt = (index) => {
-      const pswp = new PhotoSwipe({ dataSource, index, zoom: true, tapAction });
+      // `pswp--rounded` rounds the photo to echo the page's card corners
+      // (scoped to the gallery — see _photoswipe.scss).
+      const pswp = new PhotoSwipe({ dataSource, index, zoom: true, tapAction, mainClass: 'pswp--rounded' });
       attachPswpTheme(pswp);
       pswp.init();
     };
