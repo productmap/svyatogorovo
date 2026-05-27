@@ -388,11 +388,11 @@ if (themeMeta) {
 // ─── Lightbox (PhotoSwipe v5) ─────────────────────────────────────────────────
 
 import('photoswipe').then(({ default: PhotoSwipe }) => {
-  // Theme hooks shared by every lightbox instance: paint a backdrop and lock
-  // theme-color dark while open. By default the backdrop is a snapshot of the
-  // topo canvas; `opts.backdrop` overrides it with a static image (the hero
-  // background for the map lightbox, so the zoom lands on the same scene as
-  // the cropped card), and `opts.dim` overrides the --pswp-bg veil.
+  // Theme hooks shared by every lightbox instance: lock the dark theme-color
+  // while open and paint the backdrop. `opts.backdrop` sets a cover image (the
+  // map lightbox rides on the hero background, so the zoom lands on the same
+  // scene as the cropped card); without it the backdrop is just the near-opaque
+  // --pswp-bg veil. `opts.dim` overrides that veil alpha.
   function attachPswpTheme(pswp, opts = {}) {
     pswp.on('beforeOpen', () => {
       themePswpLock = true;
@@ -404,25 +404,18 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
     // yet still runs before the opening animation, so the backdrop is in
     // place from the first frame.
     pswp.on('firstUpdate', () => {
-      let url = opts.backdrop;
-      let position = 'center center';
-      if (!url) {
-        const topoEl = document.getElementById('topo-canvas');
-        if (topoEl) {
-          try { url = topoEl.toDataURL(); position = 'center top'; }
-          catch (e) { /* tainted canvas — skip */ }
-        }
-      }
-      if (url) {
-        pswp.element.style.backgroundImage = `url(${url})`;
+      if (opts.backdrop) {
+        pswp.element.style.backgroundImage = `url(${opts.backdrop})`;
         pswp.element.style.backgroundSize  = 'cover';
-        pswp.element.style.backgroundPosition = position;
+        pswp.element.style.backgroundPosition = 'center center';
       }
-      // Set the veil alpha inline (default for the topo gallery, lighter for
-      // the map). The library ships its own `.pswp { --pswp-bg: #000 }` which
-      // is bundled after our stylesheet and wins the cascade, so a static
-      // override would lose — an inline style is the only reliable winner.
-      pswp.element.style.setProperty('--pswp-bg', opts.dim || 'rgba(8, 10, 7, 0.4)');
+      // Veil alpha set inline — the library's own `.pswp { --pswp-bg: #000 }`
+      // is bundled after our stylesheet and would win the cascade. With no
+      // backdrop image (the gallery) the veil IS the backdrop, so it's fully
+      // opaque dark: a topo snapshot here read as a second contour layer over
+      // the page's own topo background showing through the translucent veil.
+      // The map rides on its opaque bg-1 image instead, at a lighter veil.
+      pswp.element.style.setProperty('--pswp-bg', opts.dim || 'rgba(8, 10, 7, 1)');
     });
 
     // `close` fires when the close animation begins — release the theme
