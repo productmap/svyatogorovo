@@ -135,10 +135,15 @@
     -webkit-backdrop-filter: blur(6px);
     pointer-events: none; // prevent global `button:hover { opacity: .95 }` from reviving hidden button
 
-    img {
-        filter: invert(1);
-        width: 18px;
-        height: auto;
+    // Inline <svg> (not <img>): the build's img→svg inliner strips the tag
+    // the `filter: invert()` hack relied on, so the icon carries its own
+    // light colour via currentColor instead. A folded-map glyph — the top of
+    // the page is the hero map, so "back to top" reads as "back to the map".
+    &__icon {
+        flex: none; // keep the square glyph from being shrunk by the flex centre
+        width: 22px;
+        height: 22px;
+        color: $color-text-light;
     }
 
     &.is-visible {
