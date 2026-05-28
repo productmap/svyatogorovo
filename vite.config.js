@@ -65,7 +65,12 @@ function inlineSvgPlugin() {
 export default defineConfig({
   base: '/',
   plugins: [
+    // includePublic:false — don't re-compress public/images during the build.
+    // Those are already optimized at source by Tinify (scripts/optimize-images.js);
+    // a second q75 pass in dist would only degrade them. The quality options
+    // still apply to any image that gets imported/bundled (none currently).
     ViteImageOptimizer({
+      includePublic: false,
       jpg: { quality: 75 },
       jpeg: { quality: 75 },
       webp: { quality: 75 },

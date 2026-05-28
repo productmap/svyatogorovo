@@ -1,20 +1,20 @@
 // Compresses source photos in public/images/ through TinyPNG / Tinify
-// (https://tinify.com) — usually beats sharp / editor exports on jpg & png.
-// Overwrites each file in place with the smaller result (skips if not smaller).
+// (https://tinify.com) — usually beats sharp / editor exports. Handles jpg, png
+// and webp (Tinify preserves the input format). Overwrites each file in place
+// with the smaller result (skips if not smaller).
 //
 // By default only images changed vs git HEAD (plus untracked) are sent, to
-// spare the monthly Tinify quota. Pass --all for every jpg/png, or pass paths.
+// spare the monthly Tinify quota. Pass --all for everything, or pass paths.
 //
 // Needs an API key in .env (gitignored — never commit it):
 //   TINIFY_API_KEY=your_key
 //
-// Usage:
-//   node scripts/optimize-images.js                       # changed images only
-//   node scripts/optimize-images.js --all                 # every jpg/png
-//   node scripts/optimize-images.js public/images/x.jpg   # specific files
+// Slots into the image workflow (after editing a photo):
+//   node scripts/gen-webp.js          # (re)create the webp from the jpg (sharp)
+//   node scripts/optimize-images.js   # ← Tinify-compress the changed jpg + webp
+//   node scripts/sync-img-dims.js     # sync width/height
 //
-// Afterwards run the rest of the image workflow:
-//   node scripts/gen-webp.js && node scripts/sync-img-dims.js
+// Flags: --all (every jpg/png/webp) · paths (specific files).
 
 import { readFile, writeFile, stat, readdir } from 'fs/promises';
 import { existsSync, readFileSync } from 'fs';
@@ -23,7 +23,7 @@ import { join } from 'path';
 import tinify from 'tinify';
 
 const IMAGES_DIR = 'public/images';
-const isImg = (f) => /\.(jpe?g|png)$/i.test(f);
+const isImg = (f) => /\.(jpe?g|png|webp)$/i.test(f);
 
 // Pull the key from .env if the shell didn't export it, so a plain
 // `node scripts/optimize-images.js` works without an --env-file flag.
@@ -87,4 +87,4 @@ for (const path of targets) {
 
 const used = typeof tinify.compressionCount === 'number' ? tinify.compressionCount : '?';
 console.log(`\nDone ${done}/${targets.length}. Saved ${(savedBytes / 1024) | 0}KB. Tinify compressions used this month: ${used}.`);
-console.log('Next: node scripts/gen-webp.js && node scripts/sync-img-dims.js');
+console.log('Next: node scripts/sync-img-dims.js');
