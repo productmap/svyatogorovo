@@ -172,6 +172,11 @@ body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl,
     img,
     .masonry-item__image {
         transition: transform 0.5s ease;
+        // Keep the photo on its own compositor layer so the end of the
+        // zoom-out doesn't pixel-snap — at `scale(1)` the browser would
+        // otherwise drop the layer and re-rasterize, producing the visible
+        // one-frame jitter.
+        will-change: transform;
     }
 
     &:hover img,
