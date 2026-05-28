@@ -20,6 +20,16 @@
     border-radius: 0; // fallback only; JS sets the real value inline per frame
 }
 
+// Hide the placeholder <img> once the open morph has settled: PhotoSwipe
+// leaves it overlapping the main <img> at a slightly different sub-pixel
+// position (the two are at different CSS dimensions + transform scales),
+// so the placeholder's bottom edge peeks out behind the main image as a
+// 1–2px strip of the same colour. main.js toggles .pswp--photo-settled at
+// openingAnimationEnd so the artefact is gone the moment the morph stops.
+.pswp--rounded.pswp--photo-settled .pswp__img--placeholder {
+    opacity: 0;
+}
+
 .pswp__top-bar {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
 }

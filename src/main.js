@@ -565,6 +565,12 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
       });
       pswp.on('openingAnimationEnd', () => {
         openSettled = true;
+        // Drop the placeholder <img> the instant the morph finishes — it sits
+        // at a slightly offset sub-pixel position from the main <img> (different
+        // CSS dim + transform-scale) and its bottom edge would otherwise peek
+        // out as a 1–2px strip of the same colour just under the photo. The
+        // CSS rule keyed on this class hides it (see _photoswipe.scss).
+        pswp.element.classList.add('pswp--photo-settled');
         // RAF stays on; it just keeps compensating each element at the settled
         // target (no manual radius poke — that would override the per-element
         // compensation and reintroduce the duplicate-corners artefact).
