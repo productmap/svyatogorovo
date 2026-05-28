@@ -9,10 +9,18 @@
     background-position: center top;
 }
 
-// Gallery only (mainClass on its instance): round the photo to echo the page's
-// card corners. Visible at fit zoom; the corners leave the viewport once zoomed
-// in. Scoped so it never touches the map lightbox or its morph from the card.
+// Gallery only (mainClass on its instance): the photo's corner radius animates
+// from the page card's 8px up to a softer 12px in sync with PhotoSwipe's open
+// morph. PhotoSwipe toggles `pswp--ui-visible` on the root at the start of the
+// open animation (and off at the start of close), so a `transition: border-radius`
+// matched to its showAnimationDuration (333ms) ride the morph: at click the
+// image starts seamless to the card, and unfolds to 12px as it grows to fit.
 .pswp--rounded .pswp__img {
+    border-radius: 8px;
+    transition: border-radius 0.333s cubic-bezier(0.4, 0, 0.22, 1);
+}
+
+.pswp--rounded.pswp--ui-visible .pswp__img {
     border-radius: 12px;
 }
 

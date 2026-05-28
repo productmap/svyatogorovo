@@ -159,10 +159,6 @@ body, h1, h2, h3, h4, h5, h6, p, ul, ol, li, figure, figcaption, blockquote, dl,
     border: none;
     background-color: transparent;
     cursor: zoom-in; // PhotoSwipe click target
-    // Match the lightbox photo's corner radius (see .pswp--rounded .pswp__img,
-    // 12px) so the open/close morph doesn't snap from 8 → 12 at the first
-    // frame. Other masonry cards (text/header) keep the base 8px.
-    border-radius: 12px;
 
     // Photo lying on the paper page, not floating above it: a tight contact
     // shadow only — a few pixels of relief, matching the half-millimeter
