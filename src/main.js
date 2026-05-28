@@ -473,16 +473,19 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
 
       // Mirror the on-image banner captions into the lightbox. The caption
       // lives INSIDE each slide's holder (.pswp__item), so it travels with its
-      // photo during swipes instead of floating over the viewport. Pinned to
-      // the photo's bottom edge at fit zoom (like the on-page banner caption);
-      // hidden once zoomed in, since it sits outside the zooming wrapper.
+      // photo during swipes instead of floating over the viewport. Held back
+      // until the opening animation finishes (and dropped again the moment
+      // closing starts) — otherwise it flashes in at fit-position while the
+      // morph is still growing the photo, leaving a visible gap that picks up
+      // the page through the still-fading .pswp__bg veil.
+      let openSettled = false;
       const placeCaption = (slide) => {
         const holder = slide?.holderElement;
         if (!holder) return;
         let el = holder.querySelector('.pswp__custom-caption');
         const text = slide.data?.caption || '';
         const atFit = Math.abs(slide.currZoomLevel - slide.zoomLevels.initial) < 0.01;
-        if (!text || !atFit) { if (el) el.style.display = 'none'; return; }
+        if (!text || !atFit || !openSettled) { if (el) el.style.display = 'none'; return; }
         if (!el) {
           el = document.createElement('div');
           el.className = 'pswp__custom-caption';
@@ -497,9 +500,12 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
         el.style.bottom = `${(pswp.viewportSize.y - h) / 2}px`;
         el.style.display = 'block';
       };
-      pswp.on('afterSetContent', (e) => placeCaption(e.slide));        // per slide, as content lands
-      pswp.on('zoomPanUpdate', () => placeCaption(pswp.currSlide));     // hide on zoom-in, re-show at fit
-      pswp.on('resize', () => pswp.mainScroll.itemHolders.forEach(h => placeCaption(h.slide)));
+      const placeAll = () => pswp.mainScroll.itemHolders.forEach(h => placeCaption(h.slide));
+      pswp.on('afterSetContent', (e) => placeCaption(e.slide));
+      pswp.on('openingAnimationEnd', () => { openSettled = true;  placeAll(); }); // morph done → show
+      pswp.on('close',               () => { openSettled = false; placeAll(); }); // close starts → hide
+      pswp.on('zoomPanUpdate', () => placeCaption(pswp.currSlide));                // hide on zoom-in / re-show at fit
+      pswp.on('resize', placeAll);
 
       pswp.init();
     };
