@@ -1,5 +1,7 @@
-// Generates missing .webp pairs for every .jpg/.jpeg in public/images/.
-// Idempotent: skips images that already have a .webp neighbour.
+// Generates .webp pairs for every .jpg/.jpeg in public/images/.
+// (Re)generates when the .webp is missing OR older than its .jpg, so editing a
+// source image and re-running this picks up the change — it no longer blindly
+// skips every existing pair.
 //
 // Usage: node scripts/gen-webp.js
 
@@ -20,23 +22,32 @@ let skippedNoGain = 0;
 
 for (const jpg of jpgs) {
     const { name } = parse(jpg);
-    const out = join(IMAGES_DIR, `${name}.webp`);
-    if (existsSync(out)) { skippedExisting++; continue; }
-
     const jpgPath = join(IMAGES_DIR, jpg);
-    const buf = await sharp(jpgPath).webp({ quality: QUALITY }).toBuffer();
-    const jpgSize = (await stat(jpgPath)).size;
+    const out = join(IMAGES_DIR, `${name}.webp`);
+    const existed = existsSync(out);
 
-    // Skip if webp wouldn't save anything — source jpg is already efficient
-    // and a <source type="image/webp"> would actually hurt these visitors.
-    if (buf.length >= jpgSize) {
+    // Skip only if an up-to-date webp already exists (jpg untouched since).
+    if (existed) {
+        const [j, w] = await Promise.all([stat(jpgPath), stat(out)]);
+        if (w.mtimeMs >= j.mtimeMs) { skippedExisting++; continue; }
+    }
+
+    const jpgSize = (await stat(jpgPath)).size;
+    const buf = await sharp(jpgPath).webp({ quality: QUALITY }).toBuffer();
+
+    // Refuse only to *create* a brand-new webp that wouldn't save anything (no
+    // point adding a <source>). An existing pair is always refreshed in place —
+    // the markup may reference it (removing it would break <picture>), and the
+    // build re-encodes both at q75 anyway.
+    if (!existed && buf.length >= jpgSize) {
         console.log(`✗ ${name}.webp — bigger than jpg (${buf.length} vs ${jpgSize}), skipped`);
         skippedNoGain++;
         continue;
     }
 
     await writeFile(out, buf);
-    console.log(`✓ ${name}.webp  (-${Math.round((jpgSize - buf.length) * 100 / jpgSize)}%)`);
+    const pct = Math.round((jpgSize - buf.length) * 100 / jpgSize);
+    console.log(`${pct >= 0 ? '✓' : '•'} ${name}.webp  (${pct >= 0 ? '-' : '+'}${Math.abs(pct)}%${existed ? ', refreshed' : ''})`);
     generated++;
 }
 
