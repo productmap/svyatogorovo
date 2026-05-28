@@ -502,9 +502,23 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
       };
       const placeAll = () => pswp.mainScroll.itemHolders.forEach(h => placeCaption(h.slide));
       pswp.on('afterSetContent', (e) => placeCaption(e.slide));
-      pswp.on('openingAnimationEnd', () => { openSettled = true;  placeAll(); }); // morph done → show
-      pswp.on('close',               () => { openSettled = false; placeAll(); }); // close starts → hide
-      pswp.on('zoomPanUpdate', () => placeCaption(pswp.currSlide));                // hide on zoom-in / re-show at fit
+      pswp.on('openingAnimationEnd', () => {
+        openSettled = true;
+        // Fade the photo's rounded corners in only after the morph has
+        // finished — see the .pswp--settled rule in _photoswipe.scss.
+        pswp.element.classList.add('pswp--settled');
+        placeAll();
+      });
+      pswp.on('close', () => {
+        openSettled = false;
+        // Snap the corners back to 0 instantly before the closing morph runs,
+        // so the radius never animates while the photo is being transform-scaled
+        // (which would visually balloon any non-zero corner).
+        pswp.element.classList.add('pswp--rounding-snap');
+        pswp.element.classList.remove('pswp--settled');
+        placeAll();
+      });
+      pswp.on('zoomPanUpdate', () => placeCaption(pswp.currSlide)); // hide on zoom-in / re-show at fit
       pswp.on('resize', placeAll);
 
       pswp.init();

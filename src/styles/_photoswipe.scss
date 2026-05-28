@@ -9,15 +9,25 @@
     background-position: center top;
 }
 
-// Gallery only (mainClass on its instance): match the page card's 8px
-// exactly. Animating the radius across the open morph just amplifies a
-// PhotoSwipe quirk — during the morph it keeps <img> at thumb-sized CSS
-// dimensions while parent transform scales it up, so any non-zero
-// border-radius momentarily balloons (a 12px corner can read ~50px in the
-// middle of the morph), then snaps back when CSS dims settle. Keeping one
-// static, matching value avoids both the snap and the flash.
+// Gallery only (mainClass on its instance). The photo's corners are kept
+// at 0 during the open/close morph and only appear after it settles,
+// because PhotoSwipe keeps <img> at thumb-sized CSS dimensions while a
+// parent transform scales it up — any non-zero border-radius then balloons
+// visually mid-morph (a clean 8px CSS corner can read 30+px on screen).
+// Toggling .pswp--settled at openingAnimationEnd fades the radius in to
+// 8px (matching the page card); .pswp--rounding-snap kills the transition
+// on close so the radius snaps to 0 before the closing morph runs.
 .pswp--rounded .pswp__img {
+    border-radius: 0;
+    transition: border-radius 0.18s ease-out;
+}
+
+.pswp--rounded.pswp--settled .pswp__img {
     border-radius: 8px;
+}
+
+.pswp--rounded.pswp--rounding-snap .pswp__img {
+    transition: none;
 }
 
 .pswp__top-bar {
