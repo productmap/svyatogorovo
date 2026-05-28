@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 1200" role="img" aria-label="T2: Стела маршрута Тропа Сергия Радонежского">
+  <title>T2 — Стела маршрута «Тропа Сергия Радонежского»</title>
+  <desc>Маркер начала / финиша Святогоровского отрезка тропы. Двусторонняя, на одной опоре. Размер реального знака — 600×1200 мм (соответствует viewBox).</desc>
+
+  <defs>
+    <!-- Embedded pictogram #38 (without its brown background — will use the stela's) -->
+    <g id="pict-38" fill="#fff">
+      <rect x="370" y="100" width="22" height="720" rx="11"/>
+      <circle cx="285" cy="225" r="72"/>
+      <path d="M 230 315 L 350 305 L 390 520 L 200 520 Z"/>
+      <rect x="135" y="345" width="100" height="180" rx="18"/>
+      <rect x="190" y="320" width="45" height="40" rx="10"/>
+      <path d="M 335 330 Q 365 320 385 330 L 395 380 Q 355 380 330 380 Z"/>
+      <path d="M 255 520 L 220 760 L 285 770 L 320 535 Z"/>
+      <ellipse cx="245" cy="785" rx="55" ry="22"/>
+      <path d="M 320 520 L 380 720 L 440 720 L 360 525 Z"/>
+      <ellipse cx="415" cy="740" rx="55" ry="22"/>
+      <circle cx="490" cy="700" r="18"/>
+      <circle cx="560" cy="640" r="18"/>
+      <circle cx="625" cy="570" r="18"/>
+      <circle cx="685" cy="495" r="18"/>
+      <circle cx="740" cy="420" r="18"/>
+      <circle cx="785" cy="345" r="18"/>
+      <rect x="815" y="180" width="18" height="200" rx="6"/>
+      <path d="M 833 180 L 940 215 L 833 250 Z"/>
+    </g>
+  </defs>
+
+  <!-- Stela background (rounded brown rectangle) -->
+  <rect width="600" height="1200" rx="40" fill="#714A07"/>
+
+  <!-- Pictogram #38 centered in upper half (scaled from 1000-unit pictogram to 480px) -->
+  <g transform="translate(60 80) scale(0.48)">
+    <use href="#pict-38"/>
+  </g>
+
+  <!-- Horizontal divider -->
+  <line x1="80" y1="640" x2="520" y2="640" stroke="#fff" stroke-width="4"/>
+
+  <!-- Russian name (Bold Condensed, two lines) -->
+  <text x="300" y="730" fill="#fff"
+        font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+        font-weight="700" font-size="64" font-stretch="condensed" text-anchor="middle">ТРОПА СЕРГИЯ</text>
+  <text x="300" y="805" fill="#fff"
+        font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+        font-weight="700" font-size="64" font-stretch="condensed" text-anchor="middle">РАДОНЕЖСКОГО</text>
+
+  <!-- English name (Regular Condensed) -->
+  <text x="300" y="880" fill="#fff" opacity="0.85"
+        font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+        font-weight="400" font-size="46" font-stretch="condensed" text-anchor="middle">SAINT SERGIUS TRAIL</text>
+
+  <!-- QR placeholder (right corner) -->
+  <rect x="430" y="980" width="120" height="120" fill="#fff" rx="6"/>
+  <!-- QR mock pattern -->
+  <g fill="#714A07">
+    <rect x="445" y="995" width="30" height="30"/>
+    <rect x="505" y="995" width="30" height="30"/>
+    <rect x="445" y="1055" width="30" height="30"/>
+    <rect x="495" y="1045" width="10" height="10"/>
+    <rect x="515" y="1055" width="10" height="10"/>
+    <rect x="495" y="1075" width="10" height="10"/>
+    <rect x="525" y="1075" width="10" height="10"/>
+  </g>
+
+  <!-- Phase 1 segment marker -->
+  <text x="50" y="1080" fill="#fff" opacity="0.6"
+        font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+        font-size="20" font-weight="700">СВЯТОГОРОВО</text>
+  <text x="50" y="1110" fill="#fff" opacity="0.6"
+        font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+        font-size="16">отрезок · фаза 1</text>
+
+  <!-- Draft label (very small) -->
+  <text x="40" y="1175" fill="#fff" opacity="0.35" font-size="11" font-family="sans-serif">T2 · STELA · DRAFT v0.1</text>
+</svg>

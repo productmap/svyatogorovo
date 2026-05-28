@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-label="Пиктограмма #45: Природная достопримечательность">
+  <title>Природная достопримечательность / Natural landmark</title>
+  <desc>По Методичке стр. 38: многолепестковый цветок — символ комплексности и взаимосвязи проявлений природы.</desc>
+
+  <!-- Brown rounded background -->
+  <rect width="1000" height="1000" rx="80" fill="#714A07"/>
+
+  <!-- Multi-petal flower (8 petals, evenly distributed) -->
+  <g fill="#fff" transform="translate(500 500)">
+    <!-- Each petal is an ellipse rotated around center.
+         8 petals at 45° intervals. Petal: ellipse centered 180 px from center,
+         oriented along radius. -->
+    <g>
+      <ellipse cx="0" cy="-220" rx="80" ry="180"/>
+    </g>
+    <g transform="rotate(45)">
+      <ellipse cx="0" cy="-220" rx="80" ry="180"/>
+    </g>
+    <g transform="rotate(90)">
+      <ellipse cx="0" cy="-220" rx="80" ry="180"/>
+    </g>
+    <g transform="rotate(135)">
+      <ellipse cx="0" cy="-220" rx="80" ry="180"/>
+    </g>
+    <g transform="rotate(180)">
+      <ellipse cx="0" cy="-220" rx="80" ry="180"/>
+    </g>
+    <g transform="rotate(225)">
+      <ellipse cx="0" cy="-220" rx="80" ry="180"/>
+    </g>
+    <g transform="rotate(270)">
+      <ellipse cx="0" cy="-220" rx="80" ry="180"/>
+    </g>
+    <g transform="rotate(315)">
+      <ellipse cx="0" cy="-220" rx="80" ry="180"/>
+    </g>
+    <!-- Center disc -->
+    <circle cx="0" cy="0" r="90" fill="#714A07"/>
+    <circle cx="0" cy="0" r="60"/>
+  </g>
+</svg>

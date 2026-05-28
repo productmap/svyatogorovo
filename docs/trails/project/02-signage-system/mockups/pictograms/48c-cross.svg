@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-label="Пиктограмма #48 вариант 3: Православный религиозный объект (локальный, место паломничества)">
+  <title>Религиозный объект / Religious monument (локальный — место паломничества, поклонный крест)</title>
+  <desc>По Методичке стр. 39: стилизованное изображение православного креста на постаменте. Используется для Поклонного креста в Святогорово.</desc>
+
+  <!-- Brown rounded background -->
+  <rect width="1000" height="1000" rx="80" fill="#714A07"/>
+
+  <g fill="#fff">
+    <!-- Pedestal (trapezoidal, wider at base) -->
+    <path d="M 270 820 L 730 820 L 685 720 L 315 720 Z"/>
+
+    <!-- Cross vertical post -->
+    <rect x="475" y="180" width="50" height="540"/>
+
+    <!-- Top crossbar (titulus — small) -->
+    <rect x="425" y="230" width="150" height="30"/>
+
+    <!-- Middle crossbar (main, wide arms) -->
+    <rect x="335" y="330" width="330" height="50"/>
+
+    <!-- Bottom crossbar (slanted, Russian Orthodox cross) -->
+    <path d="M 360 510 L 640 480 L 640 530 L 360 560 Z"/>
+  </g>
+</svg>

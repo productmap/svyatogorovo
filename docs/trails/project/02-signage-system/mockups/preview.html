@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Макеты знаков — Тропа Сергия Радонежского</title>
+  <style>
+    :root {
+      --brown: #714A07;
+      --bg: #f5efe6;
+      --paper: #fffdf7;
+      --ink: #2a2417;
+      --muted: #8a7e6a;
+      --line: #d8cfbc;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+      line-height: 1.5;
+    }
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 32px 96px;
+    }
+    header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 32px;
+      margin-bottom: 48px;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: var(--brown);
+    }
+    h2 {
+      font-size: 22px;
+      font-weight: 700;
+      margin: 64px 0 8px;
+      color: var(--ink);
+    }
+    h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 32px 0 6px;
+      color: var(--ink);
+    }
+    p { margin: 0 0 12px; color: var(--ink); }
+    .lede { color: var(--muted); max-width: 70ch; }
+    code {
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+      font-size: 0.9em;
+      background: var(--paper);
+      padding: 1px 6px;
+      border-radius: 3px;
+      border: 1px solid var(--line);
+    }
+    section { margin-bottom: 56px; }
+    .section-note { color: var(--muted); font-size: 14px; max-width: 70ch; margin-bottom: 24px; }
+
+    /* Pictogram grid */
+    .pict-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 24px;
+      margin-top: 24px;
+    }
+    .pict {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    .pict img {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+      border-radius: 6px;
+    }
+    .pict .num { font-size: 12px; color: var(--brown); font-weight: 700; letter-spacing: 0.04em; margin: 12px 0 4px; }
+    .pict .name { font-size: 13px; color: var(--ink); line-height: 1.3; }
+    .pict .en { font-size: 11px; color: var(--muted); font-style: italic; margin-top: 2px; }
+
+    /* Sign blocks */
+    .sign {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    .sign-meta {
+      display: flex;
+      gap: 16px;
+      align-items: baseline;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .sign-meta .badge {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      background: var(--brown);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 3px;
+    }
+    .sign-meta .dim {
+      font-size: 13px;
+      color: var(--muted);
+      font-family: ui-monospace, 'SF Mono', Menlo, monospace;
+    }
+    .sign img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      background: #efe9d9;
+      border-radius: 6px;
+    }
+    .sign-desc { color: var(--muted); font-size: 14px; margin-top: 12px; max-width: 80ch; }
+
+    /* T2 specifically — make it narrow */
+    .sign--portrait img { max-width: 320px; }
+    /* T3 — narrow vertical mast */
+    .sign--mast img { max-width: 480px; }
+    /* T4 — landscape plaque */
+    .sign--plaque img { max-width: 640px; }
+    /* T1 — full width */
+    .sign--full img { max-width: 100%; }
+
+    /* Status note */
+    .status {
+      background: #fff4d6;
+      border-left: 4px solid #d8a93b;
+      padding: 12px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      margin: 24px 0;
+      color: #5a4a1a;
+    }
+
+    footer {
+      margin-top: 96px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+      font-size: 13px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Макеты знаков · Тропа преподобного Сергия Радонежского</h1>
+    <p class="lede">Первая итерация SVG-эскизов навигационной системы для деревни Святогорово.
+    Соответствие ГОСТ Р 57581-2017 и Методическому пособию Минкультуры РФ (2013).</p>
+  </header>
+
+  <div class="status">
+    ⚠ <strong>Это рабочий черновик v0.1.</strong> Геометрия близка к образцам Методички
+    (стр. 22-45), но финальные пиктограммы для производства должен отрисовать профессиональный
+    дизайнер. Текущие SVG достаточны для эскизного проекта, разговора с настоятелем и базы
+    дальнейшей итерации.
+  </div>
+
+  <!-- ─────────── Pictograms ─────────── -->
+  <section>
+    <h2>Пиктограммы</h2>
+    <p class="section-note">
+      Многоразовые блоки, используемые в композициях знаков. Каждая пиктограмма — отдельный
+      SVG в папке <code>pictograms/</code>, viewBox 1000×1000. Соответствуют графическим
+      образцам Методички (раздел 3.5).
+    </p>
+
+    <div class="pict-grid">
+      <div class="pict">
+        <img src="pictograms/38-tourist-trail.svg" alt="">
+        <div class="num">#38</div>
+        <div class="name">Пешеходный туристский маршрут</div>
+        <div class="en">Tourist trail</div>
+      </div>
+      <div class="pict">
+        <img src="pictograms/48c-cross.svg" alt="">
+        <div class="num">#48 (c)</div>
+        <div class="name">Поклонный крест, место паломничества</div>
+        <div class="en">Religious monument (local)</div>
+      </div>
+      <div class="pict">
+        <img src="pictograms/48b-church.svg" alt="">
+        <div class="num">#48 (b)</div>
+        <div class="name">Православная церковь / часовня</div>
+        <div class="en">Religious monument (chapel)</div>
+      </div>
+      <div class="pict">
+        <img src="pictograms/48a-cathedral.svg" alt="">
+        <div class="num">#48 (a)</div>
+        <div class="name">Православный собор / монастырь</div>
+        <div class="en">Religious monument (cathedral)</div>
+      </div>
+      <div class="pict">
+        <img src="pictograms/28-tic.svg" alt="">
+        <div class="num">#28</div>
+        <div class="name">Туристско-информационный центр</div>
+        <div class="en">Tourist Information Centre</div>
+      </div>
+      <div class="pict">
+        <img src="pictograms/47-viewpoint.svg" alt="">
+        <div class="num">#47</div>
+        <div class="name">Панорамный вид</div>
+        <div class="en">View point</div>
+      </div>
+      <div class="pict">
+        <img src="pictograms/45-natural-landmark.svg" alt="">
+        <div class="num">#45</div>
+        <div class="name">Природная достопримечательность</div>
+        <div class="en">Natural landmark</div>
+      </div>
+      <div class="pict">
+        <img src="pictograms/9-rest-area.svg" alt="">
+        <div class="num">#9</div>
+        <div class="name">Место отдыха</div>
+        <div class="en">Rest area</div>
+      </div>
+      <div class="pict">
+        <img src="pictograms/12-country-inn.svg" alt="">
+        <div class="num">#12</div>
+        <div class="name">Загородная гостиница / гостевой дом</div>
+        <div class="en">Country inn</div>
+      </div>
+      <div class="pict">
+        <img src="pictograms/arrow.svg" alt="">
+        <div class="num">служебная</div>
+        <div class="name">Стрелка направления</div>
+        <div class="en">Direction arrow</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── Signs ─────────── -->
+  <section>
+    <h2>Композитные знаки</h2>
+    <p class="section-note">
+      Полные макеты знаков типа T1-T4 — собранные из пиктограмм с текстовыми блоками,
+      QR-кодами и служебными элементами. Каждый знак самодостаточен (пиктограммы инлайн),
+      без внешних зависимостей.
+    </p>
+
+    <!-- T1 -->
+    <div class="sign sign--full">
+      <div class="sign-meta">
+        <span class="badge">T1</span>
+        <h3 style="margin: 0;">Главный въездной стенд</h3>
+        <span class="dim">2000 × 1500 мм</span>
+      </div>
+      <img src="signs/T1-entry-stand.svg" alt="T1 entry stand">
+      <p class="sign-desc">
+        Точка входа в маршрут. Устанавливается у въезда в деревню или у ближайшей парковки.
+        Содержит схематическую карту, реестр объектов с пиктограммами и расстояниями, контакты
+        и QR на лендинг. В правом верхнем углу — пиктограмма ТИЦ (стенд выполняет роль
+        туристско-информационного центра).
+      </p>
+    </div>
+
+    <!-- T2 -->
+    <div class="sign sign--portrait">
+      <div class="sign-meta">
+        <span class="badge">T2</span>
+        <h3 style="margin: 0;">Стела маршрута</h3>
+        <span class="dim">600 × 1200 мм</span>
+      </div>
+      <img src="signs/T2-stela.svg" alt="T2 stela">
+      <p class="sign-desc">
+        Маркер начала / финиша Святогоровского отрезка. Двусторонняя, на одной опоре,
+        читается с обеих сторон тропы. Главная пиктограмма #38 — крупно. Маркер «фазы 1»
+        в нижнем углу — задел на расширение к Дмитрову и Лавре.
+      </p>
+    </div>
+
+    <!-- T3 -->
+    <div class="sign sign--mast">
+      <div class="sign-meta">
+        <span class="badge">T3</span>
+        <h3 style="margin: 0;">Указатели направления (типовой узел из 3 панелей)</h3>
+        <span class="dim">800 × 220 мм / панель</span>
+      </div>
+      <img src="signs/T3-indicator.svg" alt="T3 indicator mast">
+      <p class="sign-desc">
+        На развилке. Три типичные панели на одной мачте: верхняя — к Поклонному кресту,
+        средняя — к Часовне, нижняя (другое направление) — к Гостевому дому. Каждая панель
+        самостоятельна и снимается / меняется независимо.
+      </p>
+    </div>
+
+    <!-- T4 -->
+    <div class="sign sign--plaque">
+      <div class="sign-meta">
+        <span class="badge">T4</span>
+        <h3 style="margin: 0;">Интерпретационная табличка (пример: Поклонный крест)</h3>
+        <span class="dim">800 × 600 мм</span>
+      </div>
+      <img src="signs/T4-plaque.svg" alt="T4 interpretive plaque">
+      <p class="sign-desc">
+        Стоит в 3-5 м от объекта, под наклоном 15-30° (как пюпитр). Текст в нарративе из
+        <code>00-concept/narrative.md</code> — короткий, ёмкий, билингва. Атрибуция и QR
+        внизу. Для остальных объектов меняется только пиктограмма и текстовый блок —
+        конструкция табличек идентичная.
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Что в следующей итерации</h2>
+    <ul style="line-height: 1.8;">
+      <li>Уточнить геометрию пиктограмм по точным образцам Методички (нужен дизайнер с Illustrator).</li>
+      <li>Сделать макеты остальных объектов: T4 для Часовенки и Купели (отличаются пиктограммой и текстом).</li>
+      <li>Добавить макет T5 (знак зоны отдыха) и T6 (указатель к гостевому дому).</li>
+      <li>Подготовить шрифт: либо лицензировать Myriad PRO, либо принять решение об опен-сорс замене (PT Sans Narrow).</li>
+      <li>Подписать настоящие тексты табличек в <code>06-content/sign-texts.md</code>.</li>
+      <li>После полевой работы — наложить макеты на фото мест установки (компьютерные монтажи для пакета согласования).</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>
+      Превью для эскизного проекта · <code>docs/trails/project/02-signage-system/mockups/</code> ·
+      Соответствие ГОСТ Р 57581-2017 и Методическому пособию Минкультуры РФ (2013).
+    </p>
+  </footer>
+
+</div>
+</body>
+</html>

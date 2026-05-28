@@ -1,0 +1,256 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 1500" role="img" aria-label="T1: Главный въездной стенд деревни Святогорово">
+  <title>T1 — Главный въездной стенд «Тропа Сергия Радонежского»</title>
+  <desc>Точка входа в маршрут. Устанавливается у въезда в деревню или у ближайшей парковки. Размер реального знака — 2000×1500 мм. Слева — схема маршрута, справа — реестр объектов с пиктограммами и контакты.</desc>
+
+  <defs>
+    <!-- Pictograms (inlined for self-contained file) -->
+    <g id="pict-cross" fill="#fff">
+      <path d="M 270 820 L 730 820 L 685 720 L 315 720 Z"/>
+      <rect x="475" y="180" width="50" height="540"/>
+      <rect x="425" y="230" width="150" height="30"/>
+      <rect x="335" y="330" width="330" height="50"/>
+      <path d="M 360 510 L 640 480 L 640 530 L 360 560 Z"/>
+    </g>
+
+    <g id="pict-church" fill="#fff">
+      <rect x="488" y="60" width="24" height="200"/>
+      <rect x="445" y="100" width="110" height="22"/>
+      <rect x="455" y="160" width="90" height="20"/>
+      <path d="M 500 260 Q 420 290 410 380 Q 410 460 460 480 L 540 480 Q 590 460 590 380 Q 580 290 500 260 Z"/>
+      <rect x="450" y="480" width="100" height="60"/>
+      <path d="M 320 540 L 500 460 L 680 540 Z"/>
+      <rect x="320" y="540" width="360" height="320"/>
+      <path d="M 460 860 L 460 730 Q 460 700 500 700 Q 540 700 540 730 L 540 860 Z"/>
+      <rect x="360" y="640" width="40" height="80" rx="20"/>
+      <rect x="600" y="640" width="40" height="80" rx="20"/>
+    </g>
+
+    <g id="pict-view" fill="#fff">
+      <circle cx="300" cy="280" r="70"/>
+      <ellipse cx="360" cy="260" rx="38" ry="50"/>
+      <ellipse cx="440" cy="260" rx="38" ry="50"/>
+      <rect x="392" y="248" width="20" height="22"/>
+      <path d="M 360 320 L 405 380 L 380 440 L 320 400 Z"/>
+      <path d="M 440 320 L 480 380 L 455 440 L 405 380 Z"/>
+      <path d="M 240 370 L 360 370 L 390 600 L 210 600 Z"/>
+      <rect x="100" y="660" width="800" height="40" rx="8"/>
+      <rect x="160" y="700" width="22" height="140"/>
+      <rect x="320" y="700" width="22" height="140"/>
+      <rect x="480" y="700" width="22" height="140"/>
+      <rect x="640" y="700" width="22" height="140"/>
+      <rect x="800" y="700" width="22" height="140"/>
+      <rect x="100" y="830" width="800" height="20" rx="6"/>
+    </g>
+
+    <g id="pict-inn" fill="#fff">
+      <path d="M 160 470 L 500 230 L 840 470 Z"/>
+      <rect x="488" y="180" width="24" height="80" rx="6"/>
+      <circle cx="500" cy="180" r="22"/>
+      <rect x="200" y="470" width="600" height="380"/>
+      <ellipse cx="320" cy="640" rx="60" ry="30"/>
+      <circle cx="320" cy="610" r="44"/>
+      <path d="M 280 670 L 660 670 L 680 740 L 280 740 Z"/>
+      <rect x="240" y="740" width="460" height="40" rx="8"/>
+      <rect x="250" y="780" width="22" height="50"/>
+      <rect x="668" y="780" width="22" height="50"/>
+    </g>
+
+    <g id="pict-tic" fill="#fff">
+      <g fill="none" stroke="#fff" stroke-width="40">
+        <circle cx="500" cy="500" r="380"/>
+        <circle cx="500" cy="500" r="280"/>
+        <circle cx="500" cy="500" r="180"/>
+      </g>
+      <circle cx="500" cy="380" r="38"/>
+      <rect x="465" y="450" width="70" height="220" rx="10"/>
+    </g>
+  </defs>
+
+  <!-- Stand background -->
+  <rect width="2000" height="1500" rx="40" fill="#714A07"/>
+
+  <!-- ─────────────── Top: Title bar ─────────────── -->
+  <text x="60" y="120" fill="#fff"
+        font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+        font-weight="700" font-size="84" font-stretch="condensed">ТРОПА ПРЕПОДОБНОГО СЕРГИЯ РАДОНЕЖСКОГО</text>
+  <text x="60" y="180" fill="#fff" opacity="0.85"
+        font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+        font-weight="400" font-size="48" font-stretch="condensed">SAINT SERGIUS OF RADONEZH PILGRIM TRAIL</text>
+
+  <!-- TIC pictogram in top-right corner -->
+  <g transform="translate(1820 30) scale(0.15)">
+    <use href="#pict-tic"/>
+  </g>
+
+  <!-- Divider under title -->
+  <line x1="60" y1="220" x2="1940" y2="220" stroke="#fff" stroke-width="3" opacity="0.6"/>
+
+  <!-- ─────────────── Left half: Schematic map ─────────────── -->
+  <g transform="translate(60 260)">
+    <!-- Map label -->
+    <text x="0" y="40" fill="#fff" opacity="0.7"
+          font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+          font-weight="400" font-size="28" font-stretch="condensed">СХЕМА МАРШРУТА · ROUTE MAP</text>
+
+    <!-- Map background (light area) -->
+    <rect x="0" y="60" width="900" height="850" fill="#fff" opacity="0.08" rx="12"/>
+
+    <!-- North arrow -->
+    <g transform="translate(820 110)">
+      <circle r="32" fill="#fff" opacity="0.12"/>
+      <path d="M 0 -22 L 12 12 L 0 5 L -12 12 Z" fill="#fff"/>
+      <text y="-30" fill="#fff" font-family="sans-serif" font-size="16" font-weight="700" text-anchor="middle">С</text>
+    </g>
+
+    <!-- Trail dashed line (simulating actual route through points) -->
+    <path d="M 80 760 Q 200 600 300 550 T 500 380 Q 600 320 720 240"
+          fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="14 10"/>
+
+    <!-- Trail extension arrow toward Lavra (phase 2) -->
+    <path d="M 720 240 L 800 180" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="14 10" opacity="0.4"/>
+    <text x="730" y="170" fill="#fff" opacity="0.55"
+          font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+          font-size="20" font-style="italic">→ к Лавре · to Lavra</text>
+
+    <!-- Trail start arrow back from Dmitrov (phase 2) -->
+    <path d="M 80 760 L 10 800" fill="none" stroke="#fff" stroke-width="6" stroke-dasharray="14 10" opacity="0.4"/>
+    <text x="20" y="855" fill="#fff" opacity="0.55"
+          font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+          font-size="20" font-style="italic">← из Дмитрова · from Dmitrov</text>
+
+    <!-- Point 1: Start (entry) — circular marker -->
+    <circle cx="80" cy="760" r="14" fill="#fff"/>
+    <circle cx="80" cy="760" r="6" fill="#714A07"/>
+    <text x="105" y="770" fill="#fff"
+          font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+          font-weight="700" font-size="22" font-stretch="condensed">ВЫ ЗДЕСЬ</text>
+
+    <!-- Point 2: Guest house -->
+    <circle cx="200" cy="650" r="12" fill="#fff"/>
+    <text x="220" y="660" fill="#fff"
+          font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+          font-weight="700" font-size="20" font-stretch="condensed">Гостевой дом</text>
+
+    <!-- Point 3: Chapel -->
+    <circle cx="300" cy="550" r="12" fill="#fff"/>
+    <text x="320" y="560" fill="#fff"
+          font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+          font-weight="700" font-size="20" font-stretch="condensed">Часовня свт. Николая</text>
+
+    <!-- Point 4: Cross -->
+    <circle cx="500" cy="380" r="14" fill="#fff"/>
+    <circle cx="500" cy="380" r="6" fill="#714A07"/>
+    <text x="520" y="390" fill="#fff"
+          font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+          font-weight="700" font-size="22" font-stretch="condensed">Поклонный крест</text>
+
+    <!-- Point 5: View point -->
+    <circle cx="720" cy="240" r="12" fill="#fff"/>
+    <text x="555" y="225" fill="#fff"
+          font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+          font-weight="700" font-size="20" font-stretch="condensed">Смотровая площадка</text>
+  </g>
+
+  <!-- ─────────────── Right half: Objects list + contacts ─────────────── -->
+  <g transform="translate(1020 260)">
+    <text x="0" y="40" fill="#fff" opacity="0.7"
+          font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+          font-weight="400" font-size="28" font-stretch="condensed">ОБЪЕКТЫ НА МАРШРУТЕ · POINTS ON THE TRAIL</text>
+
+    <!-- Row 1: Cross -->
+    <g transform="translate(0 80)">
+      <g transform="translate(0 0) scale(0.18)">
+        <use href="#pict-cross"/>
+      </g>
+      <text x="220" y="60" fill="#fff"
+            font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+            font-weight="700" font-size="40" font-stretch="condensed">ПОКЛОННЫЙ КРЕСТ</text>
+      <text x="220" y="100" fill="#fff" opacity="0.75"
+            font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+            font-weight="400" font-size="26" font-stretch="condensed">Holy Cross · 1,2 км</text>
+      <text x="220" y="135" fill="#fff" opacity="0.65"
+            font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+            font-weight="400" font-size="20" font-stretch="condensed" font-style="italic">место молитвенной остановки</text>
+    </g>
+
+    <!-- Row 2: Chapel -->
+    <g transform="translate(0 250)">
+      <g transform="translate(0 0) scale(0.18)">
+        <use href="#pict-church"/>
+      </g>
+      <text x="220" y="60" fill="#fff"
+            font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+            font-weight="700" font-size="40" font-stretch="condensed">ЧАСОВНЯ СВТ. НИКОЛАЯ</text>
+      <text x="220" y="100" fill="#fff" opacity="0.75"
+            font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+            font-weight="400" font-size="26" font-stretch="condensed">Chapel of St Nicholas · 400 м</text>
+      <text x="220" y="135" fill="#fff" opacity="0.65"
+            font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+            font-weight="400" font-size="20" font-stretch="condensed" font-style="italic">покровитель путников</text>
+    </g>
+
+    <!-- Row 3: Viewpoint -->
+    <g transform="translate(0 420)">
+      <g transform="translate(0 0) scale(0.18)">
+        <use href="#pict-view"/>
+      </g>
+      <text x="220" y="60" fill="#fff"
+            font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+            font-weight="700" font-size="40" font-stretch="condensed">СМОТРОВАЯ ПЛОЩАДКА</text>
+      <text x="220" y="100" fill="#fff" opacity="0.75"
+            font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+            font-weight="400" font-size="26" font-stretch="condensed">Viewpoint · 800 м</text>
+      <text x="220" y="135" fill="#fff" opacity="0.65"
+            font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+            font-weight="400" font-size="20" font-stretch="condensed" font-style="italic">панорама долины</text>
+    </g>
+
+    <!-- Row 4: Guest house -->
+    <g transform="translate(0 590)">
+      <g transform="translate(0 0) scale(0.18)">
+        <use href="#pict-inn"/>
+      </g>
+      <text x="220" y="60" fill="#fff"
+            font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+            font-weight="700" font-size="40" font-stretch="condensed">ГОСТЕВОЙ ДОМ</text>
+      <text x="220" y="100" fill="#fff" opacity="0.75"
+            font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+            font-weight="400" font-size="26" font-stretch="condensed">Guest House · 250 м</text>
+      <text x="220" y="135" fill="#fff" opacity="0.65"
+            font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+            font-weight="400" font-size="20" font-stretch="condensed" font-style="italic">размещение для паломников</text>
+    </g>
+  </g>
+
+  <!-- ─────────────── Bottom strip: contacts + QR ─────────────── -->
+  <line x1="60" y1="1290" x2="1940" y2="1290" stroke="#fff" stroke-width="2" opacity="0.5"/>
+
+  <text x="60" y="1350" fill="#fff"
+        font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+        font-weight="700" font-size="32" font-stretch="condensed">Святогорово, Дмитровский городской округ, Московская область</text>
+  <text x="60" y="1395" fill="#fff" opacity="0.85"
+        font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+        font-weight="400" font-size="26" font-stretch="condensed">+7 (926) 555-19-20 · igrastoria@mail.ru · святогорово.рф</text>
+  <text x="60" y="1430" fill="#fff" opacity="0.6"
+        font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+        font-weight="400" font-size="20" font-stretch="condensed" font-style="italic">Воскресная школа «Преображение» Сретенского храма г. Дмитрова</text>
+
+  <!-- Large QR (bottom right) -->
+  <rect x="1740" y="1300" width="200" height="180" fill="#fff" rx="8"/>
+  <g fill="#714A07">
+    <rect x="1760" y="1320" width="40" height="40"/>
+    <rect x="1880" y="1320" width="40" height="40"/>
+    <rect x="1760" y="1440" width="40" height="40"/>
+    <rect x="1820" y="1340" width="20" height="20"/>
+    <rect x="1850" y="1380" width="20" height="20"/>
+    <rect x="1810" y="1400" width="20" height="20"/>
+    <rect x="1875" y="1420" width="20" height="20"/>
+    <rect x="1840" y="1450" width="20" height="20"/>
+    <rect x="1885" y="1455" width="15" height="15"/>
+  </g>
+  <text x="1840" y="1492" fill="#fff" opacity="0.6"
+        font-family="sans-serif" font-size="14" text-anchor="middle">святогорово.рф</text>
+
+  <!-- Draft label -->
+  <text x="60" y="1485" fill="#fff" opacity="0.25" font-size="11" font-family="sans-serif">T1 · ENTRY STAND · DRAFT v0.1 · 2000×1500 mm</text>
+</svg>

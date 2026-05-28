@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-label="Пиктограмма #48 вариант 2: Православная церковь / часовня">
+  <title>Православный храм / Religious monument (церковь, часовня)</title>
+  <desc>По Методичке стр. 39: стилизованное изображение православной церкви/часовни и православного креста. Используется для Часовенки Николая Чудотворца.</desc>
+
+  <!-- Brown rounded background -->
+  <rect width="1000" height="1000" rx="80" fill="#714A07"/>
+
+  <g fill="#fff">
+    <!-- Cross on top of dome -->
+    <rect x="488" y="60" width="24" height="200"/>
+    <rect x="445" y="100" width="110" height="22"/>
+    <rect x="455" y="160" width="90" height="20"/>
+
+    <!-- Onion dome (single, traditional Russian shape) -->
+    <path d="M 500 260
+             Q 420 290 410 380
+             Q 410 460 460 480
+             L 540 480
+             Q 590 460 590 380
+             Q 580 290 500 260 Z"/>
+
+    <!-- Drum (cylinder below dome) -->
+    <rect x="450" y="480" width="100" height="60"/>
+
+    <!-- Main church body (cubic with pitched gable) -->
+    <path d="M 320 540 L 500 460 L 680 540 Z"/>
+    <rect x="320" y="540" width="360" height="320"/>
+
+    <!-- Entrance/door -->
+    <path d="M 460 860 L 460 730 Q 460 700 500 700 Q 540 700 540 730 L 540 860 Z"/>
+
+    <!-- Side window (left) -->
+    <rect x="360" y="640" width="40" height="80" rx="20"/>
+    <!-- Side window (right) -->
+    <rect x="600" y="640" width="40" height="80" rx="20"/>
+  </g>
+</svg>

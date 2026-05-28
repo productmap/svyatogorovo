@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-label="Пиктограмма #48 вариант 1: Православный собор / монастырь">
+  <title>Православный собор / Religious monument (крупный объект — монастырь, собор)</title>
+  <desc>По Методичке стр. 39: стилизованное изображение многокупольного православного собора с крестом. Резерв для Фазы 2 (Лавра, Дмитровский кремль).</desc>
+
+  <!-- Brown rounded background -->
+  <rect width="1000" height="1000" rx="80" fill="#714A07"/>
+
+  <g fill="#fff">
+    <!-- Central cross (largest, on main dome) -->
+    <rect x="488" y="40" width="24" height="170"/>
+    <rect x="445" y="80" width="110" height="22"/>
+    <rect x="455" y="140" width="90" height="20"/>
+
+    <!-- Central onion dome (largest) -->
+    <path d="M 500 210
+             Q 420 240 410 320
+             Q 410 400 460 420
+             L 540 420
+             Q 590 400 590 320
+             Q 580 240 500 210 Z"/>
+    <rect x="450" y="420" width="100" height="50"/>
+
+    <!-- Left small cross -->
+    <rect x="218" y="200" width="14" height="100"/>
+    <rect x="200" y="225" width="50" height="14"/>
+
+    <!-- Left small onion dome -->
+    <path d="M 225 300
+             Q 175 320 170 370
+             Q 170 410 200 420
+             L 250 420
+             Q 280 410 280 370
+             Q 275 320 225 300 Z"/>
+    <rect x="195" y="420" width="60" height="40"/>
+
+    <!-- Right small cross -->
+    <rect x="768" y="200" width="14" height="100"/>
+    <rect x="750" y="225" width="50" height="14"/>
+
+    <!-- Right small onion dome -->
+    <path d="M 775 300
+             Q 725 320 720 370
+             Q 720 410 750 420
+             L 800 420
+             Q 830 410 830 370
+             Q 825 320 775 300 Z"/>
+    <rect x="745" y="420" width="60" height="40"/>
+
+    <!-- Cathedral body (wider than single church) -->
+    <rect x="170" y="460" width="660" height="400"/>
+
+    <!-- Gable above main body -->
+    <path d="M 170 460 L 500 380 L 830 460 Z"/>
+
+    <!-- Tall narrow windows -->
+    <rect x="240" y="600" width="50" height="160" rx="25"/>
+    <rect x="350" y="600" width="50" height="160" rx="25"/>
+    <rect x="600" y="600" width="50" height="160" rx="25"/>
+    <rect x="710" y="600" width="50" height="160" rx="25"/>
+
+    <!-- Central main door -->
+    <path d="M 455 860 L 455 720 Q 455 680 500 680 Q 545 680 545 720 L 545 860 Z"/>
+  </g>
+</svg>

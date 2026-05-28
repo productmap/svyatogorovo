@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-label="Пиктограмма #28: Туристско-информационный центр">
+  <title>Туристско-информационный центр / Tourist Information Centre</title>
+  <desc>По Методичке стр. 31: литера "i" — первая буква в слове INFORMATION, три концентрические окружности.</desc>
+
+  <!-- Brown rounded background -->
+  <rect width="1000" height="1000" rx="80" fill="#714A07"/>
+
+  <g fill="none" stroke="#fff" stroke-width="40">
+    <!-- Three concentric "broadcast" arcs around the "i" -->
+    <circle cx="500" cy="500" r="380"/>
+    <circle cx="500" cy="500" r="280"/>
+    <circle cx="500" cy="500" r="180"/>
+  </g>
+
+  <g fill="#fff">
+    <!-- Letter "i" — dot -->
+    <circle cx="500" cy="380" r="38"/>
+    <!-- Letter "i" — stem -->
+    <rect x="465" y="450" width="70" height="220" rx="10"/>
+  </g>
+</svg>

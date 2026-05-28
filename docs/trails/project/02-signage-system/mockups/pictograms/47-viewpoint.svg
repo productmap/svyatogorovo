@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-label="Пиктограмма #47: Панорамный вид">
+  <title>Панорамный вид / View point</title>
+  <desc>По Методичке стр. 38: фигура человека с биноклем в руках, перила парапета обзорной площадки.</desc>
+
+  <!-- Brown rounded background -->
+  <rect width="1000" height="1000" rx="80" fill="#714A07"/>
+
+  <g fill="#fff">
+    <!-- Head -->
+    <circle cx="300" cy="280" r="70"/>
+
+    <!-- Binoculars (two ovals at eye level, slightly in front of head) -->
+    <ellipse cx="360" cy="260" rx="38" ry="50"/>
+    <ellipse cx="440" cy="260" rx="38" ry="50"/>
+    <!-- Bridge between binoculars -->
+    <rect x="392" y="248" width="20" height="22"/>
+
+    <!-- Arm/hand holding binoculars -->
+    <path d="M 360 320 L 405 380 L 380 440 L 320 400 Z"/>
+    <path d="M 440 320 L 480 380 L 455 440 L 405 380 Z"/>
+
+    <!-- Torso -->
+    <path d="M 240 370 L 360 370 L 390 600 L 210 600 Z"/>
+
+    <!-- Parapet (railing in front) -->
+    <rect x="100" y="660" width="800" height="40" rx="8"/>
+    <!-- Parapet vertical posts -->
+    <rect x="160" y="700" width="22" height="140"/>
+    <rect x="320" y="700" width="22" height="140"/>
+    <rect x="480" y="700" width="22" height="140"/>
+    <rect x="640" y="700" width="22" height="140"/>
+    <rect x="800" y="700" width="22" height="140"/>
+    <!-- Parapet base -->
+    <rect x="100" y="830" width="800" height="20" rx="6"/>
+  </g>
+</svg>

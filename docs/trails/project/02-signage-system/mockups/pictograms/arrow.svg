@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" role="img" aria-label="Утилитарная пиктограмма: стрелка направления">
+  <title>Стрелка направления (универсальная, поворачивается через CSS rotate)</title>
+  <desc>Не из перечня Методички — служебная стрелка для указателей T3/T6. По умолчанию указывает влево. Для других направлений — поворот через transform="rotate(...)" в композитном знаке.</desc>
+
+  <!-- Brown rounded background -->
+  <rect width="1000" height="1000" rx="80" fill="#714A07"/>
+
+  <g fill="#fff">
+    <!-- Arrow shaft -->
+    <rect x="350" y="430" width="500" height="140" rx="10"/>
+    <!-- Arrow head -->
+    <path d="M 350 250 L 350 750 L 100 500 Z"/>
+  </g>
+</svg>
