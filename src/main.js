@@ -449,6 +449,15 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
       const captionEl = img.closest('.masonry-item_type_image')?.querySelector('.masonry-item__banner-caption');
       return {
         src,
+        // Same src as msrc: the browser has already decoded it for the on-page
+        // thumb, so PhotoSwipe paints the morph from frame 1 instead of
+        // showing its empty placeholder while the slide image decodes again.
+        msrc: src,
+        // Hand PhotoSwipe the thumbnail so it can morph open/close from this
+        // photo's actual on-page rectangle (uses getBoundsByElement — masonry
+        // shows the full image, no cropping, so we don't need the custom
+        // thumbBounds filter the map lightbox uses).
+        element: img,
         width:  parseInt(img.getAttribute('width'),  10) || img.naturalWidth  || 1200,
         height: parseInt(img.getAttribute('height'), 10) || img.naturalHeight || 900,
         alt: img.alt,
