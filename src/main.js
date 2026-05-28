@@ -565,27 +565,34 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
       });
       pswp.on('openingAnimationEnd', () => {
         openSettled = true;
-        // Drop the placeholder <img> the instant the morph finishes — it sits
-        // at a slightly offset sub-pixel position from the main <img> (different
-        // CSS dim + transform-scale) and its bottom edge would otherwise peek
-        // out as a 1–2px strip of the same colour just under the photo. The
-        // CSS rule keyed on this class hides it (see _photoswipe.scss).
         pswp.element.classList.add('pswp--photo-settled');
-        // RAF stays on; it just keeps compensating each element at the settled
-        // target (no manual radius poke — that would override the per-element
-        // compensation and reintroduce the duplicate-corners artefact).
+        // One last per-element apply, then STOP the RAF. A continuously
+        // ticking RAF that rewrites border-radius each frame keeps the photo's
+        // compositor layer perpetually 'dirty', which prevents the browser
+        // from pixel-snapping the bottom edge and leaves a 1–2px ghost row of
+        // the photo's colour visible below it. With the RAF idle the layer
+        // settles and the row disappears.
+        applyRadiusPerElement(SETTLED_RADIUS);
+        if (radiusRaf) cancelAnimationFrame(radiusRaf);
+        radiusRaf = null;
         placeAll();
       });
       pswp.on('close', () => {
         openSettled = false;
         aimRadius(CARD_RADIUS); // reverse from current (settled or mid-open) → card value
+        if (!radiusRaf) radiusRaf = requestAnimationFrame(tickRadius);
         placeAll();
       });
       pswp.on('closingAnimationEnd', () => {
         if (radiusRaf) cancelAnimationFrame(radiusRaf);
         radiusRaf = null;
       });
-      pswp.on('zoomPanUpdate', () => placeCaption(pswp.currSlide)); // hide on zoom-in / re-show at fit
+      pswp.on('zoomPanUpdate', () => {
+        placeCaption(pswp.currSlide); // hide on zoom-in / re-show at fit
+        // In-lightbox pinch/zoom changes the photo's scale → re-apply radius
+        // once (no RAF needed: events fire on each interaction frame).
+        if (openSettled) applyRadiusPerElement(SETTLED_RADIUS);
+      });
       pswp.on('resize', placeAll);
 
       pswp.init();
