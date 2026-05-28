@@ -470,13 +470,27 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
           appendTo: 'root',
           onInit: (el) => {
             el.setAttribute('aria-hidden', 'true');
-            const update = () => {
-              const caption = pswp.currSlide?.data.caption || '';
-              el.textContent = caption;
-              el.style.display = caption ? 'block' : 'none';
+            // Anchor the caption to the bottom edge of the photo itself (like
+            // the on-page banner caption), spanning the image width — not the
+            // bottom of the screen. Only while the image sits at its fit zoom;
+            // once the user zooms in to inspect, hide it so it can't float
+            // detached from the (now off-screen) image edge.
+            const place = () => {
+              const s = pswp.currSlide;
+              const caption = s?.data?.caption || '';
+              const atFit = s && Math.abs(s.currZoomLevel - s.zoomLevels.initial) < 0.01;
+              if (!caption || !atFit) { el.style.display = 'none'; return; }
+              const w = s.width  * s.zoomLevels.initial;
+              const h = s.height * s.zoomLevels.initial;
+              el.textContent  = caption;
+              el.style.left   = `${(pswp.viewportSize.x - w) / 2}px`;
+              el.style.width  = `${w}px`;
+              el.style.bottom = `${(pswp.viewportSize.y - h) / 2}px`;
+              el.style.display = 'block';
             };
-            pswp.on('change', update);
-            update();
+            pswp.on('change', place);
+            pswp.on('resize', place);
+            pswp.on('zoomPanUpdate', place);
           },
         });
       });

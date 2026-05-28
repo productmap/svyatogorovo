@@ -29,21 +29,21 @@
 // overlay readable over both the photo and the dark backdrop; pointer-events
 // off so a tap still passes through to close. JS hides it on captionless slides.
 .pswp__custom-caption {
+    // Positioned over the photo's bottom edge by main.js (left / width / bottom
+    // set inline per slide); this rule only carries the look.
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
     z-index: 10;
-    padding: 56px 24px 22px;
-    background: linear-gradient(to top, rgba(8, 10, 7, 0.7), transparent);
+    padding: 44px 20px 16px;
+    background: linear-gradient(to top, rgba(8, 10, 7, 0.72), transparent);
+    border-radius: 0 0 12px 12px; // follow the rounded photo corners
     color: $color-text-light;
     font-family: $font-display;
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.3;
     text-align: center;
     pointer-events: none;
 
     @include up($bp-sm) {
-        font-size: 24px;
+        font-size: 22px;
     }
 }
