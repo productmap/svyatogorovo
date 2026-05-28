@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="T5: Знак зоны отдыха на тропе">
+  <title>T5 — Знак зоны отдыха</title>
+  <desc>Малый квадратный знак, ставится в обустроенной зоне отдыха на тропе. Размер реального знака — 400×400 мм. Пиктограмма #9 (Место отдыха) по Методичке стр. 24.</desc>
+
+  <defs>
+    <g id="pict-rest" fill="#fff">
+      <circle cx="380" cy="290" r="68"/>
+      <path d="M 330 370 L 460 370 L 480 540 L 320 540 Z"/>
+      <path d="M 460 380 Q 540 410 580 510 L 540 530 Q 510 460 450 440 Z"/>
+      <rect x="450" y="530" width="240" height="65" rx="20"/>
+      <rect x="630" y="595" width="65" height="180" rx="20"/>
+      <ellipse cx="662" cy="790" rx="55" ry="22"/>
+      <rect x="180" y="775" width="640" height="35" rx="6"/>
+      <rect x="220" y="810" width="30" height="100" rx="6"/>
+      <rect x="750" y="810" width="30" height="100" rx="6"/>
+      <rect x="280" y="540" width="20" height="240" rx="5"/>
+      <rect x="180" y="540" width="160" height="20" rx="5"/>
+    </g>
+  </defs>
+
+  <!-- Sign background -->
+  <rect width="400" height="400" rx="20" fill="#714A07"/>
+
+  <!-- Pictogram centered, takes most of the sign -->
+  <g transform="translate(40 30) scale(0.30)">
+    <use href="#pict-rest"/>
+  </g>
+
+  <!-- Divider -->
+  <line x1="40" y1="330" x2="360" y2="330" stroke="#fff" stroke-width="2" opacity="0.6"/>
+
+  <!-- Caption Russian + English -->
+  <text x="200" y="362" fill="#fff" text-anchor="middle"
+        font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+        font-weight="700" font-size="26" font-stretch="condensed">МЕСТО ОТДЫХА</text>
+  <text x="200" y="388" fill="#fff" opacity="0.85" text-anchor="middle"
+        font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+        font-weight="400" font-size="18" font-stretch="condensed">REST AREA</text>
+
+  <!-- Draft label (very small) -->
+  <text x="14" y="395" fill="#fff" opacity="0.25" font-size="7" font-family="sans-serif">T5 v0.1</text>
+</svg>

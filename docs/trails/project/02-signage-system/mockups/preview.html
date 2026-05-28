@@ -125,14 +125,25 @@
     }
     .sign-desc { color: var(--muted); font-size: 14px; margin-top: 12px; max-width: 80ch; }
 
-    /* T2 specifically — make it narrow */
+    /* Per-type widths to preserve proportions visually */
     .sign--portrait img { max-width: 320px; }
-    /* T3 — narrow vertical mast */
     .sign--mast img { max-width: 480px; }
-    /* T4 — landscape plaque */
     .sign--plaque img { max-width: 640px; }
-    /* T1 — full width */
     .sign--full img { max-width: 100%; }
+    .sign--small img { max-width: 280px; }
+    .sign--single-panel img { max-width: 640px; }
+
+    /* T4 trio side-by-side on wide screens */
+    .trio {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 980px) {
+      .trio { grid-template-columns: repeat(3, 1fr); }
+      .trio .sign-desc { font-size: 13px; }
+      .trio .sign img { max-width: 100%; }
+    }
 
     /* Status note */
     .status {
@@ -152,6 +163,19 @@
       font-size: 13px;
       color: var(--muted);
     }
+
+    /* TOC */
+    .toc {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px 20px;
+      margin: 24px 0 32px;
+      font-size: 14px;
+    }
+    .toc strong { color: var(--brown); }
+    .toc a { color: var(--ink); text-decoration: none; margin-right: 12px; }
+    .toc a:hover { color: var(--brown); text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -159,19 +183,32 @@
 
   <header>
     <h1>Макеты знаков · Тропа преподобного Сергия Радонежского</h1>
-    <p class="lede">Первая итерация SVG-эскизов навигационной системы для деревни Святогорово.
+    <p class="lede">Векторные эскизы навигационной системы для деревни Святогорово.
     Соответствие ГОСТ Р 57581-2017 и Методическому пособию Минкультуры РФ (2013).</p>
   </header>
 
   <div class="status">
-    ⚠ <strong>Это рабочий черновик v0.1.</strong> Геометрия близка к образцам Методички
+    ⚠ <strong>Это рабочий черновик v0.2.</strong> Геометрия близка к образцам Методички
     (стр. 22-45), но финальные пиктограммы для производства должен отрисовать профессиональный
     дизайнер. Текущие SVG достаточны для эскизного проекта, разговора с настоятелем и базы
     дальнейшей итерации.
   </div>
 
+  <nav class="toc">
+    <strong>На странице:</strong>
+    <a href="#pictograms">Пиктограммы</a>
+    <a href="#signs">Знаки</a>
+    <a href="#sign-T1">T1</a>
+    <a href="#sign-T2">T2</a>
+    <a href="#sign-T3">T3</a>
+    <a href="#sign-T4">T4 (×3)</a>
+    <a href="#sign-T5">T5</a>
+    <a href="#sign-T6">T6</a>
+    <a href="#next">Дальше</a>
+  </nav>
+
   <!-- ─────────── Pictograms ─────────── -->
-  <section>
+  <section id="pictograms">
     <h2>Пиктограммы</h2>
     <p class="section-note">
       Многоразовые блоки, используемые в композициях знаков. Каждая пиктограмма — отдельный
@@ -244,16 +281,16 @@
   </section>
 
   <!-- ─────────── Signs ─────────── -->
-  <section>
+  <section id="signs">
     <h2>Композитные знаки</h2>
     <p class="section-note">
-      Полные макеты знаков типа T1-T4 — собранные из пиктограмм с текстовыми блоками,
-      QR-кодами и служебными элементами. Каждый знак самодостаточен (пиктограммы инлайн),
-      без внешних зависимостей.
+      Полные макеты всех типов знаков проекта. Каждый знак самодостаточен (пиктограммы инлайн),
+      без внешних зависимостей. Открывается отдельно из <code>signs/</code> или экспортируется
+      для производства.
     </p>
 
     <!-- T1 -->
-    <div class="sign sign--full">
+    <div id="sign-T1" class="sign sign--full">
       <div class="sign-meta">
         <span class="badge">T1</span>
         <h3 style="margin: 0;">Главный въездной стенд</h3>
@@ -263,13 +300,13 @@
       <p class="sign-desc">
         Точка входа в маршрут. Устанавливается у въезда в деревню или у ближайшей парковки.
         Содержит схематическую карту, реестр объектов с пиктограммами и расстояниями, контакты
-        и QR на лендинг. В правом верхнем углу — пиктограмма ТИЦ (стенд выполняет роль
+        и большой QR на лендинг. В правом верхнем углу — пиктограмма ТИЦ (стенд выполняет роль
         туристско-информационного центра).
       </p>
     </div>
 
     <!-- T2 -->
-    <div class="sign sign--portrait">
+    <div id="sign-T2" class="sign sign--portrait">
       <div class="sign-meta">
         <span class="badge">T2</span>
         <h3 style="margin: 0;">Стела маршрута</h3>
@@ -284,7 +321,7 @@
     </div>
 
     <!-- T3 -->
-    <div class="sign sign--mast">
+    <div id="sign-T3" class="sign sign--mast">
       <div class="sign-meta">
         <span class="badge">T3</span>
         <h3 style="margin: 0;">Указатели направления (типовой узел из 3 панелей)</h3>
@@ -292,38 +329,101 @@
       </div>
       <img src="signs/T3-indicator.svg" alt="T3 indicator mast">
       <p class="sign-desc">
-        На развилке. Три типичные панели на одной мачте: верхняя — к Поклонному кресту,
-        средняя — к Часовне, нижняя (другое направление) — к Гостевому дому. Каждая панель
-        самостоятельна и снимается / меняется независимо.
+        На развилке. Три типичные панели на одной мачте: к Поклонному кресту, к Часовне,
+        к Гостевому дому (в обратную сторону). Каждая панель самостоятельна и снимается /
+        меняется независимо от других.
       </p>
     </div>
 
-    <!-- T4 -->
-    <div class="sign sign--plaque">
-      <div class="sign-meta">
-        <span class="badge">T4</span>
-        <h3 style="margin: 0;">Интерпретационная табличка (пример: Поклонный крест)</h3>
-        <span class="dim">800 × 600 мм</span>
+    <!-- T4 trio — three interpretive plaques -->
+    <h3 id="sign-T4" style="margin-top: 48px; margin-bottom: 12px;">T4 — Интерпретационные таблички <span style="font-weight: 400; color: var(--muted); font-size: 14px;">(три объекта)</span></h3>
+    <p class="section-note">
+      Конструкция всех трёх табличек идентичная (800 × 600 мм, на одной опоре с наклоном 15-30°).
+      Меняются только пиктограмма, заголовок и текст. Тексты — черновик из
+      <code>00-concept/narrative.md</code>, утверждение настоятелем впереди.
+    </p>
+
+    <div class="trio">
+      <!-- T4 Cross -->
+      <div class="sign sign--plaque">
+        <div class="sign-meta">
+          <span class="badge">T4 · крест</span>
+          <span class="dim">800 × 600 мм</span>
+        </div>
+        <img src="signs/T4-plaque-cross.svg" alt="T4 cross plaque">
+        <p class="sign-desc">
+          Поклонный крест. Пиктограмма #48 (c) — крест на постаменте. QR ведёт на якорь
+          <code>/#krest</code>.
+        </p>
       </div>
-      <img src="signs/T4-plaque.svg" alt="T4 interpretive plaque">
+
+      <!-- T4 Chapel -->
+      <div class="sign sign--plaque">
+        <div class="sign-meta">
+          <span class="badge">T4 · часовня</span>
+          <span class="dim">800 × 600 мм</span>
+        </div>
+        <img src="signs/T4-plaque-chapel.svg" alt="T4 chapel plaque">
+        <p class="sign-desc">
+          Часовня свт. Николая Чудотворца. Пиктограмма #48 (b) — однокупольная церковь.
+          QR ведёт на якорь <code>/#church</code>.
+        </p>
+      </div>
+
+      <!-- T4 Spring -->
+      <div class="sign sign--plaque">
+        <div class="sign-meta">
+          <span class="badge">T4 · купель</span>
+          <span class="dim">800 × 600 мм</span>
+        </div>
+        <img src="signs/T4-plaque-spring.svg" alt="T4 spring plaque">
+        <p class="sign-desc">
+          Купель. Пиктограмма #48 (c) — место паломничества, локальный религиозный объект.
+          QR ведёт на якорь <code>/#kupel</code>.
+        </p>
+      </div>
+    </div>
+
+    <!-- T5 -->
+    <div id="sign-T5" class="sign sign--small">
+      <div class="sign-meta">
+        <span class="badge">T5</span>
+        <h3 style="margin: 0;">Знак зоны отдыха</h3>
+        <span class="dim">400 × 400 мм</span>
+      </div>
+      <img src="signs/T5-rest-area.svg" alt="T5 rest area">
       <p class="sign-desc">
-        Стоит в 3-5 м от объекта, под наклоном 15-30° (как пюпитр). Текст в нарративе из
-        <code>00-concept/narrative.md</code> — короткий, ёмкий, билингва. Атрибуция и QR
-        внизу. Для остальных объектов меняется только пиктограмма и текстовый блок —
-        конструкция табличек идентичная.
+        Малый квадратный знак для обустроенной зоны отдыха на тропе (скамья + навес).
+        Пиктограмма #9 крупно, билингва-подпись внизу. Скамья и навес —
+        отдельная работа по благоустройству, в этот пакет не входит.
+      </p>
+    </div>
+
+    <!-- T6 -->
+    <div id="sign-T6" class="sign sign--single-panel">
+      <div class="sign-meta">
+        <span class="badge">T6</span>
+        <h3 style="margin: 0;">Опорный знак гостевого дома</h3>
+        <span class="dim">800 × 220 мм</span>
+      </div>
+      <img src="signs/T6-guesthouse.svg" alt="T6 guesthouse indicator">
+      <p class="sign-desc">
+        Одиночный указатель к гостевому дому. Конструкция идентичная одной панели T3,
+        но на отдельной мачте — устанавливается там, где T3-узел не нужен (например,
+        у самого выезда с трассы к Святогорово). Пиктограмма #12.
       </p>
     </div>
   </section>
 
-  <section>
+  <section id="next">
     <h2>Что в следующей итерации</h2>
     <ul style="line-height: 1.8;">
       <li>Уточнить геометрию пиктограмм по точным образцам Методички (нужен дизайнер с Illustrator).</li>
-      <li>Сделать макеты остальных объектов: T4 для Часовенки и Купели (отличаются пиктограммой и текстом).</li>
-      <li>Добавить макет T5 (знак зоны отдыха) и T6 (указатель к гостевому дому).</li>
-      <li>Подготовить шрифт: либо лицензировать Myriad PRO, либо принять решение об опен-сорс замене (PT Sans Narrow).</li>
+      <li>Согласовать с настоятелем тексты T4-табличек (нарратив из <code>00-concept/narrative.md</code>).</li>
+      <li>Лицензия на Myriad PRO либо решение об опен-сорс замене (PT Sans Narrow / Inter Condensed).</li>
       <li>Подписать настоящие тексты табличек в <code>06-content/sign-texts.md</code>.</li>
-      <li>После полевой работы — наложить макеты на фото мест установки (компьютерные монтажи для пакета согласования).</li>
+      <li>После полевой работы — наложить макеты на фото мест установки (компьютерные монтажи — обязательное приложение к заявлению, см. <code>05-approvals/application-template.md</code>).</li>
+      <li>Готовить макеты в финальной типографике на лицензированном Myriad PRO и экспортировать в производство.</li>
     </ul>
   </section>
 

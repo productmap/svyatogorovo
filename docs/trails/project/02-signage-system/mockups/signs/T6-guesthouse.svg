@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 450" role="img" aria-label="T6: Опорный знак гостевого дома">
+  <title>T6 — Опорный знак гостевого дома</title>
+  <desc>Одиночный указатель к гостевому дому Святогорово. Конструкция идентичная T3 (одна панель 800×220 мм на отдельной мачте). Показан с фрагментом мачты для контекста установки.</desc>
+
+  <defs>
+    <g id="pict-inn" fill="#fff">
+      <path d="M 160 470 L 500 230 L 840 470 Z"/>
+      <rect x="488" y="180" width="24" height="80" rx="6"/>
+      <circle cx="500" cy="180" r="22"/>
+      <rect x="200" y="470" width="600" height="380"/>
+      <ellipse cx="320" cy="640" rx="60" ry="30"/>
+      <circle cx="320" cy="610" r="44"/>
+      <path d="M 280 670 L 660 670 L 680 740 L 280 740 Z"/>
+      <rect x="240" y="740" width="460" height="40" rx="8"/>
+      <rect x="250" y="780" width="22" height="50"/>
+      <rect x="668" y="780" width="22" height="50"/>
+    </g>
+
+    <g id="arrow-left" fill="#fff">
+      <rect x="35" y="-15" width="55" height="30" rx="2"/>
+      <path d="M 35 -40 L 35 40 L -10 0 Z"/>
+    </g>
+  </defs>
+
+  <!-- Mast -->
+  <rect x="40" y="20" width="36" height="410" fill="#4a4a4a" rx="3"/>
+  <rect x="40" y="20" width="36" height="410" fill="#7a7a7a" rx="3" opacity="0.4"/>
+  <rect x="0" y="390" width="120" height="40" fill="#4a4a4a" rx="3"/>
+
+  <!-- Panel -->
+  <g transform="translate(96 80)">
+    <rect width="780" height="220" rx="20" fill="#714A07"/>
+
+    <!-- Arrow (pointing left here, direction adjusts on install) -->
+    <g transform="translate(70 110)">
+      <use href="#arrow-left"/>
+    </g>
+
+    <!-- Pictogram #12 -->
+    <g transform="translate(155 30) scale(0.16)">
+      <use href="#pict-inn"/>
+    </g>
+
+    <!-- Russian name -->
+    <text x="335" y="95" fill="#fff"
+          font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+          font-weight="700" font-size="48" font-stretch="condensed">ГОСТЕВОЙ ДОМ</text>
+
+    <!-- English name -->
+    <text x="335" y="135" fill="#fff" opacity="0.85"
+          font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+          font-weight="400" font-size="30" font-stretch="condensed">GUEST HOUSE</text>
+
+    <!-- Distance -->
+    <text x="335" y="190" fill="#fff"
+          font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
+          font-weight="700" font-size="42" font-stretch="condensed">250 м</text>
+
+    <!-- QR -->
+    <rect x="700" y="155" width="60" height="60" fill="#fff" rx="3"/>
+    <g fill="#714A07">
+      <rect x="708" y="163" width="14" height="14"/>
+      <rect x="738" y="163" width="14" height="14"/>
+      <rect x="708" y="193" width="14" height="14"/>
+      <rect x="730" y="185" width="6" height="6"/>
+      <rect x="744" y="195" width="6" height="6"/>
+    </g>
+  </g>
+
+  <!-- Ground line -->
+  <line x1="0" y1="390" x2="900" y2="390" stroke="#999" stroke-width="2" stroke-dasharray="6 6"/>
+  <text x="700" y="415" fill="#999" font-family="sans-serif" font-size="14">уровень земли</text>
+
+  <!-- Draft label -->
+  <text x="40" y="440" fill="#999" font-size="11" font-family="sans-serif">T6 · GUEST HOUSE INDICATOR · DRAFT v0.1</text>
+</svg>
