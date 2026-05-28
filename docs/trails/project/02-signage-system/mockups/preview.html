@@ -86,6 +86,22 @@
     .pict .num { font-size: 12px; color: var(--brown); font-weight: 700; letter-spacing: 0.04em; margin: 12px 0 4px; }
     .pict .name { font-size: 13px; color: var(--ink); line-height: 1.3; }
     .pict .en { font-size: 11px; color: var(--muted); font-style: italic; margin-top: 2px; }
+    .pict .redraw {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px dashed var(--line);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+    .pict .redraw img {
+      width: 32px;
+      height: 32px;
+      aspect-ratio: 1/1;
+      border-radius: 4px;
+    }
+    .pict .redraw span { font-size: 10px; color: var(--muted); font-style: italic; }
 
     /* Sign blocks */
     .sign {
@@ -188,10 +204,12 @@
   </header>
 
   <div class="status">
-    ⚠ <strong>Это рабочий черновик v0.2.</strong> Геометрия близка к образцам Методички
-    (стр. 22-45), но финальные пиктограммы для производства должен отрисовать профессиональный
-    дизайнер. Текущие SVG достаточны для эскизного проекта, разговора с настоятелем и базы
-    дальнейшей итерации.
+    ✓ <strong>Пиктограммы извлечены прямо из Методички</strong> — PNG-тайлы в
+    <code>pictograms/official/</code> являются эталонной версией Минкультуры РФ (2013).
+    Hand-drawn SVG-варианты в <code>pictograms/*.svg</code> сохраняются как композиционные
+    блоки для наших мокапов T1-T6 (там нужны пиктограммы без зашитой подписи). Для
+    производства больших форматов потребуется трейс растра в вектор —
+    <code>brew install potrace</code> или работа дизайнера в Illustrator.
   </div>
 
   <nav class="toc">
@@ -209,73 +227,91 @@
 
   <!-- ─────────── Pictograms ─────────── -->
   <section id="pictograms">
-    <h2>Пиктограммы</h2>
+    <h2>Пиктограммы — официальный набор</h2>
     <p class="section-note">
-      Многоразовые блоки, используемые в композициях знаков. Каждая пиктограмма — отдельный
-      SVG в папке <code>pictograms/</code>, viewBox 1000×1000. Соответствуют графическим
-      образцам Методички (раздел 3.5).
+      Извлечены из <code>docs/trails/Metod-Posobie.pdf</code> (Минкультуры РФ, 2013) —
+      это эталонные тайлы общероссийской системы. Под каждым большим тайлом — наш
+      hand-drawn SVG-вариант (используется как композиционный блок в T1-T6, без зашитой
+      подписи).
     </p>
 
     <div class="pict-grid">
       <div class="pict">
-        <img src="pictograms/38-tourist-trail.svg" alt="">
+        <img src="pictograms/official/38-tourist-trail.png" alt="">
         <div class="num">#38</div>
         <div class="name">Пешеходный туристский маршрут</div>
         <div class="en">Tourist trail</div>
+        <div class="redraw"><img src="pictograms/38-tourist-trail.svg" alt=""><span>v0.1 redraw для композиции</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/48c-cross.svg" alt="">
+        <img src="pictograms/official/48c-cross.png" alt="">
         <div class="num">#48 (c)</div>
         <div class="name">Поклонный крест, место паломничества</div>
         <div class="en">Religious monument (local)</div>
+        <div class="redraw"><img src="pictograms/48c-cross.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/48b-church.svg" alt="">
+        <img src="pictograms/official/48b-church.png" alt="">
         <div class="num">#48 (b)</div>
         <div class="name">Православная церковь / часовня</div>
         <div class="en">Religious monument (chapel)</div>
+        <div class="redraw"><img src="pictograms/48b-church.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/48a-cathedral.svg" alt="">
+        <img src="pictograms/official/48a-cathedral.png" alt="">
         <div class="num">#48 (a)</div>
         <div class="name">Православный собор / монастырь</div>
         <div class="en">Religious monument (cathedral)</div>
+        <div class="redraw"><img src="pictograms/48a-cathedral.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/28-tic.svg" alt="">
+        <img src="pictograms/official/28-tic.png" alt="">
         <div class="num">#28</div>
         <div class="name">Туристско-информационный центр</div>
         <div class="en">Tourist Information Centre</div>
+        <div class="redraw"><img src="pictograms/28-tic.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/47-viewpoint.svg" alt="">
+        <img src="pictograms/official/47-viewpoint.png" alt="">
         <div class="num">#47</div>
         <div class="name">Панорамный вид</div>
         <div class="en">View point</div>
+        <div class="redraw"><img src="pictograms/47-viewpoint.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/45-natural-landmark.svg" alt="">
+        <img src="pictograms/official/45-natural-landmark.png" alt="">
         <div class="num">#45</div>
         <div class="name">Природная достопримечательность</div>
         <div class="en">Natural landmark</div>
+        <div class="redraw"><img src="pictograms/45-natural-landmark.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/9-rest-area.svg" alt="">
+        <img src="pictograms/official/09-rest-area.png" alt="">
         <div class="num">#9</div>
         <div class="name">Место отдыха</div>
         <div class="en">Rest area</div>
+        <div class="redraw"><img src="pictograms/9-rest-area.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/12-country-inn.svg" alt="">
+        <img src="pictograms/official/12-country-inn.png" alt="">
         <div class="num">#12</div>
         <div class="name">Загородная гостиница / гостевой дом</div>
         <div class="en">Country inn</div>
+        <div class="redraw"><img src="pictograms/12-country-inn.svg" alt=""><span>v0.1 redraw</span></div>
+      </div>
+      <div class="pict">
+        <img src="pictograms/official/27-information.png" alt="">
+        <div class="num">#27</div>
+        <div class="name">Информация (резерв)</div>
+        <div class="en">Information</div>
+        <div class="redraw"><span style="color: var(--muted); font-style: italic; font-size: 11px;">redraw не требуется</span></div>
       </div>
       <div class="pict">
         <img src="pictograms/arrow.svg" alt="">
         <div class="num">служебная</div>
         <div class="name">Стрелка направления</div>
         <div class="en">Direction arrow</div>
+        <div class="redraw"><span style="color: var(--muted); font-style: italic; font-size: 11px;">не из Методички (служебная)</span></div>
       </div>
     </div>
   </section>
@@ -418,12 +454,16 @@
   <section id="next">
     <h2>Что в следующей итерации</h2>
     <ul style="line-height: 1.8;">
-      <li>Уточнить геометрию пиктограмм по точным образцам Методички (нужен дизайнер с Illustrator).</li>
+      <li>~~Уточнить геометрию пиктограмм по точным образцам Методички~~ → сделано:
+        извлекли официальные PNG прямо из PDF (<code>pictograms/official/</code>).</li>
+      <li>Для производства больших форматов (стелы 1,2 м, стенды 2 м) — трейс растра в
+        вектор. Простой путь: <code>brew install potrace</code> + bash-скрипт на батч.</li>
       <li>Согласовать с настоятелем тексты T4-табличек (нарратив из <code>00-concept/narrative.md</code>).</li>
       <li>Лицензия на Myriad PRO либо решение об опен-сорс замене (PT Sans Narrow / Inter Condensed).</li>
       <li>Подписать настоящие тексты табличек в <code>06-content/sign-texts.md</code>.</li>
       <li>После полевой работы — наложить макеты на фото мест установки (компьютерные монтажи — обязательное приложение к заявлению, см. <code>05-approvals/application-template.md</code>).</li>
-      <li>Готовить макеты в финальной типографике на лицензированном Myriad PRO и экспортировать в производство.</li>
+      <li>Опционально: переделать T3/T6-указатели так, чтобы использовать обрезанные
+        (без подписи) официальные пиктограммы вместо hand-drawn SVG.</li>
     </ul>
   </section>
 
