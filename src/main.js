@@ -462,38 +462,35 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
       const pswp = new PhotoSwipe({ dataSource, index, zoom: true, tapAction, mainClass: 'pswp--rounded' });
       attachPswpTheme(pswp);
 
-      // Mirror the on-image banner captions into the lightbox: a bottom overlay
-      // showing the current slide's caption, hidden on slides without one.
-      pswp.on('uiRegister', () => {
-        pswp.ui.registerElement({
-          name: 'custom-caption',
-          appendTo: 'root',
-          onInit: (el) => {
-            el.setAttribute('aria-hidden', 'true');
-            // Anchor the caption to the bottom edge of the photo itself (like
-            // the on-page banner caption), spanning the image width — not the
-            // bottom of the screen. Only while the image sits at its fit zoom;
-            // once the user zooms in to inspect, hide it so it can't float
-            // detached from the (now off-screen) image edge.
-            const place = () => {
-              const s = pswp.currSlide;
-              const caption = s?.data?.caption || '';
-              const atFit = s && Math.abs(s.currZoomLevel - s.zoomLevels.initial) < 0.01;
-              if (!caption || !atFit) { el.style.display = 'none'; return; }
-              const w = s.width  * s.zoomLevels.initial;
-              const h = s.height * s.zoomLevels.initial;
-              el.textContent  = caption;
-              el.style.left   = `${(pswp.viewportSize.x - w) / 2}px`;
-              el.style.width  = `${w}px`;
-              el.style.bottom = `${(pswp.viewportSize.y - h) / 2}px`;
-              el.style.display = 'block';
-            };
-            pswp.on('change', place);
-            pswp.on('resize', place);
-            pswp.on('zoomPanUpdate', place);
-          },
-        });
-      });
+      // Mirror the on-image banner captions into the lightbox. The caption
+      // lives INSIDE each slide's holder (.pswp__item), so it travels with its
+      // photo during swipes instead of floating over the viewport. Pinned to
+      // the photo's bottom edge at fit zoom (like the on-page banner caption);
+      // hidden once zoomed in, since it sits outside the zooming wrapper.
+      const placeCaption = (slide) => {
+        const holder = slide?.holderElement;
+        if (!holder) return;
+        let el = holder.querySelector('.pswp__custom-caption');
+        const text = slide.data?.caption || '';
+        const atFit = Math.abs(slide.currZoomLevel - slide.zoomLevels.initial) < 0.01;
+        if (!text || !atFit) { if (el) el.style.display = 'none'; return; }
+        if (!el) {
+          el = document.createElement('div');
+          el.className = 'pswp__custom-caption';
+          el.setAttribute('aria-hidden', 'true');
+          holder.appendChild(el);
+        }
+        const w = slide.width  * slide.zoomLevels.initial;
+        const h = slide.height * slide.zoomLevels.initial;
+        el.textContent  = text;
+        el.style.left   = `${(pswp.viewportSize.x - w) / 2}px`;
+        el.style.width  = `${w}px`;
+        el.style.bottom = `${(pswp.viewportSize.y - h) / 2}px`;
+        el.style.display = 'block';
+      };
+      pswp.on('afterSetContent', (e) => placeCaption(e.slide));        // per slide, as content lands
+      pswp.on('zoomPanUpdate', () => placeCaption(pswp.currSlide));     // hide on zoom-in, re-show at fit
+      pswp.on('resize', () => pswp.mainScroll.itemHolders.forEach(h => placeCaption(h.slide)));
 
       pswp.init();
     };
