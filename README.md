@@ -12,6 +12,12 @@ npm install
 
 Нужен Node.js 20+ (требование Vite 8).
 
+Для оптимизации картинок через Tinify (см. `optimize-images.js`) нужен ключ в `.env` — файл в `.gitignore`, в репозиторий не попадает:
+
+```
+TINIFY_API_KEY=ваш_ключ
+```
+
 ## Разработка
 
 | Команда | Что делает |
@@ -36,6 +42,7 @@ npm run deploy
 
 ### Картинки
 
+- **`optimize-images.js`** — сжимает исходные `jpg/png` в `public/images/` через TinyPNG/Tinify (<https://tinify.com>), на месте. Обычно жмёт лучше, чем sharp/экспорт из редактора. По умолчанию берёт только изменённые в git файлы (бережёт месячную квоту Tinify — у бесплатного тарифа 500 сжатий/мес); флаг `--all` — все, либо передай конкретные пути. Требует `TINIFY_API_KEY` в `.env`. webp оставляем на `gen-webp.js` (sharp, без квоты).
 - **`gen-webp.js`** — генерирует/обновляет `.webp` для каждого `.jpg` в `public/images/`. Пересоздаёт webp, если jpg новее webp (или webp ещё нет); существующую пару всегда перезаписывает на месте; не создаёт новую пару, если webp получился бы не меньше jpg.
 - **`sync-img-dims.js`** — проставляет в `index.html` реальные `width`/`height` для каждого `<img src="/images/…">` по факту с диска. Нужен после кропа/замены картинки: по этим атрибутам браузер резервирует место (нет скачков вёрстки, лучше CLS), а галерея PhotoSwipe берёт из них соотношение сторон.
 - **`wrap-img-webp.js`** — оборачивает «голые» `<img src="…jpg">` в `<picture>` с `<source …webp>`, чтобы браузеры с поддержкой webp брали меньший файл. Идемпотентный: пропускает уже обёрнутые и картинки без webp-соседа на диске.
@@ -45,9 +52,10 @@ npm run deploy
 Обрезал/заменил фото в `public/images/` — прогони:
 
 ```bash
-node scripts/gen-webp.js        # обновить webp под новый jpg
-node scripts/sync-img-dims.js   # подтянуть width/height в разметке
-node scripts/wrap-img-webp.js   # обернуть в <picture> (для новых фото)
+node scripts/optimize-images.js   # сжать изменённые jpg/png через Tinify (нужен TINIFY_API_KEY в .env)
+node scripts/gen-webp.js          # обновить webp под оптимизированный jpg
+node scripts/sync-img-dims.js     # подтянуть width/height в разметке
+node scripts/wrap-img-webp.js     # обернуть в <picture> (для новых фото)
 ```
 
 Затем `npm run build` / `npm run preview`. На сборке `ViteImageOptimizer` ещё раз пережимает все картинки в quality 75 для доставки — поэтому размер исходных файлов влияет в основном на вес репозитория, а доставляемые всегда оптимизированы.
