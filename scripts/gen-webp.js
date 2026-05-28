@@ -11,7 +11,12 @@ import { join, parse } from 'path';
 import sharp from 'sharp';
 
 const IMAGES_DIR = 'public/images';
-const QUALITY = 80; // ViteImageOptimizer will re-encode at 75 on build
+const QUALITY = 80;
+
+// Photos that don't take part in the <picture>+webp scheme. og-image is only
+// referenced as .jpg from og:/twitter: meta tags, so a webp pair is dead
+// weight — and without this list gen-webp would re-create it on every run.
+const SKIP = new Set(['og-image']);
 
 const files = await readdir(IMAGES_DIR);
 const jpgs = files.filter(f => /\.jpe?g$/i.test(f)).sort();
@@ -19,9 +24,11 @@ const jpgs = files.filter(f => /\.jpe?g$/i.test(f)).sort();
 let generated = 0;
 let skippedExisting = 0;
 let skippedNoGain = 0;
+let skippedExcluded = 0;
 
 for (const jpg of jpgs) {
     const { name } = parse(jpg);
+    if (SKIP.has(name)) { skippedExcluded++; continue; }
     const jpgPath = join(IMAGES_DIR, jpg);
     const out = join(IMAGES_DIR, `${name}.webp`);
     const existed = existsSync(out);
@@ -35,10 +42,10 @@ for (const jpg of jpgs) {
     const jpgSize = (await stat(jpgPath)).size;
     const buf = await sharp(jpgPath).webp({ quality: QUALITY }).toBuffer();
 
-    // Refuse only to *create* a brand-new webp that wouldn't save anything (no
-    // point adding a <source>). An existing pair is always refreshed in place —
-    // the markup may reference it (removing it would break <picture>), and the
-    // build re-encodes both at q75 anyway.
+    // Refuse only to *create* a brand-new webp that wouldn't save anything —
+    // no point adding a <source> that hurts. An existing pair is always
+    // refreshed in place (the markup may reference it; removing it would
+    // break <picture>).
     if (!existed && buf.length >= jpgSize) {
         console.log(`✗ ${name}.webp — bigger than jpg (${buf.length} vs ${jpgSize}), skipped`);
         skippedNoGain++;
@@ -51,4 +58,4 @@ for (const jpg of jpgs) {
     generated++;
 }
 
-console.log(`\nGenerated ${generated}, skipped ${skippedExisting} (pair existed), ${skippedNoGain} (no size gain).`);
+console.log(`\nGenerated ${generated}, skipped ${skippedExisting} (pair existed), ${skippedNoGain} (no size gain), ${skippedExcluded} (excluded).`);
