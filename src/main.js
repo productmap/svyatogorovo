@@ -565,24 +565,21 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
       });
       pswp.on('openingAnimationEnd', () => {
         openSettled = true;
-        pswp.element.classList.add('pswp--photo-settled');
-        // Hide the placeholder <img> inline (not via CSS) — PhotoSwipe sets
-        // `this._placeholder.style.opacity = '1'` at the start of the open
-        // animation, which beats any CSS rule by specificity. The placeholder
-        // is sized at 250px CSS + scaled via its own transform, so its bottom
-        // edge sits ~3px below the main <img>'s bottom — visible as a thin
-        // strip of the same colour as the photo until PhotoSwipe destroys
-        // the placeholder ~1s later (see Content.removePlaceholder, setTimeout
-        // 1000). Setting inline opacity:0 ourselves kills the strip immediately.
+        // Hide the placeholder <img> the moment the morph stops. PhotoSwipe
+        // sizes it at CSS-width 250 + transform-scale, so its bottom edge
+        // can sit 1-3px below the main <img>'s, peeking out as a strip of
+        // the same colour as the photo until removePlaceholder()'s 1s timeout
+        // finally destroys it. The opacity is set inline (not via CSS) because
+        // PhotoSwipe itself sets inline opacity:1 in Opener._applyStartProps,
+        // which beats any class selector by specificity.
         pswp.mainScroll.itemHolders.forEach(h => {
           h.el.querySelectorAll('.pswp__img--placeholder').forEach(el => {
             el.style.opacity = '0';
           });
         });
-        // One last per-element apply, then STOP the RAF. A continuously
-        // ticking RAF that rewrites border-radius each frame keeps the photo's
-        // compositor layer perpetually 'dirty', which prevents the browser
-        // from pixel-snapping the bottom edge.
+        // One last per-element radius apply, then stop the RAF — a constantly
+        // ticking RAF would keep the photo's compositor layer dirty and stop
+        // the browser from pixel-snapping the bottom edge.
         applyRadiusPerElement(SETTLED_RADIUS);
         if (radiusRaf) cancelAnimationFrame(radiusRaf);
         radiusRaf = null;
