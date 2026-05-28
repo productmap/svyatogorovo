@@ -9,25 +9,15 @@
     background-position: center top;
 }
 
-// Gallery only (mainClass on its instance). The photo's corners are kept
-// at 0 during the open/close morph and only appear after it settles,
-// because PhotoSwipe keeps <img> at thumb-sized CSS dimensions while a
-// parent transform scales it up — any non-zero border-radius then balloons
-// visually mid-morph (a clean 8px CSS corner can read 30+px on screen).
-// Toggling .pswp--settled at openingAnimationEnd fades the radius in to
-// 8px (matching the page card); .pswp--rounding-snap kills the transition
-// on close so the radius snaps to 0 before the closing morph runs.
+// Gallery only (mainClass on its instance). The photo's border-radius is
+// driven inline by main.js via a per-frame RAF, *inversely compensated*
+// for PhotoSwipe's parent-transform scale: CSS_radius = visible_target / scale.
+// Without that compensation, any static CSS radius balloons during the morph
+// (PhotoSwipe keeps <img> at thumb-sized CSS dimensions and scales it up via
+// the parent's transform, so the rendered corner is multiplied by the same
+// 3–4× factor). See `animateRadius` in openAt() in src/main.js.
 .pswp--rounded .pswp__img {
-    border-radius: 0;
-    transition: border-radius 0.18s ease-out;
-}
-
-.pswp--rounded.pswp--settled .pswp__img {
-    border-radius: 8px;
-}
-
-.pswp--rounded.pswp--rounding-snap .pswp__img {
-    transition: none;
+    border-radius: 0; // fallback only; JS sets the real value inline per frame
 }
 
 .pswp__top-bar {

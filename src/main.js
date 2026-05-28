@@ -449,9 +449,14 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
       const captionEl = img.closest('.masonry-item_type_image')?.querySelector('.masonry-item__banner-caption');
       return {
         src,
-        // Same src as msrc: the browser has already decoded it for the on-page
-        // thumb, so PhotoSwipe paints the morph from frame 1 instead of
-        // showing its empty placeholder while the slide image decodes again.
+        // msrc=src: same already-decoded URL as the on-page thumb, so the
+        // placeholder paints the morph from frame 1 instead of showing a
+        // dark grey rectangle while the slide image decodes again. The
+        // per-element radius compensation in openAt() handles the fact that
+        // PhotoSwipe leaves placeholder and main <img> at different
+        // CSS-dimensions/transform-scales — without compensation they would
+        // render rounded corners of different visible sizes (the duplicate
+        // corners that previously appeared at the bottom of the photo).
         msrc: src,
         // Hand PhotoSwipe the thumbnail so it can morph open/close from this
         // photo's actual on-page rectangle (uses getBoundsByElement — masonry
@@ -471,13 +476,7 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
       const pswp = new PhotoSwipe({ dataSource, index, zoom: true, tapAction, mainClass: 'pswp--rounded' });
       attachPswpTheme(pswp);
 
-      // Mirror the on-image banner captions into the lightbox. The caption
-      // lives INSIDE each slide's holder (.pswp__item), so it travels with its
-      // photo during swipes instead of floating over the viewport. Held back
-      // until the opening animation finishes (and dropped again the moment
-      // closing starts) — otherwise it flashes in at fit-position while the
-      // morph is still growing the photo, leaving a visible gap that picks up
-      // the page through the still-fading .pswp__bg veil.
+      // Mirror the on-image banner captions into the lightbox (see placeCaption).
       let openSettled = false;
       const placeCaption = (slide) => {
         const holder = slide?.holderElement;
@@ -501,22 +500,84 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
         el.style.display = 'block';
       };
       const placeAll = () => pswp.mainScroll.itemHolders.forEach(h => placeCaption(h.slide));
-      pswp.on('afterSetContent', (e) => placeCaption(e.slide));
+
+      // Smooth corner-radius across the open/close morph. PhotoSwipe keeps
+      // <img> at thumb-sized CSS dimensions during the morph and scales it
+      // via a parent transform — so any static CSS border-radius gets
+      // multiplied by that scale on screen (an 8px CSS corner reads ~30px
+      // mid-morph). Compensate per frame: CSS_radius = target_visible / scale,
+      // so the *visible* radius smoothly interpolates between card (8) and
+      // lightbox-settled (12) instead of ballooning or vanishing.
+      const CARD_RADIUS = 8;
+      const SETTLED_RADIUS = 12;
+      const RADIUS_MS = 333; // matches PhotoSwipe's showAnimationDuration
+      const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+
+      let radiusRaf = null;
+      let radiusFromVis = CARD_RADIUS;
+      let radiusToVis = CARD_RADIUS;
+      let radiusAnimStart = 0;
+
+      // Visible-radius target at the current moment (eased between from→to).
+      const visibleAt = (now) => {
+        const t = Math.min(1, (now - radiusAnimStart) / RADIUS_MS);
+        return radiusFromVis + (radiusToVis - radiusFromVis) * easeOut(t);
+      };
+
+      // Per-element scale-compensation: each <img> (placeholder + main) can
+      // be at a different CSS-dim vs visible ratio, so each one needs its own
+      // CSS_radius = visible / its_own_scale. A single uniform inline value
+      // would leave one corner ballooned (the one with the bigger transform).
+      const applyRadiusPerElement = (visible) => {
+        const holder = pswp.currSlide?.holderElement;
+        if (!holder) return;
+        holder.querySelectorAll('.pswp__img').forEach(img => {
+          const rect = img.getBoundingClientRect();
+          const cssW = parseFloat(getComputedStyle(img).width) || rect.width;
+          const scale = cssW > 0 ? Math.max(rect.width / cssW, 0.01) : 1;
+          img.style.borderRadius = (visible / scale) + 'px';
+        });
+      };
+
+      const tickRadius = (now) => {
+        applyRadiusPerElement(visibleAt(now));
+        radiusRaf = requestAnimationFrame(tickRadius);
+      };
+
+      // Re-aim the animation: from wherever it currently is → toVisible.
+      const aimRadius = (toVisible) => {
+        const now = performance.now();
+        radiusFromVis = visibleAt(now);
+        radiusToVis = toVisible;
+        radiusAnimStart = now;
+      };
+
+      pswp.on('afterSetContent', (e) => {
+        placeCaption(e.slide);
+        // Kick off the radius loop right as the current slide is appended —
+        // the open morph runs immediately after this fires.
+        if (e.slide === pswp.currSlide) {
+          radiusFromVis = CARD_RADIUS;
+          radiusToVis = SETTLED_RADIUS;
+          radiusAnimStart = performance.now();
+          if (!radiusRaf) radiusRaf = requestAnimationFrame(tickRadius);
+        }
+      });
       pswp.on('openingAnimationEnd', () => {
         openSettled = true;
-        // Fade the photo's rounded corners in only after the morph has
-        // finished — see the .pswp--settled rule in _photoswipe.scss.
-        pswp.element.classList.add('pswp--settled');
+        // RAF stays on; it just keeps compensating each element at the settled
+        // target (no manual radius poke — that would override the per-element
+        // compensation and reintroduce the duplicate-corners artefact).
         placeAll();
       });
       pswp.on('close', () => {
         openSettled = false;
-        // Snap the corners back to 0 instantly before the closing morph runs,
-        // so the radius never animates while the photo is being transform-scaled
-        // (which would visually balloon any non-zero corner).
-        pswp.element.classList.add('pswp--rounding-snap');
-        pswp.element.classList.remove('pswp--settled');
+        aimRadius(CARD_RADIUS); // reverse from current (settled or mid-open) → card value
         placeAll();
+      });
+      pswp.on('closingAnimationEnd', () => {
+        if (radiusRaf) cancelAnimationFrame(radiusRaf);
+        radiusRaf = null;
       });
       pswp.on('zoomPanUpdate', () => placeCaption(pswp.currSlide)); // hide on zoom-in / re-show at fit
       pswp.on('resize', placeAll);
