@@ -471,9 +471,7 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
     });
 
     const openAt = (index) => {
-      // `pswp--rounded` rounds the photo to echo the page's card corners
-      // (scoped to the gallery — see _photoswipe.scss).
-      const pswp = new PhotoSwipe({ dataSource, index, zoom: true, tapAction, mainClass: 'pswp--rounded' });
+      const pswp = new PhotoSwipe({ dataSource, index, zoom: true, tapAction });
       attachPswpTheme(pswp);
 
       // Mirror the on-image banner captions into the lightbox (see placeCaption).

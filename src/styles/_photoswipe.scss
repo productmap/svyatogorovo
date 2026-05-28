@@ -9,16 +9,14 @@
     background-position: center top;
 }
 
-// Gallery only (mainClass on its instance). The photo's border-radius is
-// driven inline by main.js via a per-frame RAF, *inversely compensated*
-// for PhotoSwipe's parent-transform scale: CSS_radius = visible_target / scale.
-// Without that compensation, any static CSS radius balloons during the morph
-// (PhotoSwipe keeps <img> at thumb-sized CSS dimensions and scales it up via
-// the parent's transform, so the rendered corner is multiplied by the same
-// 3–4× factor). See `animateRadius` in openAt() in src/main.js.
-.pswp--rounded .pswp__img {
-    border-radius: 0; // fallback only; JS sets the real value inline per frame
-}
+// The gallery photo's border-radius is driven inline by main.js via a
+// per-frame RAF, *inversely compensated* for PhotoSwipe's parent-transform
+// scale: CSS_radius = visible_target / scale. Without that compensation, any
+// static CSS radius balloons during the morph (PhotoSwipe keeps <img> at
+// thumb-sized CSS dimensions and scales it up via the parent's transform,
+// so the rendered corner is multiplied by the same 3–4× factor). See
+// `animateRadius` in openAt() in src/main.js. No CSS rule needed here —
+// the browser default (0) is the fallback before the RAF first ticks.
 
 .pswp__top-bar {
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent);
