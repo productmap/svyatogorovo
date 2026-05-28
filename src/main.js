@@ -402,20 +402,24 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
     // Paint the backdrop on `firstUpdate`: it is the first hook after
     // `pswp.element` exists (`beforeOpen` fires before _createMainStructure),
     // yet still runs before the opening animation, so the backdrop is in
-    // place from the first frame.
+    // place from the first frame — and on .pswp__bg so it fades in with the
+    // open morph (the root's own background would otherwise paint opaquely
+    // from frame 1 and the lightbox would 'snap' instead of darken in).
     pswp.on('firstUpdate', () => {
+      const dim = opts.dim || 'rgba(8, 10, 7, 1)';
       if (opts.backdrop) {
-        pswp.element.style.backgroundImage = `url(${opts.backdrop})`;
-        pswp.element.style.backgroundSize  = 'cover';
-        pswp.element.style.backgroundPosition = 'center center';
+        // Image + veil stacked on .pswp__bg via the background shorthand.
+        // PhotoSwipe animates this element's opacity 0→1 during the open
+        // morph, so both image and veil ride that fade together. The veil
+        // sits in front of the image (first layer in `background:` is on top).
+        pswp.bg.style.background = `linear-gradient(${dim}, ${dim}), url(${opts.backdrop}) center center / cover`;
+      } else {
+        // Gallery: no backdrop image, just the veil. Set --pswp-bg inline so
+        // the library's `.pswp { --pswp-bg: #000 }` (bundled after our CSS
+        // and otherwise winning the cascade) can't override us; .pswp__bg
+        // reads the variable and fades the colour in.
+        pswp.element.style.setProperty('--pswp-bg', dim);
       }
-      // Veil alpha set inline — the library's own `.pswp { --pswp-bg: #000 }`
-      // is bundled after our stylesheet and would win the cascade. With no
-      // backdrop image (the gallery) the veil IS the backdrop, so it's fully
-      // opaque dark: a topo snapshot here read as a second contour layer over
-      // the page's own topo background showing through the translucent veil.
-      // The map rides on its opaque bg-1 image instead, at a lighter veil.
-      pswp.element.style.setProperty('--pswp-bg', opts.dim || 'rgba(8, 10, 7, 1)');
     });
 
     // `close` fires when the close animation begins — release the theme
