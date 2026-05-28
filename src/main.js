@@ -566,12 +566,23 @@ import('photoswipe').then(({ default: PhotoSwipe }) => {
       pswp.on('openingAnimationEnd', () => {
         openSettled = true;
         pswp.element.classList.add('pswp--photo-settled');
+        // Hide the placeholder <img> inline (not via CSS) — PhotoSwipe sets
+        // `this._placeholder.style.opacity = '1'` at the start of the open
+        // animation, which beats any CSS rule by specificity. The placeholder
+        // is sized at 250px CSS + scaled via its own transform, so its bottom
+        // edge sits ~3px below the main <img>'s bottom — visible as a thin
+        // strip of the same colour as the photo until PhotoSwipe destroys
+        // the placeholder ~1s later (see Content.removePlaceholder, setTimeout
+        // 1000). Setting inline opacity:0 ourselves kills the strip immediately.
+        pswp.mainScroll.itemHolders.forEach(h => {
+          h.el.querySelectorAll('.pswp__img--placeholder').forEach(el => {
+            el.style.opacity = '0';
+          });
+        });
         // One last per-element apply, then STOP the RAF. A continuously
         // ticking RAF that rewrites border-radius each frame keeps the photo's
         // compositor layer perpetually 'dirty', which prevents the browser
-        // from pixel-snapping the bottom edge and leaves a 1–2px ghost row of
-        // the photo's colour visible below it. With the RAF idle the layer
-        // settles and the row disappears.
+        // from pixel-snapping the bottom edge.
         applyRadiusPerElement(SETTLED_RADIUS);
         if (radiusRaf) cancelAnimationFrame(radiusRaf);
         radiusRaf = null;
