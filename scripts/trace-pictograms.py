@@ -135,13 +135,25 @@ def wrap_white_on_brown(raw_svg: Path, dst: Path) -> int:
 
 
 def wrap_silhouette(raw_svg: Path, dst: Path) -> int:
-    """Re-emit as white shapes on transparent background (for composition into other signs)."""
+    """Re-emit as white shapes on transparent background, normalized to a
+    1000×1000 viewBox with content scaled to fit (preserving aspect) and centered.
+
+    Consistent viewBox lets composite signs (T1-T6) embed any silhouette and
+    scale it with the same factor — a `<use … width="160" height="160">`
+    always renders 160×160, regardless of the source pictogram's aspect ratio.
+    """
     w, h, transform, paths = _parse_potrace(raw_svg)
+    target = 1000.0
+    scale = target / max(w, h)
+    sw, sh = w * scale, h * scale
+    tx, ty = (target - sw) / 2, (target - sh) / 2
     out = (
         f'<svg xmlns="http://www.w3.org/2000/svg" '
-        f'viewBox="0 0 {w:g} {h:g}" role="img">\n'
-        f'  <g transform="{transform}" fill="#fff">\n'
-        f"    {paths}\n"
+        f'viewBox="0 0 {target:g} {target:g}" role="img">\n'
+        f'  <g transform="translate({tx:g} {ty:g}) scale({scale:g})">\n'
+        f'    <g transform="{transform}" fill="#fff">\n'
+        f"      {paths}\n"
+        f"    </g>\n"
         f"  </g>\n"
         f"</svg>\n"
     )
