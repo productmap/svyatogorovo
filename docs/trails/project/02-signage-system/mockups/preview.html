@@ -204,12 +204,12 @@
   </header>
 
   <div class="status">
-    ✓ <strong>Пиктограммы извлечены прямо из Методички</strong> — PNG-тайлы в
-    <code>pictograms/official/</code> являются эталонной версией Минкультуры РФ (2013).
-    Hand-drawn SVG-варианты в <code>pictograms/*.svg</code> сохраняются как композиционные
-    блоки для наших мокапов T1-T6 (там нужны пиктограммы без зашитой подписи). Для
-    производства больших форматов потребуется трейс растра в вектор —
-    <code>brew install potrace</code> или работа дизайнера в Illustrator.
+    ✓ <strong>Пиктограммы извлечены и векторизованы.</strong> PNG из Методички
+    (<code>pictograms/official/*.png</code>) прогнаны через potrace и сохранены как
+    бесконечно-масштабируемые SVG в <code>pictograms/official/vector/</code>.
+    Дополнительно в <code>vector/silhouette/</code> — silhouette-версии (пиктограмма
+    без зашитой подписи и без фона) для подстановки в композитные знаки T1-T6
+    вместо моих hand-drawn черновиков.
   </div>
 
   <nav class="toc">
@@ -237,70 +237,70 @@
 
     <div class="pict-grid">
       <div class="pict">
-        <img src="pictograms/official/38-tourist-trail.png" alt="">
+        <img src="pictograms/official/vector/38-tourist-trail.svg" alt="">
         <div class="num">#38</div>
         <div class="name">Пешеходный туристский маршрут</div>
         <div class="en">Tourist trail</div>
         <div class="redraw"><img src="pictograms/38-tourist-trail.svg" alt=""><span>v0.1 redraw для композиции</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/official/48c-cross.png" alt="">
+        <img src="pictograms/official/vector/48c-cross.svg" alt="">
         <div class="num">#48 (c)</div>
         <div class="name">Поклонный крест, место паломничества</div>
         <div class="en">Religious monument (local)</div>
         <div class="redraw"><img src="pictograms/48c-cross.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/official/48b-church.png" alt="">
+        <img src="pictograms/official/vector/48b-church.svg" alt="">
         <div class="num">#48 (b)</div>
         <div class="name">Православная церковь / часовня</div>
         <div class="en">Religious monument (chapel)</div>
         <div class="redraw"><img src="pictograms/48b-church.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/official/48a-cathedral.png" alt="">
+        <img src="pictograms/official/vector/48a-cathedral.svg" alt="">
         <div class="num">#48 (a)</div>
         <div class="name">Православный собор / монастырь</div>
         <div class="en">Religious monument (cathedral)</div>
         <div class="redraw"><img src="pictograms/48a-cathedral.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/official/28-tic.png" alt="">
+        <img src="pictograms/official/vector/28-tic.svg" alt="">
         <div class="num">#28</div>
         <div class="name">Туристско-информационный центр</div>
         <div class="en">Tourist Information Centre</div>
         <div class="redraw"><img src="pictograms/28-tic.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/official/47-viewpoint.png" alt="">
+        <img src="pictograms/official/vector/47-viewpoint.svg" alt="">
         <div class="num">#47</div>
         <div class="name">Панорамный вид</div>
         <div class="en">View point</div>
         <div class="redraw"><img src="pictograms/47-viewpoint.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/official/45-natural-landmark.png" alt="">
+        <img src="pictograms/official/vector/45-natural-landmark.svg" alt="">
         <div class="num">#45</div>
         <div class="name">Природная достопримечательность</div>
         <div class="en">Natural landmark</div>
         <div class="redraw"><img src="pictograms/45-natural-landmark.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/official/09-rest-area.png" alt="">
+        <img src="pictograms/official/vector/09-rest-area.svg" alt="">
         <div class="num">#9</div>
         <div class="name">Место отдыха</div>
         <div class="en">Rest area</div>
         <div class="redraw"><img src="pictograms/9-rest-area.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/official/12-country-inn.png" alt="">
+        <img src="pictograms/official/vector/12-country-inn.svg" alt="">
         <div class="num">#12</div>
         <div class="name">Загородная гостиница / гостевой дом</div>
         <div class="en">Country inn</div>
         <div class="redraw"><img src="pictograms/12-country-inn.svg" alt=""><span>v0.1 redraw</span></div>
       </div>
       <div class="pict">
-        <img src="pictograms/official/27-information.png" alt="">
+        <img src="pictograms/official/vector/27-information.svg" alt="">
         <div class="num">#27</div>
         <div class="name">Информация (резерв)</div>
         <div class="en">Information</div>
