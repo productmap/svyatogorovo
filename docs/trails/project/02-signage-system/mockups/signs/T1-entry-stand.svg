@@ -314,8 +314,8 @@ l65 -66 3 33 c3 29 -4 42 -46 86 -58 61 -104 147 -122 227 -18 79 -8 209 20
         font-family="'Myriad Pro Condensed','PT Sans Narrow','Arial Narrow',sans-serif"
         font-weight="400" font-size="20" font-stretch="condensed" font-style="italic">Воскресная школа «Преображение» Сретенского храма г. Дмитрова</text>
 
-  <!-- Large QR (bottom right) -->
-  <rect x="1740" y="1300" width="200" height="180" fill="#fff" rx="8"/>
+  <!-- Large QR (bottom right) — square placeholder to match the production QR -->
+  <rect x="1740" y="1300" width="180" height="180" fill="#fff" rx="8"/>
   <g fill="#714A07">
     <rect x="1760" y="1320" width="40" height="40"/>
     <rect x="1880" y="1320" width="40" height="40"/>

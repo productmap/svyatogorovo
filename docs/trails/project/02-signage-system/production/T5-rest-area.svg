@@ -75,7 +75,6 @@ l118 193 125 -3 124 -3 163 -264 c89 -145 169 -267 176 -272 24 -15 48 -10 64
         font-weight="400" font-size="18" font-stretch="condensed">REST AREA</text>
 
   <!-- Draft label (very small) -->
-  <text x="14" y="395" fill="#fff" opacity="0.25" font-size="7" font-family="sans-serif">T5 v0.1</text>
 
   <!-- Construction grid (M = 25 mm). Hidden; unhide in AI to inspect ГОСТ 52290 modularity. -->
   <g id="construction-grid" display="none" stroke="#FFFFFF" stroke-width="0.3" opacity="0.4">

@@ -36,7 +36,7 @@ BASE_URL = "https://святогорово.рф"
 # chosen to overlay the mockup's placeholder exactly (or contain it).
 SIGN_QRS: dict[str, list[dict]] = {
     "T1-entry-stand": [
-        {"url": f"{BASE_URL}/", "x": 1750, "y": 1300, "size": 180},
+        {"url": f"{BASE_URL}/", "x": 1740, "y": 1300, "size": 180},
     ],
     "T2-stela": [
         {"url": f"{BASE_URL}/#sergiy", "x": 430, "y": 980, "size": 120},
@@ -124,6 +124,22 @@ def add_root_dims(svg_text: str, width: float, height: float) -> str:
     )
 
 
+# Strip debug labels (rendered as bottom-corner draft tags in the mockups).
+# Matches any <text> whose content contains "DRAFT" or a "vN.N" version
+# (e.g. T5's bare "T5 v0.1" label which has no DRAFT word). Useful while
+# iterating but pollute the production file — the README's workflow
+# checklist already covers their role.
+_DRAFT_TEXT_RX = re.compile(
+    r'\s*<text[^>]*>[^<]*(?:DRAFT|v\d+\.\d+)[^<]*</text>',
+    re.IGNORECASE,
+)
+
+
+def strip_draft_labels(svg_text: str) -> tuple[str, int]:
+    count = len(_DRAFT_TEXT_RX.findall(svg_text))
+    return _DRAFT_TEXT_RX.sub("", svg_text), count
+
+
 def generate_qr_svg(url: str, x: float, y: float, size: float) -> str:
     """Generate a real QR code as inline SVG content. Returns a `<g>` element
     positioned at (x, y) with total display size `size` × `size` mm."""
@@ -192,6 +208,9 @@ def build_one(mockup: Path) -> dict:
     # 1. Add width/height in mm
     text = add_root_dims(text, w, h)
 
+    # 1a. Drop DRAFT debug labels from the bottom of mockups
+    text, draft_count = strip_draft_labels(text)
+
     # 2. Inject production header right after <?xml...> if present, or at top
     header = production_header(stem, w, h)
     if text.startswith("<?xml"):
@@ -223,6 +242,7 @@ def build_one(mockup: Path) -> dict:
         "name": stem,
         "size_mm": (w, h),
         "qrs": len(SIGN_QRS.get(stem, [])),
+        "drafts_stripped": draft_count,
         "out_bytes": len(text),
     }
 
@@ -235,14 +255,15 @@ def main() -> int:
     mockups = sorted(MOCKUPS.glob("*.svg"))
     print(f"→ building {len(mockups)} production signs → {OUT.relative_to(REPO)}")
     print()
-    print(f"  {'name':<22}  {'physical size':<14}  {'QRs':>3}  {'output':>8}")
-    print(f"  {'-'*22}  {'-'*14}  {'-'*3}  {'-'*8}")
+    print(f"  {'name':<22}  {'physical size':<14}  {'QRs':>3}  {'drafts':>6}  {'output':>8}")
+    print(f"  {'-'*22}  {'-'*14}  {'-'*3}  {'-'*6}  {'-'*8}")
     for mockup in mockups:
         info = build_one(mockup)
         w, h = info["size_mm"]
+        drafts = f"-{info['drafts_stripped']}" if info["drafts_stripped"] else ""
         print(
             f"  {info['name']:<22}  {w:g} × {h:g} mm{' ' * (8 - len(f'{w:g} × {h:g}'))}  "
-            f"{info['qrs']:>3}  {info['out_bytes']:>6} B"
+            f"{info['qrs']:>3}  {drafts:>6}  {info['out_bytes']:>6} B"
         )
     print()
     print(f"✓ Production signs written to {OUT.relative_to(REPO)}/")

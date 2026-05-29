@@ -104,7 +104,6 @@ c79 0 107 17 107 66 0 55 -27 74 -105 74 l-65 0 0 45 c0 104 -81 163 -162 119z"/>
   </g>
 
   <!-- Draft label -->
-  <text x="30" y="592" fill="#fff" opacity="0.3" font-size="9" font-family="sans-serif">T4 · SPRING PLAQUE · DRAFT v0.1 · /#kupel</text>
 
   <!-- ══════════════ Real QR codes (overlay on placeholders) ══════════════ -->
   <g class="qr-code" data-url="https://святогорово.рф/#kupel" transform="translate(680 510)">

@@ -111,7 +111,6 @@ l-5 158 -60 26 c-80 34 -85 37 -85 65 0 40 31 48 90 26 38 -15 52 -16 56 -7 3
   </g>
 
   <!-- Draft label -->
-  <text x="30" y="592" fill="#fff" opacity="0.3" font-size="9" font-family="sans-serif">T4 · CHAPEL PLAQUE · DRAFT v0.1 · /#church</text>
 
   <!-- ══════════════ Real QR codes (overlay on placeholders) ══════════════ -->
   <g class="qr-code" data-url="https://святогорово.рф/#church" transform="translate(680 510)">
